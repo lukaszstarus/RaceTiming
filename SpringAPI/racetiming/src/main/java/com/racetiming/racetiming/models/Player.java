@@ -1,5 +1,6 @@
 package com.racetiming.racetiming.models;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,17 +17,16 @@ private long Id;
 private String Name;
 private String Surname;
 private String City;
-private DateTime BirthDate;
+private Date BirthDate;
 private String Country;
 private String Sex; 
 private String Phone;
 private String Team;
 private String License;
 
-@OneToMany(cascade = CascadeType.ALL,
-orphanRemoval = true)
+@ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
 private List<Competition> competitions = new ArrayList<Competition>();
-
+	public Player() {}
 	public List<Competition> getCompetitions() {
 		return this.competitions;
 	}
@@ -68,11 +68,11 @@ private List<Competition> competitions = new ArrayList<Competition>();
 		this.City = City;
 	}
 
-	public DateTime getBirthDate() {
+	public Date getBirthDate() {
 		return this.BirthDate;
 	}
 
-	public void setBirthDate(DateTime BirthDate) {
+	public void setBirthDate(Date BirthDate) {
 		this.BirthDate = BirthDate;
 	}
 
@@ -114,6 +114,20 @@ private List<Competition> competitions = new ArrayList<Competition>();
 
 	public void setLicense(String License) {
 		this.License = License;
+	}
+
+	public Player(String name, String surname, String city, Date birthDate, String country, String sex,
+			String phone, String team, String license, List<Competition> competitions) {
+		Name = name;
+		Surname = surname;
+		City = city;
+		BirthDate = birthDate;
+		Country = country;
+		Sex = sex;
+		Phone = phone;
+		Team = team;
+		License = license;
+		this.competitions = competitions;
 	}
 
 }

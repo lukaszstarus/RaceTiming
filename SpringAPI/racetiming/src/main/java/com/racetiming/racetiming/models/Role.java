@@ -1,9 +1,9 @@
 package com.racetiming.racetiming.models;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 /**
  * Role
@@ -28,6 +28,12 @@ private String name;
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Role(String name) {
+		this.name = name;
+	}
+	public Role() {
 	}
 
     

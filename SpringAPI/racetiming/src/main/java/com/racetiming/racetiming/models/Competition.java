@@ -4,7 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
+import java.sql.Date;
 import org.joda.time.DateTime;
 
 /**
@@ -17,14 +17,17 @@ public class Competition {
     private String Name;
     private String Place;
     private String Dyscipline;
-    private DateTime Date;
+    private Date Date;
     private String Organizer;
-    private DateTime DeadlineDate;
+    private Date DeadlineDate;
     private String Description;
     private String RegUrl;
     private int PlayersLimit;
     private String ResultsUrl;
-
+	
+	public Competition() {
+	}
+	
 	public long getId() {
 		return this.Id;
 	}
@@ -57,11 +60,11 @@ public class Competition {
 		this.Dyscipline = Dyscipline;
 	}
 
-	public DateTime getDate() {
+	public Date getDate() {
 		return this.Date;
 	}
 
-	public void setDate(DateTime Date) {
+	public void setDate(Date Date) {
 		this.Date = Date;
 	}
 
@@ -73,11 +76,11 @@ public class Competition {
 		this.Organizer = Organizer;
 	}
 
-	public DateTime getDeadlineDate() {
+	public Date getDeadlineDate() {
 		return this.DeadlineDate;
 	}
 
-	public void setDeadlineDate(DateTime DeadlineDate) {
+	public void setDeadlineDate(Date DeadlineDate) {
 		this.DeadlineDate = DeadlineDate;
 	}
 
@@ -111,6 +114,20 @@ public class Competition {
 
 	public void setResultsUrl(String ResultsUrl) {
 		this.ResultsUrl = ResultsUrl;
+	}
+
+	public Competition(String name, String place, String dyscipline, Date date, String organizer,
+			Date deadlineDate, String description, String regUrl, int playersLimit, String resultsUrl) {
+		Name = name;
+		Place = place;
+		Dyscipline = dyscipline;
+		Date = date;
+		Organizer = organizer;
+		DeadlineDate = deadlineDate;
+		Description = description;
+		RegUrl = regUrl;
+		PlayersLimit = playersLimit;
+		ResultsUrl = resultsUrl;
 	}
 
     

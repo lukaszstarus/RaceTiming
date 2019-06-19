@@ -14,9 +14,10 @@ public class Category {
 private long Id;
 private String name;
 
-@OneToMany(cascade = CascadeType.ALL,
-orphanRemoval = true)
+@ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
 private List<Competition> competitions = new ArrayList<Competition>();
+
+	public Category() {}
 
 	public long getId() {
 		return this.Id;
@@ -39,6 +40,11 @@ private List<Competition> competitions = new ArrayList<Competition>();
 	}
 
 	public void setPlayers(List<Competition> competitions) {
+		this.competitions = competitions;
+	}
+
+	public Category(String name, List<Competition> competitions) {
+		this.name = name;
 		this.competitions = competitions;
 	}
 
