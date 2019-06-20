@@ -9,11 +9,13 @@ import java.util.Scanner;
 
 import com.racetiming.racetiming.models.Category;
 import com.racetiming.racetiming.models.Competition;
+import com.racetiming.racetiming.models.Login;
 import com.racetiming.racetiming.models.Player;
 import com.racetiming.racetiming.models.PlayerCategory;
 import com.racetiming.racetiming.models.Role;
 import com.racetiming.racetiming.repositories.CategoriesRepository;
 import com.racetiming.racetiming.repositories.CompetitionRepository;
+import com.racetiming.racetiming.repositories.LoginRepository;
 import com.racetiming.racetiming.repositories.PlayerCategoryRepository;
 import com.racetiming.racetiming.repositories.PlayerRepository;
 import com.racetiming.racetiming.repositories.RolesRepository;
@@ -34,18 +36,20 @@ public class Application {
     }
     
     @Bean
-    public CommandLineRunner demo (RolesRepository rolesRepository, PlayerCategoryRepository playerCategoryRepository, CompetitionRepository competitionRepository, CategoriesRepository categoriesRepository, PlayerRepository playerRepository)
+    public CommandLineRunner demo (LoginRepository loginRepository, RolesRepository rolesRepository, PlayerCategoryRepository playerCategoryRepository, CompetitionRepository competitionRepository, CategoriesRepository categoriesRepository, PlayerRepository playerRepository)
     {
         return (args)->{
-            init(rolesRepository, playerCategoryRepository, competitionRepository,categoriesRepository, playerRepository);
+            init(loginRepository, rolesRepository, playerCategoryRepository, competitionRepository,categoriesRepository, playerRepository);
         };
     }
-    public void init(RolesRepository rolesRepository, PlayerCategoryRepository playerCategoryRepository,CompetitionRepository competitionRepository, CategoriesRepository categoriesRepository, PlayerRepository playerRepository){
+    public void init(LoginRepository loginRepository, RolesRepository rolesRepository, PlayerCategoryRepository playerCategoryRepository,CompetitionRepository competitionRepository, CategoriesRepository categoriesRepository, PlayerRepository playerRepository){
         List<Competition> competitions= new ArrayList<>();
         List<Competition> compForCategories= new ArrayList<>();
         List<Player> playersList= new ArrayList<>();
         List<Category> categoriesList = new ArrayList<>();
         List<PlayerCategory> playerCategoryList= new ArrayList<>();
+        List<Login> loginList= new ArrayList<>();
+        List<Role> roleList= new ArrayList<>();
 
         List<String> citiesList = new ArrayList<String>();
         List<String> countriesList = new ArrayList<String>();
@@ -90,7 +94,10 @@ public class Application {
             while(teams.hasNext()){
                 teamsList.add(teams.next());
             }
-            
+            //------------------------Role table-----------------------------------------------
+            roleList.add(new Role("player"));
+            roleList.add(new Role("admin"));
+
             //------------------------Competitions table-----------------------------------------------
             while(names.hasNext()){
                 cityIndex=new Random().nextInt(citiesList.size()-1);
@@ -147,6 +154,14 @@ public class Application {
                         licenses.next(),
                         compForCategories
                     ));
+                loginList.add(
+                    new Login(
+                        playersList.get(playersList.size()-1).getName()+"@gmail.com",
+                        "12345",
+                        roleList.get(0)                        
+                    )
+                );
+                
             //------------------------PlayerCategory table-----------------------------------------------
                     category =categoriesList.get(new Random().nextInt(categoriesList.size()-1));
                     for (Competition comp : compForCategories) {
@@ -158,10 +173,9 @@ public class Application {
                         ));
                     }
             }
-            //------------------------Role table-----------------------------------------------
-            rolesRepository.save(new Role("player"));
-            rolesRepository.save(new Role("admin"));
             
+            rolesRepository.saveAll(roleList);
+            loginRepository.saveAll(loginList);
             competitionRepository.saveAll(competitions);
             categoriesRepository.saveAll(categoriesList);
             playerRepository.saveAll(playersList);

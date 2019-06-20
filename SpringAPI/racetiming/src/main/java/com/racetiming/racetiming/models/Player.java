@@ -4,8 +4,13 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.*;
-import org.joda.time.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 
 /**
  * Player
@@ -23,6 +28,9 @@ private String Sex;
 private String Phone;
 private String Team;
 private String License;
+
+@OneToOne
+private Login login;
 
 @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
 private List<Competition> competitions = new ArrayList<Competition>();
@@ -128,6 +136,14 @@ private List<Competition> competitions = new ArrayList<Competition>();
 		Team = team;
 		License = license;
 		this.competitions = competitions;
+	}
+
+	public Login getLogin() {
+		return login;
+	}
+
+	public void setLogin(Login login) {
+		this.login = login;
 	}
 
 }

@@ -14,6 +14,9 @@ public class Login {
 	@ManyToOne
 	private Role role;
 
+
+	public Login() {
+		}
 	public Role getRole() {
 		return this.role;
 	}
@@ -44,6 +47,12 @@ public class Login {
 
 	public void setPassword(String Password) {
 		this.Password = Password;
+	}
+
+	public Login(String email, String password, Role role) {
+		Email = email;
+		Password = password;
+		this.role = role;
 	}
 
 
