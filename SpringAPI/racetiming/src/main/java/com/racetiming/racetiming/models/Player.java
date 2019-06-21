@@ -146,4 +146,19 @@ private List<Competition> competitions = new ArrayList<Competition>();
 		this.login = login;
 	}
 
+	public Player(String name, String surname, String city, Date birthDate, String country, String sex, String phone,
+			String team, String license, Login login, List<Competition> competitions) {
+		Name = name;
+		Surname = surname;
+		City = city;
+		BirthDate = birthDate;
+		Country = country;
+		Sex = sex;
+		Phone = phone;
+		Team = team;
+		License = license;
+		this.login = login;
+		this.competitions = competitions;
+	}
+
 }

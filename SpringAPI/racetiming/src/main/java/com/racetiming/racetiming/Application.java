@@ -35,13 +35,13 @@ public class Application {
         SpringApplication.run(Application.class, args);
     }
     
-    @Bean
-    public CommandLineRunner demo (LoginRepository loginRepository, RolesRepository rolesRepository, PlayerCategoryRepository playerCategoryRepository, CompetitionRepository competitionRepository, CategoriesRepository categoriesRepository, PlayerRepository playerRepository)
-    {
-        return (args)->{
-            init(loginRepository, rolesRepository, playerCategoryRepository, competitionRepository,categoriesRepository, playerRepository);
-        };
-    }
+    // @Bean
+    // public CommandLineRunner demo (LoginRepository loginRepository, RolesRepository rolesRepository, PlayerCategoryRepository playerCategoryRepository, CompetitionRepository competitionRepository, CategoriesRepository categoriesRepository, PlayerRepository playerRepository)
+    // {
+    //     return (args)->{
+    //         init(loginRepository, rolesRepository, playerCategoryRepository, competitionRepository,categoriesRepository, playerRepository);
+    //     };
+    // }
     public void init(LoginRepository loginRepository, RolesRepository rolesRepository, PlayerCategoryRepository playerCategoryRepository,CompetitionRepository competitionRepository, CategoriesRepository categoriesRepository, PlayerRepository playerRepository){
         List<Competition> competitions= new ArrayList<>();
         List<Competition> compForCategories= new ArrayList<>();
@@ -112,7 +112,7 @@ public class Application {
                         new Date(competitionDate.plusDays(60).getMillis()),
                         descriptions.nextLine(),
                         urls.nextLine(),
-                        new Random().nextInt(10000)/10*10,
+                        new Random().nextInt(1000)/10*10,
                         urls.nextLine()
                     ));
                 splitnames.close();
@@ -141,9 +141,17 @@ public class Application {
                     if (!compForCategories.contains(competition))
                         compForCategories.add(competition);
                 }
+                String name=splitnames.next();
+                loginList.add(
+                    new Login(
+                        name+"@gmail.com",
+                        "12345",
+                        roleList.get(0)                        
+                    )
+                );
                 playersList.add(
                     new Player(
-                        splitnames.next(),
+                        name,
                         splitnames.next(),
                         citiesList.get(new Random().nextInt(citiesList.size()-1)),
                         new Date(new DateTime().now().minusYears(10).minusDays(new Random().nextInt(10000)).getMillis()),
@@ -152,15 +160,10 @@ public class Application {
                         phoneNumbers.nextLine(),
                         teamsList.get(new Random().nextInt(teamsList.size()-1)),
                         licenses.next(),
+                        loginList.get(loginList.size()-1),
                         compForCategories
                     ));
-                loginList.add(
-                    new Login(
-                        playersList.get(playersList.size()-1).getName()+"@gmail.com",
-                        "12345",
-                        roleList.get(0)                        
-                    )
-                );
+                
                 
             //------------------------PlayerCategory table-----------------------------------------------
                     category =categoriesList.get(new Random().nextInt(categoriesList.size()-1));
