@@ -1,0 +1,36 @@
+<div class="card my-5">
+  <div class="card-body">
+    <table class="table table-bordered table-striped">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Date</th>
+          <th scope="col">Name</th>
+          <th scope="col">Place</th>
+          <th scope="col">Organizer</th>
+          <th scope="col">More</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let competition of competitions">
+          <td>{{ competition.date }}</td>
+          <td>{{ competition.name }} competitions</td>
+          <td>{{ competition.place }}</td>
+          <td>{{ competition.organizer }} Organization</td>
+          <td><a routerLink="/competition-details" class="btn btn-info">More...</a></td>
+        </tr>
+      </tbody>
+    </table>
+
+      <nav aria-label="Page navigation example">
+      <ul class="pagination">
+        <li class="page-item" [ngClass]="{disabled:currentPage===1}"><a class="page-link" (click)="setPage(currentPage-1)">Previous</a></li>
+        <div *ngFor="let page of pages">
+        <li class="page-item"[ngClass]="{disabled:currentPage===page}"><a class="page-link" (click)="setPage(page)">{{page}}</a></li>
+        </div>
+        <li class="page-item" [ngClass]="{disabled:currentPage===totalPages}"><a class="page-link" (click)="setPage(currentPage+1)">Next</a></li>
+      </ul>
+    </nav>
+
+  </div>
+</div>

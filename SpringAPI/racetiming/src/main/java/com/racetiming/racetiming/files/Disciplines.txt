@@ -1,0 +1,19 @@
+Archery
+Athletics
+Badminton
+Basketball
+Boxing
+Cycling
+Equestrian
+Golf
+Handball
+Rugby
+Swimming
+Table Tennis
+Tae Kwon Do 
+Tennis
+Triathlon
+Volleyball
+Weightlifting
+Wrestling
+Yachting
