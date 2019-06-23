@@ -1,11 +1,18 @@
 package com.racetiming.racetiming.models;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonSetter;
 
 /**
  * Competiton
@@ -25,6 +32,9 @@ public class Competition {
     private int playersLimit;
     private String resultsUrl;
 	
+	@ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+	private List<Player> players = new ArrayList<Player>();
+
 	public Competition() {
 	}
 
@@ -121,7 +131,22 @@ public class Competition {
 		this.playersLimit = playersLimit;
 		this.resultsUrl = resultsUrl;
 	}
-	
+	@JsonGetter
+	public long getId() {
+		return id;
+	}
+	@JsonSetter
+	public void setId(long id) {
+		this.id = id;
+	}
 
-    
+	public List<Player> getPlayers() {
+		return players;
+	}
+
+	public void setPlayers(List<Player> players) {
+		this.players = players;
+	}
+
+	    
 }

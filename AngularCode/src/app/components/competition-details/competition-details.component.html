@@ -1,3 +1,52 @@
-<p>
-  competition-details works!
-</p>
+<div class="card" ng-if="!competition==undefined">
+  <div class="card-body">
+  <table class="table table-borderless">
+  <tbody>
+  <ul class="list-group list-group-flush">
+    <tr>
+       <li class="list-group-item"> <td><b> Date: </b></td><td> {{competition.date }}</td></li>
+    </tr>
+    <tr>
+      <li class="list-group-item"> <td><b>Discipline: </b></td><td> {{competition.dyscipline}}</td></li>
+    </tr>
+    <tr>
+      <li class="list-group-item"> <td><b> Place:</b> </td> <td> {{competition.place}} </td></li>
+    </tr>
+    <tr>
+      <li class="list-group-item"> <td><b>Organizer: </b></td><td>{{competition.organizer}}</td></li>
+    </tr>
+    <tr>
+      <li class="list-group-item"> <td><b>Signing deadline: </b></td><td>  {{competition.deadlineDate}}</td></li>
+    </tr>
+    </ul>
+  </tbody>
+</table>
+
+  <h5 class="card-title">Description: </h5>
+  <p class="card-text">{{competition.description}}</p>
+
+  <table class="table table-sm">
+  <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Surname</th>
+      <th scope="col">Team</th>
+      <th scope="col">City</th>
+      <th scope="col">Country</th>
+      <th scope="col">Sex</th>
+
+    </tr>
+  </thead>
+  <tbody *ngFor="let player of competition.Players">
+    <tr>
+      <td>{{player.name}}</td>
+      <td>{{player.surname}}</td>
+      <td>{{player.team}}</td>
+      <td>{{player.city}}</td>
+      <td>{{player.country}}</td>
+      <td>{{player.sex}}</td>
+    </tr>
+  </tbody>
+</table>
+  </div>
+</div>

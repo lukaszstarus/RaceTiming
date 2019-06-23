@@ -1,4 +1,5 @@
-import { Pageable } from './../pageable/pageable';
+import { Player } from '../player/player';
+
 export interface Competition {
     Id: string;
     Name: string;
@@ -12,8 +13,6 @@ export interface Competition {
     PlayersLimit: string;
     ResultsUrl: string;
     TotalPages: string;
+    Players: Player[];
 
-}
-export interface Pageable{
-  totalPages: string;
 }

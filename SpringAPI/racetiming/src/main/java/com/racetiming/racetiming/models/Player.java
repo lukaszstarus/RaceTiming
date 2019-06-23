@@ -18,22 +18,24 @@ import javax.persistence.OneToOne;
 @Entity
 public class Player {
 @Id @GeneratedValue(strategy = GenerationType.AUTO)
-private long Id;
-private String Name;
-private String Surname;
-private String City;
-private Date BirthDate;
-private String Country;
-private String Sex; 
-private String Phone;
-private String Team;
-private String License;
+private long id;
+private String name;
+private String surname;
+private String city;
+private Date birthDate;
+private String country;
+private String sex; 
+private String phone;
+private String team;
+private String license;
 
 @OneToOne
 private Login login;
 
 @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
 private List<Competition> competitions = new ArrayList<Competition>();
+
+
 	public Player() {}
 	public List<Competition> getCompetitions() {
 		return this.competitions;
@@ -45,98 +47,86 @@ private List<Competition> competitions = new ArrayList<Competition>();
 
 
 	public long getId() {
-		return this.Id;
+		return this.id;
 	}
 
 	public void setId(long Id) {
-		this.Id = Id;
+		this.id = Id;
 	}
 
 	public String getName() {
-		return this.Name;
+		return this.name;
 	}
 
 	public void setName(String Name) {
-		this.Name = Name;
+		this.name = Name;
 	}
 
 	public String getSurname() {
-		return this.Surname;
+		return this.surname;
 	}
 
 	public void setSurname(String Surname) {
-		this.Surname = Surname;
+		this.surname = Surname;
 	}
 
 	public String getCity() {
-		return this.City;
+		return this.city;
 	}
 
 	public void setCity(String City) {
-		this.City = City;
+		this.city = City;
 	}
 
 	public Date getBirthDate() {
-		return this.BirthDate;
+		return this.birthDate;
 	}
 
 	public void setBirthDate(Date BirthDate) {
-		this.BirthDate = BirthDate;
+		this.birthDate = BirthDate;
 	}
 
 	public String getCountry() {
-		return this.Country;
+		return this.country;
 	}
 
 	public void setCountry(String Country) {
-		this.Country = Country;
+		this.country = Country;
 	}
 
 	public String getSex() {
-		return this.Sex;
+		return this.sex;
 	}
 
 	public void setSex(String Sex) {
-		this.Sex = Sex;
+		this.sex = Sex;
 	}
 
 	public String getPhone() {
-		return this.Phone;
+		return this.phone;
 	}
 
 	public void setPhone(String Phone) {
-		this.Phone = Phone;
+		this.phone = Phone;
 	}
 
 	public String getTeam() {
-		return this.Team;
+		return this.team;
 	}
 
 	public void setTeam(String Team) {
-		this.Team = Team;
+		this.team = Team;
 	}
 
 	public String getLicense() {
-		return this.License;
+		return this.license;
 	}
 
 	public void setLicense(String License) {
-		this.License = License;
+		this.license = License;
 	}
 
-	public Player(String name, String surname, String city, Date birthDate, String country, String sex,
-			String phone, String team, String license, List<Competition> competitions) {
-		Name = name;
-		Surname = surname;
-		City = city;
-		BirthDate = birthDate;
-		Country = country;
-		Sex = sex;
-		Phone = phone;
-		Team = team;
-		License = license;
-		this.competitions = competitions;
-	}
+	
 
 	public Login getLogin() {
 		return login;
@@ -148,17 +138,27 @@ private List<Competition> competitions = new ArrayList<Competition>();
 
 	public Player(String name, String surname, String city, Date birthDate, String country, String sex, String phone,
 			String team, String license, Login login, List<Competition> competitions) {
-		Name = name;
-		Surname = surname;
-		City = city;
-		BirthDate = birthDate;
-		Country = country;
-		Sex = sex;
-		Phone = phone;
-		Team = team;
-		License = license;
+		this.name = name;
+		this.surname = surname;
+		this.city = city;
+		this.birthDate = birthDate;
+		this.country = country;
+		this.sex = sex;
+		this.phone = phone;
+		this.team = team;
+		this.license = license;
 		this.login = login;
 		this.competitions = competitions;
 	}
+
+	public Player(String name, String surname, String city, String country, String sex, String team) {
+		this.name = name;
+		this.surname = surname;
+		this.city = city;
+		this.country = country;
+		this.sex = sex;
+		this.team = team;
+	}
+
 
 }

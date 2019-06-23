@@ -17,7 +17,7 @@
           <td>{{ competition.name }} competitions</td>
           <td>{{ competition.place }}</td>
           <td>{{ competition.organizer }} Organization</td>
-          <td><a routerLink="/competition-details" class="btn btn-info">More...</a></td>
+          <td><a (click)="gotoDetails(competition.id)" routerLink="/competitiondetails" class="btn btn-info">More...</a></td>
         </tr>
       </tbody>
     </table>

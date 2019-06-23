@@ -21,10 +21,8 @@ import com.racetiming.racetiming.repositories.PlayerRepository;
 import com.racetiming.racetiming.repositories.RolesRepository;
 
 import org.joda.time.DateTime;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class Application {
@@ -58,7 +56,7 @@ public class Application {
 
         int cityIndex;
         String sex;
-        DateTime competitionDate= new DateTime().now();
+        DateTime competitionDate= DateTime.now();
         Competition competition= new Competition();
         Category category= new Category();
 
@@ -154,7 +152,7 @@ public class Application {
                         name,
                         splitnames.next(),
                         citiesList.get(new Random().nextInt(citiesList.size()-1)),
-                        new Date(new DateTime().now().minusYears(10).minusDays(new Random().nextInt(10000)).getMillis()),
+                        new Date(DateTime.now().minusYears(10).minusDays(new Random().nextInt(10000)).getMillis()),
                         countriesList.get(new Random().nextInt(countriesList.size()-1)),
                         sex,
                         phoneNumbers.nextLine(),

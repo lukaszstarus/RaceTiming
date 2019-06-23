@@ -1,8 +1,10 @@
+import { PlayerService } from '../../services/player-service/player.service';
 import { HttpClient } from '@angular/common/http';
-import { CompetitionService } from './../../services/competition.service';
+import { CompetitionService } from '../../services/competition-service/competition.service';
 import { Competition } from '../../models/competition/competition';
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, Output } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
+import { EventEmitter } from 'events';
 
 @Component({
   selector: 'app-competitions-list',
@@ -15,17 +17,20 @@ export class CompetitionsListComponent implements OnInit {
   currentPage: number;
   pages: number[];
   totalPages: number;
-  constructor(private competitionService: CompetitionService) {
+  data: any[];
+  competitionId: string;
+
+  constructor(private competitionService: CompetitionService, private router: Router, private playerService: PlayerService) {
   }
 
 
   ngOnInit() {
     this.currentPage = 1;
     this.competitionService.findAll().subscribe(
-      data => {console.log(data.totalPages);
-               this.competitions = data.content;
-               this.totalPages = data.totalPages;
-               this.pagination(data.totalPages);
+      (data: any) => {console.log(data.totalPages);
+                      this.competitions = data.content;
+                      this.totalPages = data.totalPages;
+                      this.pagination(data.totalPages);
       });
 
   }
@@ -36,11 +41,16 @@ export class CompetitionsListComponent implements OnInit {
   setPage(page: number) {
     this.currentPage = page;
     this.competitionService.findPaged(page).subscribe(
-      data => {
+      (data: any) => {
         this.competitions = data.content;
         this.totalPages = data.totalPages;
         this.pagination(data.totalPages);
 });
+  }
+    gotoDetails(id: number) {
+    this.competitionService.competitionId = id;
+    this.competitionService.saveInLocal("compId", id);
+    this.router.navigateByUrl('/competitiondetails');
   }
 
 }

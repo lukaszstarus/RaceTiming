@@ -3,9 +3,9 @@ package com.racetiming.racetiming.controllers;
 import java.util.List;
 
 import com.racetiming.racetiming.models.Competition;
-import com.racetiming.racetiming.models.PlayerCategory;
+import com.racetiming.racetiming.models.PlayerTableData;
 import com.racetiming.racetiming.repositories.CompetitionRepository;
-import com.racetiming.racetiming.repositories.PlayerCategoryRepository;
+import com.racetiming.racetiming.repositories.PlayerRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,12 +20,13 @@ import org.springframework.web.bind.annotation.RestController;
  * CompetitionController
  */
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(allowedHeaders = "*", origins = "http://localhost:4200")
 public class CompetitionController {
 
     @Autowired
     private CompetitionRepository competitionRepostiory;
-    private PlayerCategoryRepository playerCategoryRepository;
+    @Autowired
+    private PlayerRepository playerRepository;
 
     @GetMapping("/competitions")
     public Page<Competition> getAllCompetitions(){
@@ -39,8 +40,13 @@ public class CompetitionController {
     }
     @GetMapping("/competitiondetails/{id}")
     public Competition getCompetitionsDetails(@PathVariable("id") long id){
-        return competitionRepostiory.findById(id);
+        Competition competitionDetails=competitionRepostiory.findById(id);
+        competitionDetails.setPlayers(playerRepository.findByCompetitionsId(id));
+        return competitionDetails;
     }
-
+    // @GetMapping("/players/{id}")
+    // List<PlayerTableData> getPlayers(@PathVariable("id") long id){
+    //     return (List<PlayerTableData>) playerRepository.findByCompetitionsId(id);
+    // }
     
 }
