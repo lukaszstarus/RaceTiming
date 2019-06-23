@@ -28,6 +28,7 @@ namespace APIweb.Controllers
         [ResponseType(typeof(competition))]
         public async Task<IHttpActionResult> Getcompetition(long id)
         {
+            db.Configuration.ProxyCreationEnabled = false;
             competition competition = await db.competitions.FindAsync(id);
             if (competition == null)
             {
@@ -41,6 +42,7 @@ namespace APIweb.Controllers
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> Putcompetition(long id, competition competition)
         {
+            db.Configuration.ProxyCreationEnabled = false;
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -76,6 +78,7 @@ namespace APIweb.Controllers
         [ResponseType(typeof(competition))]
         public async Task<IHttpActionResult> Postcompetition(competition competition)
         {
+            db.Configuration.ProxyCreationEnabled = false;
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -106,6 +109,7 @@ namespace APIweb.Controllers
         [ResponseType(typeof(competition))]
         public async Task<IHttpActionResult> Deletecompetition(long id)
         {
+            db.Configuration.ProxyCreationEnabled = false;
             competition competition = await db.competitions.FindAsync(id);
             if (competition == null)
             {

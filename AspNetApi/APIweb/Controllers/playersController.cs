@@ -41,6 +41,7 @@ namespace APIweb.Controllers
         [ResponseType(typeof(void))]
         public IHttpActionResult Putplayer(long id, player player)
         {
+            db.Configuration.ProxyCreationEnabled = false;
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -76,6 +77,7 @@ namespace APIweb.Controllers
         [ResponseType(typeof(player))]
         public IHttpActionResult Postplayer(player player)
         {
+            db.Configuration.ProxyCreationEnabled = false;
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -106,6 +108,7 @@ namespace APIweb.Controllers
         [ResponseType(typeof(player))]
         public IHttpActionResult Deleteplayer(long id)
         {
+            db.Configuration.ProxyCreationEnabled = false;
             player player = db.players.Find(id);
             if (player == null)
             {

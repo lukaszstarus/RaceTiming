@@ -28,6 +28,7 @@ namespace APIweb.Controllers
         [ResponseType(typeof(category))]
         public async Task<IHttpActionResult> Getcategory(long id)
         {
+            db.Configuration.ProxyCreationEnabled = false;
             category category = await db.categories.FindAsync(id);
             if (category == null)
             {
@@ -41,6 +42,7 @@ namespace APIweb.Controllers
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> Putcategory(long id, category category)
         {
+            db.Configuration.ProxyCreationEnabled = false;
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -76,6 +78,7 @@ namespace APIweb.Controllers
         [ResponseType(typeof(category))]
         public async Task<IHttpActionResult> Postcategory(category category)
         {
+            db.Configuration.ProxyCreationEnabled = false;
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -106,6 +109,7 @@ namespace APIweb.Controllers
         [ResponseType(typeof(category))]
         public async Task<IHttpActionResult> Deletecategory(long id)
         {
+            db.Configuration.ProxyCreationEnabled = false;
             category category = await db.categories.FindAsync(id);
             if (category == null)
             {
