@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="52cfff15edda47a5b4e6ba053ec06276" Name="Diagram1">
+        <EntityTypeShape EntityType="RaceTimingModel.category" Width="1.5" PointX="9.75" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="RaceTimingModel.competition" Width="1.5" PointX="7.5" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="RaceTimingModel.login" Width="1.5" PointX="3" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RaceTimingModel.player" Width="1.5" PointX="5.25" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="RaceTimingModel.player_category" Width="1.5" PointX="12" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RaceTimingModel.role" Width="1.5" PointX="0.75" PointY="4.125" IsExpanded="true" />
+        <AssociationConnector Association="RaceTimingModel.FKgy9b03eobe13f9a1r8fugiau4" ManuallyRouted="false" />
+        <AssociationConnector Association="RaceTimingModel.FK9u62rfgi3dhrqprfkjuhc50o6" ManuallyRouted="false" />
+        <AssociationConnector Association="RaceTimingModel.FKq68frcu39nd6qyjct8wbay7xo" ManuallyRouted="false" />
+        <AssociationConnector Association="RaceTimingModel.FKb5k3dk3163hw6o0tti30xt8lx" ManuallyRouted="false" />
+        <AssociationConnector Association="RaceTimingModel.FKk5cd9h6p9089icipgp2gfcrnv" ManuallyRouted="false" />
+        <AssociationConnector Association="RaceTimingModel.FKance4j3x98m886ojmwjpxxmfr" ManuallyRouted="false" />
+        <AssociationConnector Association="RaceTimingModel.category_competitions" ManuallyRouted="false" />
+        <AssociationConnector Association="RaceTimingModel.player_competitions" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

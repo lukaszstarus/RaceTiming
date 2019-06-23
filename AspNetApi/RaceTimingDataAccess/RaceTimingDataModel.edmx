@@ -1,0 +1,595 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="RaceTimingModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="category">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'RaceTiming.dbo.category_competitions' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="category_competitions">
+          <Key>
+            <PropertyRef Name="category_id" />
+            <PropertyRef Name="competitions_id" />
+          </Key>
+          <Property Name="category_id" Type="bigint" Nullable="false" />
+          <Property Name="competitions_id" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="competition">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" Nullable="false" />
+          <Property Name="date" Type="date" />
+          <Property Name="deadline_date" Type="date" />
+          <Property Name="description" Type="varchar" MaxLength="255" />
+          <Property Name="dyscipline" Type="varchar" MaxLength="255" />
+          <Property Name="name" Type="varchar" MaxLength="255" />
+          <Property Name="organizer" Type="varchar" MaxLength="255" />
+          <Property Name="place" Type="varchar" MaxLength="255" />
+          <Property Name="players_limit" Type="int" Nullable="false" />
+          <Property Name="reg_url" Type="varchar" MaxLength="255" />
+          <Property Name="results_url" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="login">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="255" />
+          <Property Name="password" Type="varchar" MaxLength="255" />
+          <Property Name="role_id" Type="bigint" />
+        </EntityType>
+        <EntityType Name="player">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" Nullable="false" />
+          <Property Name="birth_date" Type="date" />
+          <Property Name="city" Type="varchar" MaxLength="255" />
+          <Property Name="country" Type="varchar" MaxLength="255" />
+          <Property Name="license" Type="varchar" MaxLength="255" />
+          <Property Name="name" Type="varchar" MaxLength="255" />
+          <Property Name="phone" Type="varchar" MaxLength="255" />
+          <Property Name="sex" Type="varchar" MaxLength="255" />
+          <Property Name="surname" Type="varchar" MaxLength="255" />
+          <Property Name="team" Type="varchar" MaxLength="255" />
+          <Property Name="login_id" Type="bigint" />
+        </EntityType>
+        <EntityType Name="player_category">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" Nullable="false" />
+          <Property Name="categories_id" Type="bigint" />
+          <Property Name="competitions_id" Type="bigint" />
+          <Property Name="player_id" Type="bigint" />
+          <Property Name="competitions_competition_id" Type="bigint" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'RaceTiming.dbo.player_competitions' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="player_competitions">
+          <Key>
+            <PropertyRef Name="player_id" />
+            <PropertyRef Name="competitions_id" />
+          </Key>
+          <Property Name="player_id" Type="bigint" Nullable="false" />
+          <Property Name="competitions_id" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="role">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <Association Name="FK1wxdrpcxami2tuwpdnqx1g6ai">
+          <End Role="player" Type="Self.player" Multiplicity="1" />
+          <End Role="player_competitions" Type="Self.player_competitions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="player">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="player_competitions">
+              <PropertyRef Name="player_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK9u62rfgi3dhrqprfkjuhc50o6">
+          <End Role="competition" Type="Self.competition" Multiplicity="0..1" />
+          <End Role="player_category" Type="Self.player_category" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="competition">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="player_category">
+              <PropertyRef Name="competitions_competition_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKance4j3x98m886ojmwjpxxmfr">
+          <End Role="player" Type="Self.player" Multiplicity="0..1" />
+          <End Role="player_category" Type="Self.player_category" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="player">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="player_category">
+              <PropertyRef Name="player_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKb5k3dk3163hw6o0tti30xt8lx">
+          <End Role="role" Type="Self.role" Multiplicity="0..1" />
+          <End Role="login" Type="Self.login" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="role">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="login">
+              <PropertyRef Name="role_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKbb3nrj082cn9oqi9yf4kbvv16">
+          <End Role="competition" Type="Self.competition" Multiplicity="1" />
+          <End Role="player_competitions" Type="Self.player_competitions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="competition">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="player_competitions">
+              <PropertyRef Name="competitions_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKf37fco8dlmbmfiot9hvpg6qn3">
+          <End Role="competition" Type="Self.competition" Multiplicity="1" />
+          <End Role="category_competitions" Type="Self.category_competitions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="competition">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="category_competitions">
+              <PropertyRef Name="competitions_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKgy9b03eobe13f9a1r8fugiau4">
+          <End Role="category" Type="Self.category" Multiplicity="0..1" />
+          <End Role="player_category" Type="Self.player_category" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="category">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="player_category">
+              <PropertyRef Name="categories_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKhqppcdtgosh9esaeeov95rn67">
+          <End Role="category" Type="Self.category" Multiplicity="1" />
+          <End Role="category_competitions" Type="Self.category_competitions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="category">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="category_competitions">
+              <PropertyRef Name="category_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKk5cd9h6p9089icipgp2gfcrnv">
+          <End Role="login" Type="Self.login" Multiplicity="0..1" />
+          <End Role="player" Type="Self.player" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="login">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="player">
+              <PropertyRef Name="login_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKq68frcu39nd6qyjct8wbay7xo">
+          <End Role="competition" Type="Self.competition" Multiplicity="0..1" />
+          <End Role="player_category" Type="Self.player_category" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="competition">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="player_category">
+              <PropertyRef Name="competitions_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="RaceTimingModelStoreContainer">
+          <EntitySet Name="category" EntityType="Self.category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="competition" EntityType="Self.competition" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="login" EntityType="Self.login" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="player" EntityType="Self.player" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="player_category" EntityType="Self.player_category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="role" EntityType="Self.role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="category_competitions" EntityType="Self.category_competitions" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [category_competitions].[category_id] AS [category_id], 
+    [category_competitions].[competitions_id] AS [competitions_id]
+    FROM [dbo].[category_competitions] AS [category_competitions]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="player_competitions" EntityType="Self.player_competitions" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [player_competitions].[player_id] AS [player_id], 
+    [player_competitions].[competitions_id] AS [competitions_id]
+    FROM [dbo].[player_competitions] AS [player_competitions]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK1wxdrpcxami2tuwpdnqx1g6ai" Association="Self.FK1wxdrpcxami2tuwpdnqx1g6ai">
+            <End Role="player" EntitySet="player" />
+            <End Role="player_competitions" EntitySet="player_competitions" />
+          </AssociationSet>
+          <AssociationSet Name="FK9u62rfgi3dhrqprfkjuhc50o6" Association="Self.FK9u62rfgi3dhrqprfkjuhc50o6">
+            <End Role="competition" EntitySet="competition" />
+            <End Role="player_category" EntitySet="player_category" />
+          </AssociationSet>
+          <AssociationSet Name="FKance4j3x98m886ojmwjpxxmfr" Association="Self.FKance4j3x98m886ojmwjpxxmfr">
+            <End Role="player" EntitySet="player" />
+            <End Role="player_category" EntitySet="player_category" />
+          </AssociationSet>
+          <AssociationSet Name="FKb5k3dk3163hw6o0tti30xt8lx" Association="Self.FKb5k3dk3163hw6o0tti30xt8lx">
+            <End Role="role" EntitySet="role" />
+            <End Role="login" EntitySet="login" />
+          </AssociationSet>
+          <AssociationSet Name="FKbb3nrj082cn9oqi9yf4kbvv16" Association="Self.FKbb3nrj082cn9oqi9yf4kbvv16">
+            <End Role="competition" EntitySet="competition" />
+            <End Role="player_competitions" EntitySet="player_competitions" />
+          </AssociationSet>
+          <AssociationSet Name="FKf37fco8dlmbmfiot9hvpg6qn3" Association="Self.FKf37fco8dlmbmfiot9hvpg6qn3">
+            <End Role="competition" EntitySet="competition" />
+            <End Role="category_competitions" EntitySet="category_competitions" />
+          </AssociationSet>
+          <AssociationSet Name="FKgy9b03eobe13f9a1r8fugiau4" Association="Self.FKgy9b03eobe13f9a1r8fugiau4">
+            <End Role="category" EntitySet="category" />
+            <End Role="player_category" EntitySet="player_category" />
+          </AssociationSet>
+          <AssociationSet Name="FKhqppcdtgosh9esaeeov95rn67" Association="Self.FKhqppcdtgosh9esaeeov95rn67">
+            <End Role="category" EntitySet="category" />
+            <End Role="category_competitions" EntitySet="category_competitions" />
+          </AssociationSet>
+          <AssociationSet Name="FKk5cd9h6p9089icipgp2gfcrnv" Association="Self.FKk5cd9h6p9089icipgp2gfcrnv">
+            <End Role="login" EntitySet="login" />
+            <End Role="player" EntitySet="player" />
+          </AssociationSet>
+          <AssociationSet Name="FKq68frcu39nd6qyjct8wbay7xo" Association="Self.FKq68frcu39nd6qyjct8wbay7xo">
+            <End Role="competition" EntitySet="competition" />
+            <End Role="player_category" EntitySet="player_category" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="RaceTimingModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="category">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="player_category" Relationship="Self.FKgy9b03eobe13f9a1r8fugiau4" FromRole="category" ToRole="player_category" />
+          <NavigationProperty Name="competitions" Relationship="Self.category_competitions" FromRole="category" ToRole="competition" />
+        </EntityType>
+        <EntityType Name="competition">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" />
+          <Property Name="date" Type="DateTime" Precision="0" />
+          <Property Name="deadline_date" Type="DateTime" Precision="0" />
+          <Property Name="description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="dyscipline" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="organizer" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="place" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="players_limit" Type="Int32" Nullable="false" />
+          <Property Name="reg_url" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="results_url" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="player_category" Relationship="Self.FK9u62rfgi3dhrqprfkjuhc50o6" FromRole="competition" ToRole="player_category" />
+          <NavigationProperty Name="player_category1" Relationship="Self.FKq68frcu39nd6qyjct8wbay7xo" FromRole="competition" ToRole="player_category" />
+          <NavigationProperty Name="categories" Relationship="Self.category_competitions" FromRole="competition" ToRole="category" />
+          <NavigationProperty Name="players" Relationship="Self.player_competitions" FromRole="competition" ToRole="player" />
+        </EntityType>
+        <EntityType Name="login">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="role_id" Type="Int64" />
+          <NavigationProperty Name="role" Relationship="Self.FKb5k3dk3163hw6o0tti30xt8lx" FromRole="login" ToRole="role" />
+          <NavigationProperty Name="players" Relationship="Self.FKk5cd9h6p9089icipgp2gfcrnv" FromRole="login" ToRole="player" />
+        </EntityType>
+        <EntityType Name="player">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" />
+          <Property Name="birth_date" Type="DateTime" Precision="0" />
+          <Property Name="city" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="country" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="license" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="phone" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="sex" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="surname" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="team" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="login_id" Type="Int64" />
+          <NavigationProperty Name="login" Relationship="Self.FKk5cd9h6p9089icipgp2gfcrnv" FromRole="player" ToRole="login" />
+          <NavigationProperty Name="player_category" Relationship="Self.FKance4j3x98m886ojmwjpxxmfr" FromRole="player" ToRole="player_category" />
+          <NavigationProperty Name="competitions" Relationship="Self.player_competitions" FromRole="player" ToRole="competition" />
+        </EntityType>
+        <EntityType Name="player_category">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" />
+          <Property Name="categories_id" Type="Int64" />
+          <Property Name="competitions_id" Type="Int64" />
+          <Property Name="player_id" Type="Int64" />
+          <Property Name="competitions_competition_id" Type="Int64" />
+          <NavigationProperty Name="category" Relationship="Self.FKgy9b03eobe13f9a1r8fugiau4" FromRole="player_category" ToRole="category" />
+          <NavigationProperty Name="competition" Relationship="Self.FK9u62rfgi3dhrqprfkjuhc50o6" FromRole="player_category" ToRole="competition" />
+          <NavigationProperty Name="competition1" Relationship="Self.FKq68frcu39nd6qyjct8wbay7xo" FromRole="player_category" ToRole="competition" />
+          <NavigationProperty Name="player" Relationship="Self.FKance4j3x98m886ojmwjpxxmfr" FromRole="player_category" ToRole="player" />
+        </EntityType>
+        <EntityType Name="role">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="logins" Relationship="Self.FKb5k3dk3163hw6o0tti30xt8lx" FromRole="role" ToRole="login" />
+        </EntityType>
+        <Association Name="FKgy9b03eobe13f9a1r8fugiau4">
+          <End Role="category" Type="Self.category" Multiplicity="0..1" />
+          <End Role="player_category" Type="Self.player_category" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="category">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="player_category">
+              <PropertyRef Name="categories_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK9u62rfgi3dhrqprfkjuhc50o6">
+          <End Role="competition" Type="Self.competition" Multiplicity="0..1" />
+          <End Role="player_category" Type="Self.player_category" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="competition">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="player_category">
+              <PropertyRef Name="competitions_competition_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKq68frcu39nd6qyjct8wbay7xo">
+          <End Role="competition" Type="Self.competition" Multiplicity="0..1" />
+          <End Role="player_category" Type="Self.player_category" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="competition">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="player_category">
+              <PropertyRef Name="competitions_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKb5k3dk3163hw6o0tti30xt8lx">
+          <End Role="role" Type="Self.role" Multiplicity="0..1" />
+          <End Role="login" Type="Self.login" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="role">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="login">
+              <PropertyRef Name="role_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKk5cd9h6p9089icipgp2gfcrnv">
+          <End Role="login" Type="Self.login" Multiplicity="0..1" />
+          <End Role="player" Type="Self.player" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="login">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="player">
+              <PropertyRef Name="login_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKance4j3x98m886ojmwjpxxmfr">
+          <End Role="player" Type="Self.player" Multiplicity="0..1" />
+          <End Role="player_category" Type="Self.player_category" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="player">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="player_category">
+              <PropertyRef Name="player_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="category_competitions">
+          <End Role="competition" Type="Self.competition" Multiplicity="*" />
+          <End Role="category" Type="Self.category" Multiplicity="*" />
+        </Association>
+        <Association Name="player_competitions">
+          <End Role="player" Type="Self.player" Multiplicity="*" />
+          <End Role="competition" Type="Self.competition" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="RaceTimingEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="categories" EntityType="Self.category" />
+          <EntitySet Name="competitions" EntityType="Self.competition" />
+          <EntitySet Name="logins" EntityType="Self.login" />
+          <EntitySet Name="players" EntityType="Self.player" />
+          <EntitySet Name="player_category" EntityType="Self.player_category" />
+          <EntitySet Name="roles" EntityType="Self.role" />
+          <AssociationSet Name="FKgy9b03eobe13f9a1r8fugiau4" Association="Self.FKgy9b03eobe13f9a1r8fugiau4">
+            <End Role="category" EntitySet="categories" />
+            <End Role="player_category" EntitySet="player_category" />
+          </AssociationSet>
+          <AssociationSet Name="FK9u62rfgi3dhrqprfkjuhc50o6" Association="Self.FK9u62rfgi3dhrqprfkjuhc50o6">
+            <End Role="competition" EntitySet="competitions" />
+            <End Role="player_category" EntitySet="player_category" />
+          </AssociationSet>
+          <AssociationSet Name="FKq68frcu39nd6qyjct8wbay7xo" Association="Self.FKq68frcu39nd6qyjct8wbay7xo">
+            <End Role="competition" EntitySet="competitions" />
+            <End Role="player_category" EntitySet="player_category" />
+          </AssociationSet>
+          <AssociationSet Name="FKb5k3dk3163hw6o0tti30xt8lx" Association="Self.FKb5k3dk3163hw6o0tti30xt8lx">
+            <End Role="role" EntitySet="roles" />
+            <End Role="login" EntitySet="logins" />
+          </AssociationSet>
+          <AssociationSet Name="FKk5cd9h6p9089icipgp2gfcrnv" Association="Self.FKk5cd9h6p9089icipgp2gfcrnv">
+            <End Role="login" EntitySet="logins" />
+            <End Role="player" EntitySet="players" />
+          </AssociationSet>
+          <AssociationSet Name="FKance4j3x98m886ojmwjpxxmfr" Association="Self.FKance4j3x98m886ojmwjpxxmfr">
+            <End Role="player" EntitySet="players" />
+            <End Role="player_category" EntitySet="player_category" />
+          </AssociationSet>
+          <AssociationSet Name="category_competitions" Association="Self.category_competitions">
+            <End Role="competition" EntitySet="competitions" />
+            <End Role="category" EntitySet="categories" />
+          </AssociationSet>
+          <AssociationSet Name="player_competitions" Association="Self.player_competitions">
+            <End Role="player" EntitySet="players" />
+            <End Role="competition" EntitySet="competitions" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="RaceTimingModelStoreContainer" CdmEntityContainer="RaceTimingEntities">
+          <EntitySetMapping Name="categories">
+            <EntityTypeMapping TypeName="RaceTimingModel.category">
+              <MappingFragment StoreEntitySet="category">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="competitions">
+            <EntityTypeMapping TypeName="RaceTimingModel.competition">
+              <MappingFragment StoreEntitySet="competition">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="deadline_date" ColumnName="deadline_date" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="dyscipline" ColumnName="dyscipline" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="organizer" ColumnName="organizer" />
+                <ScalarProperty Name="place" ColumnName="place" />
+                <ScalarProperty Name="players_limit" ColumnName="players_limit" />
+                <ScalarProperty Name="reg_url" ColumnName="reg_url" />
+                <ScalarProperty Name="results_url" ColumnName="results_url" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="logins">
+            <EntityTypeMapping TypeName="RaceTimingModel.login">
+              <MappingFragment StoreEntitySet="login">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="role_id" ColumnName="role_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="players">
+            <EntityTypeMapping TypeName="RaceTimingModel.player">
+              <MappingFragment StoreEntitySet="player">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="birth_date" ColumnName="birth_date" />
+                <ScalarProperty Name="city" ColumnName="city" />
+                <ScalarProperty Name="country" ColumnName="country" />
+                <ScalarProperty Name="license" ColumnName="license" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="sex" ColumnName="sex" />
+                <ScalarProperty Name="surname" ColumnName="surname" />
+                <ScalarProperty Name="team" ColumnName="team" />
+                <ScalarProperty Name="login_id" ColumnName="login_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="player_category">
+            <EntityTypeMapping TypeName="RaceTimingModel.player_category">
+              <MappingFragment StoreEntitySet="player_category">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="categories_id" ColumnName="categories_id" />
+                <ScalarProperty Name="competitions_id" ColumnName="competitions_id" />
+                <ScalarProperty Name="player_id" ColumnName="player_id" />
+                <ScalarProperty Name="competitions_competition_id" ColumnName="competitions_competition_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="roles">
+            <EntityTypeMapping TypeName="RaceTimingModel.role">
+              <MappingFragment StoreEntitySet="role">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="category_competitions" TypeName="RaceTimingModel.category_competitions" StoreEntitySet="category_competitions">
+            <EndProperty Name="competition">
+              <ScalarProperty Name="id" ColumnName="competitions_id" />
+            </EndProperty>
+            <EndProperty Name="category">
+              <ScalarProperty Name="id" ColumnName="category_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="player_competitions" TypeName="RaceTimingModel.player_competitions" StoreEntitySet="player_competitions">
+            <EndProperty Name="player">
+              <ScalarProperty Name="id" ColumnName="player_id" />
+            </EndProperty>
+            <EndProperty Name="competition">
+              <ScalarProperty Name="id" ColumnName="competitions_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

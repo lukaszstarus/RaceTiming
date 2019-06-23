@@ -28,20 +28,20 @@ import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class Application {
-    // private long beginTime;
-	// private long endTime;
+     private long beginTime;
+	 private long endTime;
 	
 	public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
     
-    // @Bean
-    // public CommandLineRunner demo (LoginRepository loginRepository, RolesRepository rolesRepository, PlayerCategoryRepository playerCategoryRepository, CompetitionRepository competitionRepository, CategoriesRepository categoriesRepository, PlayerRepository playerRepository)
-    // {
-    //     return (args)->{
-    //         init(loginRepository, rolesRepository, playerCategoryRepository, competitionRepository,categoriesRepository, playerRepository);
-    //     };
-    // }
+     @Bean
+     public CommandLineRunner demo (LoginRepository loginRepository, RolesRepository rolesRepository, PlayerCategoryRepository playerCategoryRepository, CompetitionRepository competitionRepository, CategoriesRepository categoriesRepository, PlayerRepository playerRepository)
+     {
+         return (args)->{
+            init(loginRepository, rolesRepository, playerCategoryRepository, competitionRepository,categoriesRepository, playerRepository);
+         };
+     }
     public void init(LoginRepository loginRepository, RolesRepository rolesRepository, PlayerCategoryRepository playerCategoryRepository,CompetitionRepository competitionRepository, CategoriesRepository categoriesRepository, PlayerRepository playerRepository){
         List<Competition> competitions= new ArrayList<>();
         List<Competition> compForCategories= new ArrayList<>();
