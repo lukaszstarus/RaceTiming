@@ -8,9 +8,9 @@ import javax.persistence.*;
 @Entity
 public class Login {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
-    private long Id;
-    private String Email;
-    private String Password;
+    private long id;
+    private String email;
+    private String password;
 	@ManyToOne
 	private Role role;
 
@@ -26,32 +26,32 @@ public class Login {
 	}
 
 	public long getId() {
-		return this.Id;
+		return this.id;
 	}
 
 	public void setId(long Id) {
-		this.Id = Id;
+		this.id = Id;
 	}
 
 	public String getEmail() {
-		return this.Email;
+		return this.email;
 	}
 
 	public void setEmail(String Email) {
-		this.Email = Email;
+		this.email = Email;
 	}
 
 	public String getPassword() {
-		return this.Password;
+		return this.password;
 	}
 
 	public void setPassword(String Password) {
-		this.Password = Password;
+		this.password = Password;
 	}
 
 	public Login(String email, String password, Role role) {
-		Email = email;
-		Password = password;
+		this.email = email;
+		this.password = password;
 		this.role = role;
 	}
 

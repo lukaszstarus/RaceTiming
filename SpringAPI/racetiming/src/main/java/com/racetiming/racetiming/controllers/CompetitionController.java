@@ -3,8 +3,11 @@ package com.racetiming.racetiming.controllers;
 import java.util.List;
 
 import com.racetiming.racetiming.models.Competition;
+import com.racetiming.racetiming.models.Login;
+import com.racetiming.racetiming.models.Player;
 import com.racetiming.racetiming.models.PlayerTableData;
 import com.racetiming.racetiming.repositories.CompetitionRepository;
+import com.racetiming.racetiming.repositories.LoginRepository;
 import com.racetiming.racetiming.repositories.PlayerRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -27,6 +32,8 @@ public class CompetitionController {
     private CompetitionRepository competitionRepostiory;
     @Autowired
     private PlayerRepository playerRepository;
+    @Autowired
+    private LoginRepository loginRepository;
 
     @GetMapping("/competitions")
     public Page<Competition> getAllCompetitions(){
@@ -44,9 +51,9 @@ public class CompetitionController {
         competitionDetails.setPlayers(playerRepository.findByCompetitionsId(id));
         return competitionDetails;
     }
-    // @GetMapping("/players/{id}")
-    // List<PlayerTableData> getPlayers(@PathVariable("id") long id){
-    //     return (List<PlayerTableData>) playerRepository.findByCompetitionsId(id);
-    // }
+    @PostMapping("/login")
+    public Player getLoginData(@RequestBody Login loginData){
+        return loginRepository.findByEmail(loginData.getEmail(), loginData.getPassword());
+    }
     
 }
