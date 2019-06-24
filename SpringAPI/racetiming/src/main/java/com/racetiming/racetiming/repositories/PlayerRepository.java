@@ -3,7 +3,6 @@ package com.racetiming.racetiming.repositories;
 import java.util.List;
 
 import com.racetiming.racetiming.models.Player;
-import com.racetiming.racetiming.models.PlayerTableData;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;

@@ -1,11 +1,8 @@
 package com.racetiming.racetiming.controllers;
 
-import java.util.List;
-
 import com.racetiming.racetiming.models.Competition;
 import com.racetiming.racetiming.models.Login;
 import com.racetiming.racetiming.models.Player;
-import com.racetiming.racetiming.models.PlayerTableData;
 import com.racetiming.racetiming.repositories.CompetitionRepository;
 import com.racetiming.racetiming.repositories.LoginRepository;
 import com.racetiming.racetiming.repositories.PlayerRepository;
@@ -54,6 +51,10 @@ public class CompetitionController {
     @PostMapping("/login")
     public Player getLoginData(@RequestBody Login loginData){
         return loginRepository.findByEmail(loginData.getEmail(), loginData.getPassword());
+    }
+    @PostMapping("/competitiondetails")
+    public void singInToCompetitions(@RequestBody Competition competition){
+        competitionRepostiory.save(competition);
     }
     
 }
