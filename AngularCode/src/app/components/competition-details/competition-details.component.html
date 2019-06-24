@@ -23,8 +23,13 @@
 </table>
 
   <h5 class="card-title">Description: </h5>
+  <h6 class="card-link">
+    <a href="https://www.race-timing.pl/media/uploads/wyniki/2019/reg_pumptrack_krakow.pdf"> Regulations</a>
+  </h6>
   <p class="card-text">{{competition.description}}</p>
-
+  <form (ngSubmit)="signIn()">
+    <button type="submit" class="btn btn-info" [ngClass]="{disabled:loggedIn===false}">SignIn</button>
+  </form>
   <table class="table table-sm">
   <thead>
     <tr>

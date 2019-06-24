@@ -13,6 +13,6 @@ export interface Competition {
     PlayersLimit: string;
     ResultsUrl: string;
     TotalPages: string;
-    Players: Player[];
+    Players: Array<Player>;
 
 }

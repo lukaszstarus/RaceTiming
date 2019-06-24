@@ -1,4 +1,3 @@
-import { PlayerService } from '../../services/player-service/player.service';
 import { HttpClient } from '@angular/common/http';
 import { CompetitionService } from '../../services/competition-service/competition.service';
 import { Competition } from '../../models/competition/competition';
@@ -20,7 +19,7 @@ export class CompetitionsListComponent implements OnInit {
   data: any[];
   competitionId: string;
 
-  constructor(private competitionService: CompetitionService, private router: Router, private playerService: PlayerService) {
+  constructor(private competitionService: CompetitionService, private router: Router) {
   }
 
 
@@ -49,7 +48,7 @@ export class CompetitionsListComponent implements OnInit {
   }
     gotoDetails(id: number) {
     this.competitionService.competitionId = id;
-    this.competitionService.saveInLocal("compId", id);
+    this.competitionService.saveInLocal('compId', id);
     this.router.navigateByUrl('/competitiondetails');
   }
 

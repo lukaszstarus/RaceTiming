@@ -1,4 +1,3 @@
-import { PlayerService } from './services/player-service/player.service';
 import { CompetitionService } from './services/competition-service/competition.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -9,20 +8,27 @@ import { CompetitionsListComponent } from './components/competitions-list/compet
 import { HttpClientModule } from '@angular/common/http';
 import { CompetitionDetailsComponent } from './components/competition-details/competition-details.component';
 import { StorageServiceModule } from 'angular-webstorage-service';
+import { LoginFormComponent } from './components/login-form/login-form.component';
+import { LoginService } from './services/login-service/login.service';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     CompetitionsListComponent,
-    CompetitionDetailsComponent
+    CompetitionDetailsComponent,
+    LoginFormComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    StorageServiceModule
+    StorageServiceModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
-  providers: [CompetitionService, PlayerService],
+  providers: [CompetitionService, LoginService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

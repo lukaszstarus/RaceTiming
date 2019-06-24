@@ -53,8 +53,8 @@ public class CompetitionController {
         return loginRepository.findByEmail(loginData.getEmail(), loginData.getPassword());
     }
     @PostMapping("/competitiondetails")
-    public void singInToCompetitions(@RequestBody Competition competition){
-        competitionRepostiory.save(competition);
+    public void singInToCompetitions(@RequestBody Player player){
+        playerRepository.save(player);
     }
     
 }

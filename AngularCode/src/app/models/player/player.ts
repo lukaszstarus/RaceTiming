@@ -1,4 +1,5 @@
 import { StringifyOptions } from 'querystring';
+import { Competition } from '../competition/competition';
 
 export class Player {
 id: number;
@@ -11,4 +12,5 @@ sex: string;
 phone: string;
 team: string;
 license: string;
+competitions: Array<Competition>;
 }

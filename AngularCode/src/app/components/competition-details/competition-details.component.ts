@@ -1,8 +1,10 @@
-import { CompetitionService } from '../../services/competition-service/competition.service';
-import { Component, OnInit } from '@angular/core';
-import { Competition } from 'src/app/models/competition/competition';
-import { PlayerService } from 'src/app/services/player-service/player.service';
 import { Player } from 'src/app/models/player/player';
+import { CompetitionSingInData } from './../../models/competitionSignInData/competition-sing-in-data';
+import { Router } from '@angular/router';
+import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
+import { CompetitionService } from '../../services/competition-service/competition.service';
+import { Component, OnInit, Inject } from '@angular/core';
+import { Competition } from 'src/app/models/competition/competition';
 
 @Component({
   selector: 'app-competition-details',
@@ -10,18 +12,25 @@ import { Player } from 'src/app/models/player/player';
   styleUrls: ['./competition-details.component.css']
 })
 export class CompetitionDetailsComponent implements OnInit {
-  competition: Competition;
-  ids=[1,2,3,4,5,6,7];
-  constructor(private competitionService: CompetitionService, private playerService: PlayerService) { }
+  competition: Competition ;
+  newPlayer:Player
+
+  competitionSignInData: CompetitionSingInData = new CompetitionSingInData();
+  constructor(private competitionService: CompetitionService, @Inject(LOCAL_STORAGE) private storage: WebStorageService, private router:Router) { }
 
   ngOnInit() {
     this.competitionService.findById().subscribe(
       (data: any) => {
         this.competition = data;
         this.competition.Players = data.players;
-        console.log(data); }
-    );
-    console.log("competition:"+ this.competition);
+      });
+  }
+  signIn(){
+    this.newPlayer =this.storage.get('player');
+    if(!this.competition.Players.some((player)=> player.id==this.newPlayer.id)) {
+      this.newPlayer.competitions.push(this.competition)
+      this.competitionService.singToCompetitions(this.newPlayer).subscribe(sth=>this.router.navigateByUrl('/competitiondetails'));
+    }else{console.log("already exist in this competitions")}
   }
 
 }
