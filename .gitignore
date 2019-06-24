@@ -351,3 +351,4 @@ MigrationBackup/
 # End of https://www.gitignore.io/api/csharp
 /AspNetApi/.vs/
 /OpenJDK11U-jdk_x64_windows_hotspot_11.0.3_7.msi
+/raceangular/
