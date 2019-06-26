@@ -45,7 +45,7 @@ public class CompetitionController {
     @GetMapping("/competitiondetails/{id}")
     public Competition getCompetitionsDetails(@PathVariable("id") long id){
         Competition competitionDetails=competitionRepostiory.findById(id);
-        competitionDetails.setPlayers(playerRepository.findByCompetitionsId(id));
+        // competitionDetails.setPlayers(playerRepository.findByCompetitionsId(id));
         return competitionDetails;
     }
     @PostMapping("/login")
@@ -53,8 +53,8 @@ public class CompetitionController {
         return loginRepository.findByEmail(loginData.getEmail(), loginData.getPassword());
     }
     @PostMapping("/competitiondetails")
-    public void singInToCompetitions(@RequestBody Player player){
-        playerRepository.save(player);
+    public void singInToCompetitions(@RequestBody Competition competition){
+        competitionRepostiory.save(competition);
     }
     
 }

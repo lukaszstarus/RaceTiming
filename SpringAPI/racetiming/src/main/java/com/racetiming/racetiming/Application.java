@@ -21,8 +21,10 @@ import com.racetiming.racetiming.repositories.PlayerRepository;
 import com.racetiming.racetiming.repositories.RolesRepository;
 
 import org.joda.time.DateTime;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class Application {
@@ -44,11 +46,11 @@ public class Application {
         List<Competition> competitions= new ArrayList<>();
         List<Competition> compForCategories= new ArrayList<>();
         List<Player> playersList= new ArrayList<>();
+        List<Player> playersInCompetition= new ArrayList<>();
         List<Category> categoriesList = new ArrayList<>();
         List<PlayerCategory> playerCategoryList= new ArrayList<>();
         List<Login> loginList= new ArrayList<>();
         List<Role> roleList= new ArrayList<>();
-
         List<String> citiesList = new ArrayList<String>();
         List<String> countriesList = new ArrayList<String>();
         List<String> teamsList= new ArrayList<>();
@@ -59,21 +61,22 @@ public class Application {
         DateTime competitionDate= DateTime.now();
         Competition competition= new Competition();
         Category category= new Category();
+        Player player= new Player();
 
         
         try{
-            Scanner names = new Scanner(new File ("racetiming\\src\\main\\java\\com\\racetiming\\racetiming\\files\\Names.txt"));
+            Scanner names = new Scanner(new File ("Racetiming\\SpringApi\\racetiming\\src\\main\\java\\com\\racetiming\\racetiming\\files\\Names.txt"));
             Scanner splitnames;
-            Scanner cities = new Scanner(new File ("racetiming\\src\\main\\java\\com\\racetiming\\racetiming\\files\\Cities.txt"));
-            Scanner disciplines = new Scanner(new File ("racetiming\\src\\main\\java\\com\\racetiming\\racetiming\\files\\Disciplines.txt"));
-            Scanner descriptions = new Scanner(new File ("racetiming\\src\\main\\java\\com\\racetiming\\racetiming\\files\\Descriptions.txt"));
-            Scanner urls = new Scanner(new File ("racetiming\\src\\main\\java\\com\\racetiming\\racetiming\\files\\Url.txt"));
-            Scanner categories = new Scanner(new File ("racetiming\\src\\main\\java\\com\\racetiming\\racetiming\\files\\Categories.txt"));
-            Scanner playerNames = new Scanner(new File ("racetiming\\src\\main\\java\\com\\racetiming\\racetiming\\files\\PlayerNames.txt"));
-            Scanner countries = new Scanner(new File ("racetiming\\src\\main\\java\\com\\racetiming\\racetiming\\files\\Countries.txt"));
-            Scanner phoneNumbers = new Scanner(new File ("racetiming\\src\\main\\java\\com\\racetiming\\racetiming\\files\\PhoneNumbers.txt"));
-            Scanner teams = new Scanner(new File ("racetiming\\src\\main\\java\\com\\racetiming\\racetiming\\files\\Teams.txt"));
-            Scanner licenses = new Scanner(new File ("racetiming\\src\\main\\java\\com\\racetiming\\racetiming\\files\\Licenses.txt"));
+            Scanner cities = new Scanner(new File ("Racetiming\\SpringApi\\racetiming\\src\\main\\java\\com\\racetiming\\racetiming\\files\\Cities.txt"));
+            Scanner disciplines = new Scanner(new File ("Racetiming\\SpringApi\\racetiming\\src\\main\\java\\com\\racetiming\\racetiming\\files\\Disciplines.txt"));
+            Scanner descriptions = new Scanner(new File ("Racetiming\\SpringApi\\racetiming\\src\\main\\java\\com\\racetiming\\racetiming\\files\\Descriptions.txt"));
+            Scanner urls = new Scanner(new File ("Racetiming\\SpringApi\\racetiming\\src\\main\\java\\com\\racetiming\\racetiming\\files\\Url.txt"));
+            Scanner categories = new Scanner(new File ("Racetiming\\SpringApi\\racetiming\\src\\main\\java\\com\\racetiming\\racetiming\\files\\Categories.txt"));
+            Scanner playerNames = new Scanner(new File ("Racetiming\\SpringApi\\racetiming\\src\\main\\java\\com\\racetiming\\racetiming\\files\\PlayerNames.txt"));
+            Scanner countries = new Scanner(new File ("Racetiming\\SpringApi\\racetiming\\src\\main\\java\\com\\racetiming\\racetiming\\files\\Countries.txt"));
+            Scanner phoneNumbers = new Scanner(new File ("Racetiming\\SpringApi\\racetiming\\src\\main\\java\\com\\racetiming\\racetiming\\files\\PhoneNumbers.txt"));
+            Scanner teams = new Scanner(new File ("Racetiming\\SpringApi\\racetiming\\src\\main\\java\\com\\racetiming\\racetiming\\files\\Teams.txt"));
+            Scanner licenses = new Scanner(new File ("Racetiming\\SpringApi\\racetiming\\src\\main\\java\\com\\racetiming\\racetiming\\files\\Licenses.txt"));
 
             
             //------------------------Generate Countries---------------------------------------------
@@ -96,57 +99,25 @@ public class Application {
             roleList.add(new Role("player"));
             roleList.add(new Role("admin"));
 
-            //------------------------Competitions table-----------------------------------------------
-            while(names.hasNext()){
-                cityIndex=new Random().nextInt(citiesList.size()-1);
-                splitnames =new Scanner(names.nextLine());
-                competitions.add(
-                    new Competition(
-                        splitnames.next(),
-                        citiesList.get(cityIndex),
-                        discList.get(new Random().nextInt(discList.size()-1)),
-                        new Date(competitionDate.minusDays(new Random().nextInt(1000)-100).getMillis()),
-                        splitnames.next(),
-                        new Date(competitionDate.plusDays(60).getMillis()),
-                        descriptions.nextLine(),
-                        urls.nextLine(),
-                        new Random().nextInt(1000)/10*10,
-                        urls.nextLine()
-                    ));
-                splitnames.close();
-            }
             //------------------------Category table-----------------------------------------------
-            while(categories.hasNext()){
-                categoriesList.add(
-                    new Category(
-                        categories.nextLine(),
-                        competitions
-                    ));
-                
-            }
+                    while(categories.hasNext()){
+                        categoriesList.add(
+                            new Category(
+                                categories.nextLine()
+                            ));
+                    }
+         
             //------------------------Player table-----------------------------------------------
             cities.reset();
             while(playerNames.hasNext()){
                 splitnames =new Scanner(playerNames.nextLine());
-                if(new Random().nextInt(3)>2){
+                if(new Random().nextInt(3)>1){
                     sex="female";
                 }else {
                     sex="male";
                 }
-                compForCategories.clear();
-                for(int i=0; i<competitions.size()/2; i++){
-                    competition=competitions.get(new Random().nextInt(competitions.size()-1));
-                    if (!compForCategories.contains(competition))
-                        compForCategories.add(competition);
-                }
                 String name=splitnames.next();
-                loginList.add(
-                    new Login(
-                        name+"@gmail.com",
-                        "12345",
-                        roleList.get(0)                        
-                    )
-                );
+                
                 playersList.add(
                     new Player(
                         name,
@@ -157,14 +128,56 @@ public class Application {
                         sex,
                         phoneNumbers.nextLine(),
                         teamsList.get(new Random().nextInt(teamsList.size()-1)),
-                        licenses.next(),
-                        loginList.get(loginList.size()-1),
-                        compForCategories
+                        licenses.next()
                     ));
-                
-                
+                    loginList.add(
+                    new Login(
+                        name+"@gmail.com",
+                        "12345",
+                        roleList.get(0),
+                        playersList.get(playersList.size()-1)         
+                    )
+                );
+            }
+            //------------------------Competitions table-----------------------------------------------
+            for(int i=0; i<competitions.size()/2; i++){
+                player=playersList.get(new Random().nextInt(playersList.size()-1));
+                if (!playersInCompetition.contains(player))
+                    playersInCompetition.add(player);
+            }   
+            while(names.hasNext()){
+                playersInCompetition= new ArrayList<>();
+                for(int i=0; i<competitions.size()/2; i++){
+                    player=playersList.get(new Random().nextInt(playersList.size()-1));
+                    if (!playersInCompetition.contains(player))
+                        playersInCompetition.add(player);
+                }   
+                cityIndex=new Random().nextInt(citiesList.size()-1);
+                splitnames =new Scanner(names.nextLine());
+                competitions.add(
+                    new Competition(
+                        splitnames.next() +" Competitions",
+                        citiesList.get(cityIndex),
+                        discList.get(new Random().nextInt(discList.size()-1)),
+                        new Date(competitionDate.minusDays(new Random().nextInt(1000)-100).getMillis()),
+                        splitnames.next(),
+                        new Date(competitionDate.plusDays(60).getMillis()),
+                        descriptions.nextLine(),
+                        urls.nextLine(),
+                        new Random().nextInt(1000)/10*10,
+                        urls.nextLine(),
+                        playersInCompetition,
+                        categoriesList
+                    ));
+                splitnames.close();
+            }
             //------------------------PlayerCategory table-----------------------------------------------
-                    category =categoriesList.get(new Random().nextInt(categoriesList.size()-1));
+            for(int i=0; i<competitions.size()/2; i++){
+                competition=competitions.get(new Random().nextInt(competitions.size()-1));
+                if (!compForCategories.contains(competition))
+                    compForCategories.add(competition);
+            }   
+                category =categoriesList.get(new Random().nextInt(categoriesList.size()-1));
                     for (Competition comp : compForCategories) {
                         playerCategoryList.add( 
                             new PlayerCategory(
@@ -173,13 +186,12 @@ public class Application {
                                 category
                         ));
                     }
-            }
             
-            rolesRepository.saveAll(roleList);
-            loginRepository.saveAll(loginList);
-            competitionRepository.saveAll(competitions);
             categoriesRepository.saveAll(categoriesList);
             playerRepository.saveAll(playersList);
+            competitionRepository.saveAll(competitions);
+            rolesRepository.saveAll(roleList);
+            loginRepository.saveAll(loginList);
             playerCategoryRepository.saveAll(playerCategoryList); 
 
             urls.close();

@@ -34,6 +34,8 @@ public class Competition {
 	
 	@ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
 	private List<Player> players = new ArrayList<Player>();
+	@ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+	private List<Category> categories = new ArrayList<Category>();
 
 	public Competition() {
 	}
@@ -146,6 +148,47 @@ public class Competition {
 
 	public void setPlayers(List<Player> players) {
 		this.players = players;
+	}
+
+	public List<Category> getCategories() {
+		return categories;
+	}
+
+	public void setCategories(List<Category> categories) {
+		this.categories = categories;
+	}
+
+	public Competition(String name, String place, String dyscipline, Date date, String organizer, Date deadlineDate,
+			String description, String regUrl, int playersLimit, String resultsUrl,
+			List<Category> categories) {
+		this.name = name;
+		this.place = place;
+		this.dyscipline = dyscipline;
+		this.date = date;
+		this.organizer = organizer;
+		this.deadlineDate = deadlineDate;
+		this.description = description;
+		this.regUrl = regUrl;
+		this.playersLimit = playersLimit;
+		this.resultsUrl = resultsUrl;
+		this.categories = categories;
+	}
+
+	public Competition(String name, String place, String dyscipline, Date date, String organizer, Date deadlineDate,
+			String description, String regUrl, int playersLimit, String resultsUrl, List<Player> players,
+			List<Category> categories) {
+		this.name = name;
+		this.place = place;
+		this.dyscipline = dyscipline;
+		this.date = date;
+		this.organizer = organizer;
+		this.deadlineDate = deadlineDate;
+		this.description = description;
+		this.regUrl = regUrl;
+		this.playersLimit = playersLimit;
+		this.resultsUrl = resultsUrl;
+		this.players = players;
+		this.categories = categories;
 	}
 
 	    

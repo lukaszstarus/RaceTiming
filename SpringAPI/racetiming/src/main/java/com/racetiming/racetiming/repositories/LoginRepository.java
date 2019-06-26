@@ -11,7 +11,7 @@ import org.springframework.data.repository.query.Param;
  * LoginRepository
  */
 public interface LoginRepository extends CrudRepository<Login,Long> {
-    @Query("Select p from Player p join p.login l where l.email=:mail and l.password=:passwd")
+    @Query("Select p from Login l join l.player p where l.email=:mail and l.password=:passwd")
     Player findByEmail(@Param("mail") String mail, @Param("passwd") String passwd);
 
     

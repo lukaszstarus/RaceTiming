@@ -13,10 +13,10 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface PlayerRepository extends CrudRepository<Player, Long> {
-    @Query("select new com.racetiming.racetiming.models.Player(p.name as name, p.surname as surname, p.city as city,"+
-    " p.country as country, p.sex as sex, p.team as team)"+
-    " from Player p join p.competitions pc"+
-    " where pc.id=:id")
-    List<Player> findByCompetitionsId(@Param("id") long id);
+    // @Query("select new com.racetiming.racetiming.models.Player(p.name as name, p.surname as surname, p.city as city,"+
+    // " p.country as country, p.sex as sex, p.team as team)"+
+    // " from Player p join p.competitions pc"+
+    // " where pc.id=:id")
+    // List<Player> findByCompetitionsId(@Param("id") long id);
     
 }

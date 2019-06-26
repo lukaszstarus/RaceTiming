@@ -13,6 +13,8 @@ public class Login {
     private String password;
 	@ManyToOne
 	private Role role;
+	@OneToOne()
+	private Player player;
 
 
 	public Login() {
@@ -53,6 +55,13 @@ public class Login {
 		this.email = email;
 		this.password = password;
 		this.role = role;
+	}
+
+	public Login(String email, String password, Role role, Player player) {
+		this.email = email;
+		this.password = password;
+		this.role = role;
+		this.player = player;
 	}
 
 

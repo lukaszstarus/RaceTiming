@@ -1,16 +1,11 @@
 package com.racetiming.racetiming.models;
 
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
 
 /**
  * Player
@@ -28,22 +23,6 @@ private String sex;
 private String phone;
 private String team;
 private String license;
-
-@OneToOne
-private Login login;
-
-@ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
-private List<Competition> competitions = new ArrayList<Competition>();
-
-
-	public Player() {}
-	public List<Competition> getCompetitions() {
-		return this.competitions;
-	}
-
-	public void setCompetitions(List<Competition> competitions) {
-		this.competitions = competitions;
-	}
 
 
 	public long getId() {
@@ -126,18 +105,11 @@ private List<Competition> competitions = new ArrayList<Competition>();
 		this.license = License;
 	}
 
-	
-
-	public Login getLogin() {
-		return login;
-	}
-
-	public void setLogin(Login login) {
-		this.login = login;
+	public Player() {
 	}
 
 	public Player(String name, String surname, String city, Date birthDate, String country, String sex, String phone,
-			String team, String license, Login login, List<Competition> competitions) {
+			String team, String license) {
 		this.name = name;
 		this.surname = surname;
 		this.city = city;
@@ -147,8 +119,6 @@ private List<Competition> competitions = new ArrayList<Competition>();
 		this.phone = phone;
 		this.team = team;
 		this.license = license;
-		this.login = login;
-		this.competitions = competitions;
 	}
 
 	public Player(String name, String surname, String city, String country, String sex, String team) {
