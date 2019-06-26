@@ -12,11 +12,14 @@ import { Competition } from 'src/app/models/competition/competition';
   styleUrls: ['./competition-details.component.css']
 })
 export class CompetitionDetailsComponent implements OnInit {
-  competition: Competition ;
-  newPlayer:Player
+  newPlayer: Player;
+  competition: Competition;
 
   competitionSignInData: CompetitionSingInData = new CompetitionSingInData();
-  constructor(private competitionService: CompetitionService, @Inject(LOCAL_STORAGE) private storage: WebStorageService, private router:Router) { }
+  constructor(private competitionService: CompetitionService, @Inject(LOCAL_STORAGE) private storage: WebStorageService,
+  private router: Router) {
+    this.competition.Players = new Array<Player>();
+  }
 
   ngOnInit() {
     this.competitionService.findById().subscribe(
@@ -25,12 +28,12 @@ export class CompetitionDetailsComponent implements OnInit {
         this.competition.Players = data.players;
       });
   }
-  signIn(){
-    this.newPlayer =this.storage.get('player');
-    if(!this.competition.Players.some((player)=> player.id==this.newPlayer.id)) {
-      this.newPlayer.competitions.push(this.competition)
-      this.competitionService.singToCompetitions(this.newPlayer).subscribe(sth=>this.router.navigateByUrl('/competitiondetails'));
-    }else{console.log("already exist in this competitions")}
+  signIn() {
+    this.newPlayer = this.storage.get('player');
+    if (!this.competition.Players.some(player=>player.id===this.newPlayer.id)){
+      this.competition.Players.push(this.newPlayer);
+      this.competitionService.singToCompetitions(this.competition).subscribe(sth => this.router.navigateByUrl('/competitiondetails'));
+    } else {console.log('already exist in this competitions');}
   }
 
 }

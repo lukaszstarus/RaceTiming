@@ -12,9 +12,16 @@ import { Router } from '@angular/router';
 })
 export class AppComponent {
   title = 'RaceTiming!!!!';
-  constructor(@Inject(LOCAL_STORAGE) private storage: WebStorageService, private route: Router) {}
+  isLoggedIn:boolean;
+  isLoggedOut=!this.isLoggedIn;
+  constructor(@Inject(LOCAL_STORAGE) private storage: WebStorageService, private route: Router) {
+    this.isLoggedIn=this.storage.get("loggedIn");
+  }
   logout() {
     this.setInLocal('loggedIn', false);
+    this.isLoggedIn=false;
+    this.isLoggedOut=true;
+    window.location.reload();
     this.route.navigateByUrl('/login');
   }
   setInLocal(key, val) {

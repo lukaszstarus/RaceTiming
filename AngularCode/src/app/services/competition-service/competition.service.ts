@@ -34,9 +34,9 @@ export class CompetitionService {
       this.getFromLocal('compId');
       return this.http.get(this.competitionDetailsUrl + "/"+this.data);
     }
-    public singToCompetitions(player: Player):Observable<any>{
+    public singToCompetitions(competition: Competition):Observable<any>{
       console.log("We are in service signToCompetition");
-      return this.http.post<any>(this.competitionDetailsUrl, player);
+      return this.http.post<any>(this.competitionDetailsUrl, competition);
     }
 
 

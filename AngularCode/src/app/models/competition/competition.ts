@@ -1,4 +1,6 @@
+import { Competition } from './competition';
 import { Player } from '../player/player';
+import { Category } from '../category/category';
 
 export interface Competition {
     Id: string;
@@ -14,5 +16,6 @@ export interface Competition {
     ResultsUrl: string;
     TotalPages: string;
     Players: Array<Player>;
+    Categories: Array<Category>;
 
 }

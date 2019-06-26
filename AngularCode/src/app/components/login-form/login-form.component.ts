@@ -3,6 +3,7 @@ import { LoginService } from './../../services/login-service/login.service';
 import { Component, Inject, OnInit } from '@angular/core';
 import { LoginData } from 'src/app/models/login/login-data';
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-form',
@@ -10,7 +11,7 @@ import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
   styleUrls: ['./login-form.component.css']
 })
 export class LoginFormComponent implements OnInit {
-  constructor(private loginService: LoginService, @Inject(LOCAL_STORAGE) private storage: WebStorageService) {
+  constructor(private loginService: LoginService,private router:Router, @Inject(LOCAL_STORAGE) private storage: WebStorageService) {
     this.login = new LoginData();
   }
   loggedIn = false;
@@ -22,12 +23,15 @@ export class LoginFormComponent implements OnInit {
 
   onSubmit() {
     console.log(this.login);
-    this.loginService.login(this.login).subscribe(data => this.player = data);
-    if (this.player) {
-      this.loggedIn = true;
-      this.saveInLocal('loggedIn', this.loggedIn);
-      this.saveInLocal('player', this.player);
-    }
+    this.loginService.login(this.login).subscribe(data => {
+      this.player = data;
+      if (this.player) {
+        this.loggedIn = true;
+        this.saveInLocal('loggedIn', this.loggedIn);
+        this.saveInLocal('player', this.player);
+        this.router.navigateByUrl('/competitions').then(s=>window.location.reload());
+      }
+    });
   }
   saveInLocal(key, val): void {
     console.log('recieved= key:' + key + 'value:' + val);
