@@ -1,5 +1,8 @@
 package com.racetiming.racetiming.controllers;
 
+import java.sql.Date;
+import java.util.List;
+
 import com.racetiming.racetiming.models.Competition;
 import com.racetiming.racetiming.models.Login;
 import com.racetiming.racetiming.models.Player;
@@ -34,7 +37,16 @@ public class CompetitionController {
 
     @GetMapping("/competitions")
     public Page<Competition> getAllCompetitions(){
-        Page <Competition> allCompetitions=competitionRepostiory.findAll(PageRequest.of(0, 10, Sort.by("date")));
+        java.util.Date utilDate= new  java.util.Date();
+        java.sql.Date today = new java.sql.Date(utilDate.getTime());
+        Page <Competition> allCompetitions=competitionRepostiory.findAll(today,PageRequest.of(0, 10, Sort.by("date")));
+        return allCompetitions;
+    }
+    @GetMapping("/oldCompetitions/{page}")
+    public Page<Competition> getOldCompetitions(@PathVariable("page")int page){
+        java.util.Date utilDate= new  java.util.Date();
+        java.sql.Date today = new java.sql.Date(utilDate.getTime());
+        Page <Competition> allCompetitions=competitionRepostiory.findOld(today, PageRequest.of(page-1, 10, Sort.by("date")));
         return allCompetitions;
     }
     @GetMapping("/competitions/{page}")
@@ -45,16 +57,24 @@ public class CompetitionController {
     @GetMapping("/competitiondetails/{id}")
     public Competition getCompetitionsDetails(@PathVariable("id") long id){
         Competition competitionDetails=competitionRepostiory.findById(id);
-        // competitionDetails.setPlayers(playerRepository.findByCompetitionsId(id));
         return competitionDetails;
+    }
+    @GetMapping("/playercompetitions/{id}/{page}")
+    public Page<Competition> getPlayerCompetitions(@PathVariable("id") long id, @PathVariable("page") int page){
+        return competitionRepostiory.findByPlayerId(id,PageRequest.of(page-1,10,Sort.by("date")));
     }
     @PostMapping("/login")
     public Player getLoginData(@RequestBody Login loginData){
-        return loginRepository.findByEmail(loginData.getEmail(), loginData.getPassword());
+        Player player= loginRepository.findByEmail(loginData.getEmail(), loginData.getPassword());
+        return player;
     }
     @PostMapping("/competitiondetails")
     public void singInToCompetitions(@RequestBody Competition competition){
         competitionRepostiory.save(competition);
+    }
+    @PostMapping("/player")
+    public void savePlayer(@RequestBody Player player){
+        playerRepository.save(player);
     }
     
 }

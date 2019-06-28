@@ -21,10 +21,8 @@ import com.racetiming.racetiming.repositories.PlayerRepository;
 import com.racetiming.racetiming.repositories.RolesRepository;
 
 import org.joda.time.DateTime;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class Application {

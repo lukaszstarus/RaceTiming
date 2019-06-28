@@ -6,6 +6,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
+
+
 
 /**
  * Player
@@ -23,6 +30,8 @@ private String sex;
 private String phone;
 private String team;
 private String license;
+@Transient
+private int role;
 
 
 	public long getId() {
@@ -129,6 +138,12 @@ private String license;
 		this.sex = sex;
 		this.team = team;
 	}
-
-
+	@JsonGetter
+	public int getRole() {
+		return role;
+	}
+	@JsonSetter
+	public void setRole(int role) {
+		this.role = role;
+	}
 }
