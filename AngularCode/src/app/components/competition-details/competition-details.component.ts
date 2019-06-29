@@ -17,7 +17,7 @@ export class CompetitionDetailsComponent implements OnInit {
 
   competitionSignInData: CompetitionSingInData = new CompetitionSingInData();
   constructor(private competitionService: CompetitionService, @Inject(LOCAL_STORAGE) private storage: WebStorageService,
-  private router: Router) {
+              private router: Router) {
     this.competition.Players = new Array<Player>();
   }
 
@@ -30,10 +30,10 @@ export class CompetitionDetailsComponent implements OnInit {
   }
   signIn() {
     this.newPlayer = this.storage.get('player');
-    if (!this.competition.Players.some(player=>player.id===this.newPlayer.id)){
+    if (!this.competition.Players.some(player => player.id === this.newPlayer.id)) {
       this.competition.Players.push(this.newPlayer);
       this.competitionService.singToCompetitions(this.competition).subscribe(sth => this.router.navigateByUrl('/competitiondetails'));
-    } else {console.log('already exist in this competitions');}
+    } else {console.log('already exist in this competitions'); }
   }
 
 }

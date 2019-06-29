@@ -1,4 +1,10 @@
-a{
-  margin: 1;
-  display: inline;
+.page-item{
+  float: left;
+}
+
+.page-link{
+  padding: .75rem 2rem;
+}
+.page{
+  padding: .9rem 2rem;
 }

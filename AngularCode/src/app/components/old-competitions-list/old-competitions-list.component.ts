@@ -1,16 +1,14 @@
-import { HttpClient } from '@angular/common/http';
-import { CompetitionService } from '../../services/competition-service/competition.service';
-import { Competition } from '../../models/competition/competition';
-import { Component, OnInit, Output } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
-import { EventEmitter } from 'events';
+import { Component, OnInit } from '@angular/core';
+import { Competition } from 'src/app/models/competition/competition';
+import { CompetitionService } from 'src/app/services/competition-service/competition.service';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-competitions-list',
-  templateUrl: './competitions-list.component.html',
-  styleUrls: ['./competitions-list.component.css']
+  selector: 'app-old-competitions-list',
+  templateUrl: './old-competitions-list.component.html',
+  styleUrls: ['./old-competitions-list.component.css']
 })
-export class CompetitionsListComponent implements OnInit {
+export class OldCompetitionsListComponent implements OnInit {
 
   competitions: Competition[];
   currentPage: number;
@@ -18,19 +16,13 @@ export class CompetitionsListComponent implements OnInit {
   totalPages: number;
   data: any[];
   competitionId: string;
-  date: Date;
-  upcomingCompetitions: Array<Competition>;
-  pastCompetitions: Array<Competition>;
   constructor(private competitionService: CompetitionService, private router: Router) {
-    this.date = new Date();
-    this.upcomingCompetitions = new Array();
-    this.pastCompetitions = new Array();
-  }
+      }
 
 
   ngOnInit() {
     this.currentPage = 1;
-    this.competitionService.findAll().subscribe(
+    this.competitionService.findOld(1).subscribe(
       (data: any) => {console.log(data.totalPages);
                       this.competitions = data.content;
                       this.totalPages = data.totalPages;
@@ -43,7 +35,7 @@ export class CompetitionsListComponent implements OnInit {
   }
   setPage(page: number) {
     this.currentPage = page;
-    this.competitionService.findPaged(page).subscribe(
+    this.competitionService.findOld(page).subscribe(
       (data: any) => {
         this.competitions = data.content;
         this.totalPages = data.totalPages;

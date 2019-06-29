@@ -24,12 +24,13 @@ export class LoginFormComponent implements OnInit {
   onSubmit() {
     console.log(this.login);
     this.loginService.login(this.login).subscribe(data => {
+      console.log(data);
       this.player = data;
       if (this.player) {
         this.loggedIn = true;
         this.saveInLocal('loggedIn', this.loggedIn);
         this.saveInLocal('player', this.player);
-        this.router.navigateByUrl('/competitions').then(s=>window.location.reload());
+        // this.router.navigateByUrl('/competitions').then(s=>window.location.reload());
       }
     });
   }

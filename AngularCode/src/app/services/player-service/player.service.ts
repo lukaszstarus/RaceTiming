@@ -3,13 +3,16 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Player } from 'src/app/models/player/player';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class PlayerService {
-  playerUrl = 'localhost:8080/players/';
-  competitionId: number;
-  constructor(private http: HttpClient) { }
+playerUrl: string;
+  constructor(private http: HttpClient) {
+    this.playerUrl = 'http://localhost:8080/player';
+   }
 
-  public findByCompetitionId(): Observable<Player[]> {
-    return this.http.get<Player[]>(this.playerUrl + 91);
-  }
+   public savePlayer(player: Player): Observable<any> {
+      return this.http.post(this.playerUrl, player);
+   }
 }

@@ -7,7 +7,7 @@ export interface Competition {
     Name: string;
     Place: string;
     Dyscipline: string;
-    Date: string;
+    Date: Date;
     Organizer: string;
     DeadlineDate: string;
     Description: string;

@@ -15,39 +15,48 @@ import { Player } from 'src/app/models/player/player';
 export class CompetitionService {
   competitionUrl: string;
   competitionDetailsUrl: string;
+  playerCompetitionsUrl: string;
   competitionId: number;
   data: number;
-  constructor(private http: HttpClient, @Inject(LOCAL_STORAGE) private storage: WebStorageService) {
+  constructor(
+    private http: HttpClient,
+    @Inject(LOCAL_STORAGE) private storage: WebStorageService
+  ) {
     this.competitionUrl = 'http://localhost:8080/competitions/';
     this.competitionDetailsUrl = 'http://localhost:8080/competitiondetails';
-   }
-   /**
-    * findAll
-    */
-   public findAll() {
-     return this.http.get(this.competitionUrl);
-   }
-   public findPaged(page: number) {
+    this.playerCompetitionsUrl = 'http://localhost:8080/playercompetitions';
+  }
+  /**
+   * findAll
+   */
+  public findAll() {
+    return this.http.get(this.competitionUrl);
+  }
+  public findPaged(page: number) {
     return this.http.get(this.competitionUrl + page);
-    }
-    public findById() {
-      this.getFromLocal('compId');
-      return this.http.get(this.competitionDetailsUrl + "/"+this.data);
-    }
-    public singToCompetitions(competition: Competition):Observable<any>{
-      console.log("We are in service signToCompetition");
-      return this.http.post<any>(this.competitionDetailsUrl, competition);
-    }
+  }
+  public findOld(page: number) {
+    return this.http.get(this.competitionUrl + page);
+  }
+  public findById() {
+    this.getFromLocal('compId');
+    return this.http.get(this.competitionDetailsUrl + '/' + this.data);
+  }
+  public singToCompetitions(competition: Competition): Observable<any> {
+    return this.http.post<any>(this.competitionDetailsUrl, competition);
+  }
+  public findPlayersCompetitions(id: number, page: number) {
+    return this.http.get(this.playerCompetitionsUrl + '/' + id + '/' + page);
+  }
 
+  saveInLocal(key: any, val: any): void {
+    this.storage.set(key, val);
+    this.data[key] = this.storage.get(key);
+  }
 
-saveInLocal(key, val): void {
-  this.storage.set(key, val);
-  this.data[key] = this.storage.get(key);
- }
-
-getFromLocal(key): void {
+  getFromLocal(key: any): void {
     console.log('recieved= key:' + key);
     this.data = this.storage.get(key);
     console.log(this.data);
-   }
+  }
 }
