@@ -1,0 +1,18 @@
+.alert-danger {
+    display: inline-block;
+    width: 40%;
+    margin: 0px;
+}
+
+.form-control {
+    display: inline-block;
+    width: 30%;
+}
+
+label {
+    display: block;
+}
+
+.form-check-input {
+    position: relative;
+}
