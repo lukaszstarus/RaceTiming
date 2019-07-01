@@ -11,14 +11,14 @@ import javax.persistence.Id;
 @Entity
 public class Role {
 @Id @GeneratedValue(strategy = GenerationType.AUTO)
-private long Id;
+private int Id;
 private String name;
 
-	public long getId() {
+	public int getId() {
 		return this.Id;
 	}
 
-	public void setId(long Id) {
+	public void setId(int Id) {
 		this.Id = Id;
 	}
 

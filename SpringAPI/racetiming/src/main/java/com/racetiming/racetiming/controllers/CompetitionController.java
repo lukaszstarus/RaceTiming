@@ -2,6 +2,7 @@ package com.racetiming.racetiming.controllers;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Optional;
 
 import com.racetiming.racetiming.models.Competition;
 import com.racetiming.racetiming.models.Login;
@@ -14,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.repository.query.parser.Part.IgnoreCaseType;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,6 +37,8 @@ public class CompetitionController {
     private PlayerRepository playerRepository;
     @Autowired
     private LoginRepository loginRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping("/competitions")
     public Page<Competition> getAllCompetitions(){
@@ -65,8 +70,19 @@ public class CompetitionController {
     }
     @PostMapping("/login")
     public Player getLoginData(@RequestBody Login loginData){
-        Player player= loginRepository.findByEmail(loginData.getEmail(), loginData.getPassword());
-        return player;
+        Login login= loginRepository.findByEmail(loginData.getEmail());
+        if(passwordEncoder.matches(loginData.getPassword(), login.getPassword()))
+        {
+            Player player=login.getPlayer();
+            player.setRole(login.getRole().getId());
+            return player;
+        }
+        return null;
+    }
+    @PostMapping("/register")
+    public void registerUser(@RequestBody Login login){
+        login.setPassword(passwordEncoder.encode(login.getPassword()));
+        loginRepository.save(login);
     }
     @PostMapping("/competitiondetails")
     public void singInToCompetitions(@RequestBody Competition competition){
