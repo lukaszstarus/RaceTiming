@@ -15,6 +15,7 @@ import { MyDataComponent } from './components/my-data/my-data/my-data.component'
 import { MyCompetitionsComponent } from './components/my-competitions/my-competitions/my-competitions.component';
 import { PlayerService } from './services/player-service/player.service';
 import { OldCompetitionsListComponent } from './components/old-competitions-list/old-competitions-list.component';
+import { RegistrationComponent } from './components/registration/registration.component';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { OldCompetitionsListComponent } from './components/old-competitions-list
     LoginFormComponent,
     MyDataComponent,
     MyCompetitionsComponent,
-    OldCompetitionsListComponent
+    OldCompetitionsListComponent,
+    RegistrationComponent
   ],
   imports: [
     BrowserModule,

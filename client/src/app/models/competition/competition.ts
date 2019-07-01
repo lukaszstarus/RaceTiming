@@ -1,8 +1,7 @@
-import { Competition } from './competition';
 import { Player } from '../player/player';
 import { Category } from '../category/category';
 
-export interface Competition {
+export class Competition {
     Id: string;
     Name: string;
     Place: string;

@@ -9,11 +9,16 @@ import { Player } from 'src/app/models/player/player';
 })
 export class LoginService {
   loginUrl: string;
+  registerUrl: string;
   constructor(private http: HttpClient) {
     this.loginUrl = 'http://localhost:8080/login';
+    this.registerUrl = 'http://localhost:8080/register';
    }
 
    login(login: LoginData): Observable<Player> {
       return this.http.post<Player>(this.loginUrl, login);
+   }
+   register(login: LoginData) {
+     return this.http.post(this.registerUrl, login);
    }
 }

@@ -1,3 +1,4 @@
+import { RegistrationComponent } from './components/registration/registration.component';
 import { OldCompetitionsListComponent } from './components/old-competitions-list/old-competitions-list.component';
 import { MyCompetitionsComponent } from './components/my-competitions/my-competitions/my-competitions.component';
 import { MyDataComponent } from './components/my-data/my-data/my-data.component';
@@ -13,6 +14,7 @@ const routes: Routes = [
   {path: 'my-data', component: MyDataComponent},
   {path: 'my-competitions', component: MyCompetitionsComponent},
   {path: 'oldcompetitions', component: OldCompetitionsListComponent},
+  {path: 'registration', component: RegistrationComponent},
   {path: '', pathMatch: 'full', redirectTo: 'competitions' }
 ];
 

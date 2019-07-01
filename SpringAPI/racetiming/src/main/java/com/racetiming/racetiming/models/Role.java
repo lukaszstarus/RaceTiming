@@ -36,5 +36,9 @@ private String name;
 	public Role() {
 	}
 
+	public Role(int id) {
+		Id = id;
+	}
+
     
 }

@@ -1,10 +1,9 @@
 import { Player } from 'src/app/models/player/player';
-import { CompetitionSingInData } from './../../models/competitionSignInData/competition-sing-in-data';
 import { Router } from '@angular/router';
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
-import { CompetitionService } from '../../services/competition-service/competition.service';
 import { Component, OnInit, Inject } from '@angular/core';
 import { Competition } from 'src/app/models/competition/competition';
+import { CompetitionService } from 'src/app/services/competition-service/competition.service';
 
 @Component({
   selector: 'app-competition-details',
@@ -15,15 +14,16 @@ export class CompetitionDetailsComponent implements OnInit {
   newPlayer: Player;
   competition: Competition;
 
-  competitionSignInData: CompetitionSingInData = new CompetitionSingInData();
   constructor(private competitionService: CompetitionService, @Inject(LOCAL_STORAGE) private storage: WebStorageService,
               private router: Router) {
-    this.competition.Players = new Array<Player>();
   }
 
   ngOnInit() {
+    this.competition = new Competition();
+    this.competition.Players= new Array<Player>();
     this.competitionService.findById().subscribe(
       (data: any) => {
+        console.log(data);
         this.competition = data;
         this.competition.Players = data.players;
       });

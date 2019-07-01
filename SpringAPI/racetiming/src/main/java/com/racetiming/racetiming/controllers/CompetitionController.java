@@ -1,21 +1,17 @@
 package com.racetiming.racetiming.controllers;
 
-import java.sql.Date;
-import java.util.List;
-import java.util.Optional;
-
 import com.racetiming.racetiming.models.Competition;
 import com.racetiming.racetiming.models.Login;
 import com.racetiming.racetiming.models.Player;
 import com.racetiming.racetiming.repositories.CompetitionRepository;
 import com.racetiming.racetiming.repositories.LoginRepository;
 import com.racetiming.racetiming.repositories.PlayerRepository;
+import com.racetiming.racetiming.repositories.RolesRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.repository.query.parser.Part.IgnoreCaseType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,6 +35,8 @@ public class CompetitionController {
     private LoginRepository loginRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private RolesRepository roleRepository;
 
     @GetMapping("/competitions")
     public Page<Competition> getAllCompetitions(){
@@ -81,7 +79,9 @@ public class CompetitionController {
     }
     @PostMapping("/register")
     public void registerUser(@RequestBody Login login){
+        login.setRole(roleRepository.findByName("player"));
         login.setPassword(passwordEncoder.encode(login.getPassword()));
+        playerRepository.save(login.getPlayer());
         loginRepository.save(login);
     }
     @PostMapping("/competitiondetails")

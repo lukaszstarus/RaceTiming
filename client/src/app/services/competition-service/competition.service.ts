@@ -39,8 +39,7 @@ export class CompetitionService {
     return this.http.get(this.competitionUrl + page);
   }
   public findById() {
-    this.getFromLocal('compId');
-    return this.http.get(this.competitionDetailsUrl + '/' + this.data);
+    return this.http.get(this.competitionDetailsUrl + '/' + this.storage.get('compId'));
   }
   public singToCompetitions(competition: Competition): Observable<any> {
     return this.http.post<any>(this.competitionDetailsUrl, competition);
@@ -51,7 +50,7 @@ export class CompetitionService {
 
   saveInLocal(key: any, val: any): void {
     this.storage.set(key, val);
-    this.data[key] = this.storage.get(key);
+    this.data = this.storage.get(key);
   }
 
   getFromLocal(key: any): void {

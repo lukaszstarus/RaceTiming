@@ -7,6 +7,7 @@
           <ul class="text-center list-inline py-3">
             <li class="list-inline-item"><a routerLinkActive="active" routerLink="/competitions" class="btn btn-info">List Competitions</a></li>
             <li *ngIf="!isLoggedIn"class="list-inline-item"><a routerLinkActive="active" routerLink="/login" class="btn btn-info">Login</a></li>
+            <li *ngIf="!isLoggedIn"class="list-inline-item"><a routerLinkActive="active" routerLink="/registration" class="btn btn-info">Register</a></li>
 
               <div  *ngIf="isLoggedIn" class="dropdown show">
                 <a class="btn btn-secondary dropdown-toggle" ng-href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

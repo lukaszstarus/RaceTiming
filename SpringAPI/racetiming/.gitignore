@@ -3,6 +3,14 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**
 !**/src/test/**
+/AngularCode/.gitignore
+node_modules
+/AngularCode/
+AngularCode
+AngularCode/
+/.gitignore
+/.gitignore
+
 
 ### STS ###
 .apt_generated
