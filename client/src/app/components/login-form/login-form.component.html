@@ -7,7 +7,7 @@
         <input type="text" [(ngModel)]="login.email"
           class="form-control" id="email" name="email" placeholder="Enter your email"
           required #email="ngModel">
-        <div [hidden]="!login.pristine" class="alert alert-danger">Email is required</div>
+        <div [hidden]="!email.pristine" class="alert alert-danger">Email is required</div>
       </div>
       <div class="form-group">
         <label for="password">Password</label>
@@ -18,5 +18,6 @@
       </div>
       <button type="submit" [disabled]="!loginForm.form.valid" class="btn btn-info">Submit</button>
     </form>
+     <div *ngIf="loginFailed" class="alert alert-danger">Failed login. Chceck email or password!</div>
   </div>
 </div>

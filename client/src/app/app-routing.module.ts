@@ -11,7 +11,7 @@ const routes: Routes = [
   {path: 'competitions', component: CompetitionsListComponent},
   {path: 'competitiondetails', component: CompetitionDetailsComponent},
   {path: 'login', component: LoginFormComponent},
-  {path: 'my-data', component: MyDataComponent},
+  {path: 'my-data', component: RegistrationComponent},
   {path: 'my-competitions', component: MyCompetitionsComponent},
   {path: 'oldcompetitions', component: OldCompetitionsListComponent},
   {path: 'registration', component: RegistrationComponent},

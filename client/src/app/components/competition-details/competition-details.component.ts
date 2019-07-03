@@ -1,3 +1,4 @@
+import { LoginData } from 'src/app/models/login/login-data';
 import { Player } from 'src/app/models/player/player';
 import { Router } from '@angular/router';
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
@@ -12,28 +13,35 @@ import { CompetitionService } from 'src/app/services/competition-service/competi
 })
 export class CompetitionDetailsComponent implements OnInit {
   newPlayer: Player;
+  login: LoginData;
   competition: Competition;
-
+  date = new Date();
+  old = false;
+  signedIn=false;
   constructor(private competitionService: CompetitionService, @Inject(LOCAL_STORAGE) private storage: WebStorageService,
               private router: Router) {
+                this.competition = new Competition();
+                this.competition.Players = new Array<Player>();
+                this.competition.date= new Date();
   }
 
   ngOnInit() {
-    this.competition = new Competition();
-    this.competition.Players= new Array<Player>();
+    this.login= this.storage.get('login');
     this.competitionService.findById().subscribe(
       (data: any) => {
-        console.log(data);
         this.competition = data;
         this.competition.Players = data.players;
+        if (this.date.getTime() > new Date(this.competition.date).getTime()) {
+          this.old = true;
+        }
+        if (this.competition.Players.some(player => player.id === this.login.player.id)) {
+          this.signedIn = true;
+        }
       });
-  }
-  signIn() {
-    this.newPlayer = this.storage.get('player');
-    if (!this.competition.Players.some(player => player.id === this.newPlayer.id)) {
-      this.competition.Players.push(this.newPlayer);
+    }
+    signIn() {
+      this.competition.Players.push(this.login.player);
       this.competitionService.singToCompetitions(this.competition).subscribe(sth => this.router.navigateByUrl('/competitiondetails'));
-    } else {console.log('already exist in this competitions'); }
   }
 
 }

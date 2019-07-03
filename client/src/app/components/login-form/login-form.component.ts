@@ -1,3 +1,4 @@
+import { AppComponent } from './../../app.component';
 import { Player } from 'src/app/models/player/player';
 import { LoginService } from './../../services/login-service/login.service';
 import { Component, Inject, OnInit } from '@angular/core';
@@ -11,26 +12,25 @@ import { Router } from '@angular/router';
   styleUrls: ['./login-form.component.css']
 })
 export class LoginFormComponent implements OnInit {
-  constructor(private loginService: LoginService,private router:Router, @Inject(LOCAL_STORAGE) private storage: WebStorageService) {
+  login: LoginData;
+  loginFailed = false;
+  constructor(private loginService: LoginService, private app: AppComponent,
+              private router: Router, @Inject(LOCAL_STORAGE) private storage: WebStorageService) {
     this.login = new LoginData();
   }
-  loggedIn = false;
-  login: LoginData;
-  player: Player;
   ngOnInit() {
-    this.getFromLocal('loggedIn');
   }
 
   onSubmit() {
-    console.log(this.login);
-    this.loginService.login(this.login).subscribe(data => {
-      console.log(data);
-      this.player = data;
-      if (this.player) {
-        this.loggedIn = true;
-        this.saveInLocal('loggedIn', this.loggedIn);
-        this.saveInLocal('player', this.player);
-        // this.router.navigateByUrl('/competitions').then(s=>window.location.reload());
+    this.loginService.login(this.login).subscribe((data: any) => {
+      if (data) {
+        this.login = data;
+        this.login.password = '';
+        this.storage.set('login', this.login);
+        this.app.ngOnInit();
+        this.router.navigateByUrl('/competitions');
+      } else {
+        this.loginFailed = true;
       }
     });
   }
@@ -38,8 +38,4 @@ export class LoginFormComponent implements OnInit {
     console.log('recieved= key:' + key + 'value:' + val);
     this.storage.set(key, val);
     }
-
-  getFromLocal(key): void {
-      this.loggedIn = this.storage.get(key);
-      }
 }

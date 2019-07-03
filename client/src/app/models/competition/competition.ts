@@ -6,7 +6,7 @@ export class Competition {
     Name: string;
     Place: string;
     Dyscipline: string;
-    Date: Date;
+    date: Date;
     Organizer: string;
     DeadlineDate: string;
     Description: string;

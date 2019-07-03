@@ -11,7 +11,6 @@ import { StorageServiceModule } from 'angular-webstorage-service';
 import { LoginFormComponent } from './components/login-form/login-form.component';
 import { LoginService } from './services/login-service/login.service';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { MyDataComponent } from './components/my-data/my-data/my-data.component';
 import { MyCompetitionsComponent } from './components/my-competitions/my-competitions/my-competitions.component';
 import { PlayerService } from './services/player-service/player.service';
 import { OldCompetitionsListComponent } from './components/old-competitions-list/old-competitions-list.component';
@@ -24,7 +23,6 @@ import { RegistrationComponent } from './components/registration/registration.co
     CompetitionsListComponent,
     CompetitionDetailsComponent,
     LoginFormComponent,
-    MyDataComponent,
     MyCompetitionsComponent,
     OldCompetitionsListComponent,
     RegistrationComponent

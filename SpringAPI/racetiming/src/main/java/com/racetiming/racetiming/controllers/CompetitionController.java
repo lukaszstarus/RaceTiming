@@ -67,13 +67,11 @@ public class CompetitionController {
         return competitionRepostiory.findByPlayerId(id,PageRequest.of(page-1,10,Sort.by("date")));
     }
     @PostMapping("/login")
-    public Player getLoginData(@RequestBody Login loginData){
+    public Login getLoginData(@RequestBody Login loginData){
         Login login= loginRepository.findByEmail(loginData.getEmail());
         if(passwordEncoder.matches(loginData.getPassword(), login.getPassword()))
         {
-            Player player=login.getPlayer();
-            player.setRole(login.getRole().getId());
-            return player;
+            return login;
         }
         return null;
     }

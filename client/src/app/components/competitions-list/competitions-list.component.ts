@@ -1,9 +1,11 @@
+import { WebStorageService, LOCAL_STORAGE } from 'angular-webstorage-service';
 import { HttpClient } from '@angular/common/http';
 import { CompetitionService } from '../../services/competition-service/competition.service';
 import { Competition } from '../../models/competition/competition';
-import { Component, OnInit, Output } from '@angular/core';
+import { Component, OnInit, Output, Inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { EventEmitter } from 'events';
+import { LoginData } from 'src/app/models/login/login-data';
 
 @Component({
   selector: 'app-competitions-list',
@@ -18,17 +20,15 @@ export class CompetitionsListComponent implements OnInit {
   totalPages: number;
   data: any[];
   competitionId: string;
-  date: Date;
-  upcomingCompetitions: Array<Competition>;
-  pastCompetitions: Array<Competition>;
-  constructor(private competitionService: CompetitionService, private router: Router) {
-    this.date = new Date();
-    this.upcomingCompetitions = new Array();
-    this.pastCompetitions = new Array();
+  login: LoginData;
+  constructor(private competitionService: CompetitionService, private router: Router,
+              @Inject(LOCAL_STORAGE) private storage: WebStorageService) {
   }
 
 
   ngOnInit() {
+    this.login = this.storage.get('login');
+    console.log(this.login);
     this.currentPage = 1;
     this.competitionService.findAll().subscribe(
       (data: any) => {console.log(data.totalPages);

@@ -31,7 +31,7 @@ private String phone;
 private String team;
 private String license;
 @Transient
-private int role;
+private String role;
 
 
 	public long getId() {
@@ -139,11 +139,11 @@ private int role;
 		this.team = team;
 	}
 	@JsonGetter
-	public int getRole() {
+	public String getRole() {
 		return role;
 	}
 	@JsonSetter
-	public void setRole(int role) {
+	public void setRole(String role) {
 		this.role = role;
 	}
 }
