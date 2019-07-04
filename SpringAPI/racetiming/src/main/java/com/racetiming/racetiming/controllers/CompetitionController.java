@@ -18,13 +18,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
  * CompetitionController
  */
 @RestController
-@CrossOrigin(allowedHeaders = "*", origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200")
 public class CompetitionController {
 
     @Autowired
@@ -38,23 +41,36 @@ public class CompetitionController {
     @Autowired
     private RolesRepository roleRepository;
 
-    @GetMapping("/competitions")
-    public Page<Competition> getAllCompetitions(){
+    @CrossOrigin
+    @RequestMapping(value = "/oldcompetitions/{page}/{search}", method =RequestMethod.GET)
+    @ResponseBody
+    public Page<Competition> getFilteredOldCompetitions(@PathVariable("page")int page, @PathVariable("search") String search){
         java.util.Date utilDate= new  java.util.Date();
         java.sql.Date today = new java.sql.Date(utilDate.getTime());
-        Page <Competition> allCompetitions=competitionRepostiory.findAll(today,PageRequest.of(0, 10, Sort.by("date")));
+        Page <Competition> allCompetitions=competitionRepostiory.findOld(today,search, PageRequest.of(page-1, 10, Sort.by("date")));
         return allCompetitions;
     }
-    @GetMapping("/oldCompetitions/{page}")
+    @CrossOrigin
+    @RequestMapping(value = "/oldcompetitions/{page}", method =RequestMethod.GET)
+    @ResponseBody
     public Page<Competition> getOldCompetitions(@PathVariable("page")int page){
         java.util.Date utilDate= new  java.util.Date();
         java.sql.Date today = new java.sql.Date(utilDate.getTime());
         Page <Competition> allCompetitions=competitionRepostiory.findOld(today, PageRequest.of(page-1, 10, Sort.by("date")));
         return allCompetitions;
     }
+    @GetMapping("/competitions/{page}/{search}")
+    public Page<Competition> getFilteredAllCompetitions(@PathVariable("page") int page, @PathVariable("search") String search){
+        java.util.Date utilDate= new  java.util.Date();
+        java.sql.Date today = new java.sql.Date(utilDate.getTime());
+        Page <Competition> allCompetitions=competitionRepostiory.findAll(today,search,PageRequest.of(page-1, 10, Sort.by("date")));
+        return allCompetitions;
+    }
     @GetMapping("/competitions/{page}")
     public Page<Competition> getAllCompetitions(@PathVariable("page") int page){
-        Page <Competition> allCompetitions=competitionRepostiory.findAll(PageRequest.of(page-1, 10, Sort.by("date")));
+        java.util.Date utilDate= new  java.util.Date();
+        java.sql.Date today = new java.sql.Date(utilDate.getTime());
+        Page <Competition> allCompetitions=competitionRepostiory.findAll(today, PageRequest.of(page-1, 10, Sort.by("date")));
         return allCompetitions;
     }
     @GetMapping("/competitiondetails/{id}")

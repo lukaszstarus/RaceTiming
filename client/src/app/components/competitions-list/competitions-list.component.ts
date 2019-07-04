@@ -1,3 +1,4 @@
+import { FormControl } from '@angular/forms';
 import { WebStorageService, LOCAL_STORAGE } from 'angular-webstorage-service';
 import { HttpClient } from '@angular/common/http';
 import { CompetitionService } from '../../services/competition-service/competition.service';
@@ -21,6 +22,7 @@ export class CompetitionsListComponent implements OnInit {
   data: any[];
   competitionId: string;
   login: LoginData;
+  queryField: FormControl = new FormControl();
   constructor(private competitionService: CompetitionService, private router: Router,
               @Inject(LOCAL_STORAGE) private storage: WebStorageService) {
   }
@@ -28,13 +30,18 @@ export class CompetitionsListComponent implements OnInit {
 
   ngOnInit() {
     this.login = this.storage.get('login');
-    console.log(this.login);
     this.currentPage = 1;
-    this.competitionService.findAll().subscribe(
-      (data: any) => {console.log(data.totalPages);
-                      this.competitions = data.content;
-                      this.totalPages = data.totalPages;
-                      this.pagination(data.totalPages);
+    this.competitionService.findPaged(1, '').subscribe((data: any) => {
+      this.competitions = data.content;
+      this.totalPages = data.totalPages;
+      this.pagination(data.totalPages);
+    });
+    this.queryField.valueChanges.subscribe(queryField => {
+      this.competitionService.findPaged(1, queryField).subscribe((data: any) => {
+        this.competitions = data.content;
+        this.totalPages = data.totalPages;
+        this.pagination(data.totalPages);
+      });
     });
   }
   pagination(allPages: number) {
@@ -43,12 +50,13 @@ export class CompetitionsListComponent implements OnInit {
   }
   setPage(page: number) {
     this.currentPage = page;
-    this.competitionService.findPaged(page).subscribe(
-      (data: any) => {
+    this.queryField.valueChanges.subscribe(queryField => {
+      this.competitionService.findPaged(page, queryField).subscribe((data: any) => {
         this.competitions = data.content;
         this.totalPages = data.totalPages;
         this.pagination(data.totalPages);
-});
+      });
+    });
   }
     gotoDetails(id: number) {
     this.competitionService.competitionId = id;

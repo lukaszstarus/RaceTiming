@@ -14,6 +14,7 @@ import { Player } from 'src/app/models/player/player';
 })
 export class CompetitionService {
   competitionUrl: string;
+  oldcompetitionUrl: string;
   competitionDetailsUrl: string;
   playerCompetitionsUrl: string;
   competitionId: number;
@@ -23,6 +24,7 @@ export class CompetitionService {
     @Inject(LOCAL_STORAGE) private storage: WebStorageService
   ) {
     this.competitionUrl = 'http://localhost:8080/competitions/';
+    this.oldcompetitionUrl = 'http://localhost:8080/oldcompetitions/';
     this.competitionDetailsUrl = 'http://localhost:8080/competitiondetails';
     this.playerCompetitionsUrl = 'http://localhost:8080/playercompetitions';
   }
@@ -32,11 +34,11 @@ export class CompetitionService {
   public findAll() {
     return this.http.get(this.competitionUrl);
   }
-  public findPaged(page: number) {
-    return this.http.get(this.competitionUrl + page);
+  public findPaged(page: number, search: string) {
+    return this.http.get(this.competitionUrl + page + '/' + search);
   }
-  public findOld(page: number) {
-    return this.http.get(this.competitionUrl + page);
+  public findOld(page: number, search: string) {
+    return this.http.get(this.oldcompetitionUrl + page + '/' + search);
   }
   public findById() {
     return this.http.get(this.competitionDetailsUrl + '/' + this.storage.get('compId'));
