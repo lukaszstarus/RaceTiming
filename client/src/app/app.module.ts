@@ -15,7 +15,9 @@ import { MyCompetitionsComponent } from './components/my-competitions/my-competi
 import { PlayerService } from './services/player-service/player.service';
 import { OldCompetitionsListComponent } from './components/old-competitions-list/old-competitions-list.component';
 import { RegistrationComponent } from './components/registration/registration.component';
-
+import { ChooseCategoryComponent } from './components/choose-category/choose-category.component';
+import { MatSelectModule} from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,8 @@ import { RegistrationComponent } from './components/registration/registration.co
     LoginFormComponent,
     MyCompetitionsComponent,
     OldCompetitionsListComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    ChooseCategoryComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +36,9 @@ import { RegistrationComponent } from './components/registration/registration.co
     HttpClientModule,
     StorageServiceModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatSelectModule,
+    BrowserAnimationsModule
   ],
   providers: [CompetitionService, LoginService, PlayerService],
   bootstrap: [AppComponent]

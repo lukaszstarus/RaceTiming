@@ -113,12 +113,6 @@ AngularC
 /AngularCode/tsconfig.spec.json
 /AngularCode/tslint.json
 /SpringAPI/racetiming/.gitignore
-/client/src/app/app.module.ts
-/client/src/app/models/login/login-data.ts
-/client/src/app/services/login-service/login.service.ts
 /.angulardoc.json
-/client/src/app/components/registration/registration.component.css
-/client/src/app/components/registration/registration.component.html
-/client/src/app/components/registration/registration.component.spec.ts
-/client/src/app/components/registration/registration.component.ts
 /AngularCode
+/.gitignore

@@ -44,6 +44,7 @@ export class CompetitionService {
     return this.http.get(this.competitionDetailsUrl + '/' + this.storage.get('compId'));
   }
   public singToCompetitions(competition: Competition): Observable<any> {
+    console.log("service", competition);
     return this.http.post<any>(this.competitionDetailsUrl, competition);
   }
   public findPlayersCompetitions(id: number, page: number) {

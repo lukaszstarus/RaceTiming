@@ -1,3 +1,4 @@
+import { ChooseCategoryComponent } from './components/choose-category/choose-category.component';
 import { RegistrationComponent } from './components/registration/registration.component';
 import { OldCompetitionsListComponent } from './components/old-competitions-list/old-competitions-list.component';
 import { MyCompetitionsComponent } from './components/my-competitions/my-competitions/my-competitions.component';
@@ -12,6 +13,7 @@ const routes: Routes = [
   {path: 'login', component: LoginFormComponent},
   {path: 'my-data', component: RegistrationComponent},
   {path: 'my-competitions', component: MyCompetitionsComponent},
+  {path: 'chooseCategory', component: ChooseCategoryComponent},
   {path: 'oldcompetitions', component: OldCompetitionsListComponent},
   {path: 'registration', component: RegistrationComponent},
   {path: '', pathMatch: 'full', redirectTo: 'competitions' }

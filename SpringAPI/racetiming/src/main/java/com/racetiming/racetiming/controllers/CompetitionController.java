@@ -1,10 +1,15 @@
 package com.racetiming.racetiming.controllers;
 
+import java.util.List;
+
 import com.racetiming.racetiming.models.Competition;
 import com.racetiming.racetiming.models.Login;
 import com.racetiming.racetiming.models.Player;
+import com.racetiming.racetiming.models.PlayerCategory;
+import com.racetiming.racetiming.repositories.CategoriesRepository;
 import com.racetiming.racetiming.repositories.CompetitionRepository;
 import com.racetiming.racetiming.repositories.LoginRepository;
+import com.racetiming.racetiming.repositories.PlayerCategoryRepository;
 import com.racetiming.racetiming.repositories.PlayerRepository;
 import com.racetiming.racetiming.repositories.RolesRepository;
 
@@ -40,6 +45,10 @@ public class CompetitionController {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private RolesRepository roleRepository;
+    @Autowired 
+    private PlayerCategoryRepository playercatRepository;
+    @Autowired
+    private CategoriesRepository categoryRepository;
 
     @CrossOrigin
     @RequestMapping(value = "/oldcompetitions/{page}/{search}", method =RequestMethod.GET)
@@ -75,7 +84,12 @@ public class CompetitionController {
     }
     @GetMapping("/competitiondetails/{id}")
     public Competition getCompetitionsDetails(@PathVariable("id") long id){
-        Competition competitionDetails=competitionRepostiory.findById(id);
+        List<PlayerCategory> playerCategory=playercatRepository.findByCompetitionsId(id);
+        Competition competitionDetails= playerCategory.get(0).getCompetitions();
+        int i=0;
+        for(Player player: competitionDetails.getPlayers()){
+            player.setCategory(playerCategory.get(i++).getCategories().getName());
+        }
         return competitionDetails;
     }
     @GetMapping("/playercompetitions/{id}/{page}")
@@ -101,6 +115,9 @@ public class CompetitionController {
     @PostMapping("/competitiondetails")
     public void singInToCompetitions(@RequestBody Competition competition){
         competitionRepostiory.save(competition);
+        Player player=competition.getPlayers().get(competition.getPlayers().size()-1);
+        PlayerCategory pc= new PlayerCategory(player,competition, categoryRepository.findByName(player.getCategory()));
+        playercatRepository.save(pc);
     }
     @PostMapping("/player")
     public void savePlayer(@RequestBody Player player){

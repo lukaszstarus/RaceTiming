@@ -1,3 +1,4 @@
+import { Category } from './../../models/category/category';
 import { LoginData } from 'src/app/models/login/login-data';
 import { Player } from 'src/app/models/player/player';
 import { Router } from '@angular/router';
@@ -21,27 +22,28 @@ export class CompetitionDetailsComponent implements OnInit {
   constructor(private competitionService: CompetitionService, @Inject(LOCAL_STORAGE) private storage: WebStorageService,
               private router: Router) {
                 this.competition = new Competition();
-                this.competition.Players = new Array<Player>();
+                this.competition.players = new Array<Player>();
                 this.competition.date= new Date();
+                this.competition.categories= new Array<Category>();
   }
 
   ngOnInit() {
-    this.login= this.storage.get('login');
+    this.login = this.storage.get('login');
     this.competitionService.findById().subscribe(
       (data: any) => {
         this.competition = data;
-        this.competition.Players = data.players;
+        this.competition.players = data.players;
         if (this.date.getTime() > new Date(this.competition.date).getTime()) {
           this.old = true;
         }
-        if (this.competition.Players.some(player => player.id === this.login.player.id)) {
+        if (this.competition.players.some(player => player.id === this.login.player.id)) {
           this.signedIn = true;
         }
       });
     }
     signIn() {
-      this.competition.Players.push(this.login.player);
-      this.competitionService.singToCompetitions(this.competition).subscribe(sth => this.router.navigateByUrl('/competitiondetails'));
+      this.storage.set('competition', this.competition);
+      this.router.navigateByUrl('/chooseCategory');
   }
 
 }

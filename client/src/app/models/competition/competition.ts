@@ -2,19 +2,19 @@ import { Player } from '../player/player';
 import { Category } from '../category/category';
 
 export class Competition {
-    Id: string;
-    Name: string;
-    Place: string;
-    Dyscipline: string;
+    id: string;
+    name: string;
+    place: string;
+    dyscipline: string;
     date: Date;
-    Organizer: string;
-    DeadlineDate: string;
-    Description: string;
-    RegUrl: string;
-    PlayersLimit: string;
-    ResultsUrl: string;
-    TotalPages: string;
-    Players: Array<Player>;
-    Categories: Array<Category>;
+    organizer: string;
+    deadlineDate: string;
+    description: string;
+    regUrl: string;
+    playersLimit: string;
+    resultsUrl: string;
+    totalPages: string;
+    players: Array<Player>;
+    categories: Array<Category>;
 
 }

@@ -32,6 +32,8 @@ private String team;
 private String license;
 @Transient
 private String role;
+@Transient
+private String category;
 
 
 	public long getId() {
@@ -145,5 +147,42 @@ private String role;
 	@JsonSetter
 	public void setRole(String role) {
 		this.role = role;
+	}
+	@JsonSetter
+	public String getCategory() {
+		return category;
+	}
+	@JsonGetter
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public Player(String name, String surname, String city, Date birthDate, String country, String sex, String phone,
+			String team, String license, String role, String category) {
+		this.name = name;
+		this.surname = surname;
+		this.city = city;
+		this.birthDate = birthDate;
+		this.country = country;
+		this.sex = sex;
+		this.phone = phone;
+		this.team = team;
+		this.license = license;
+		this.role = role;
+		this.category = category;
+	}
+
+	public Player(String name, String surname, String city, Date birthDate, String country, String sex, String phone,
+			String team, String license, String category) {
+		this.name = name;
+		this.surname = surname;
+		this.city = city;
+		this.birthDate = birthDate;
+		this.country = country;
+		this.sex = sex;
+		this.phone = phone;
+		this.team = team;
+		this.license = license;
+		this.category = category;
 	}
 }

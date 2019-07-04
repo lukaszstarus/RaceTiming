@@ -21,15 +21,24 @@
     <tr>
       <li class="list-group-item"> <td><b>Signing deadline: </b></td><td>  {{competition.deadlineDate}}</td></li>
     </tr>
+    <tr>
+      <li class="list-group-item"> <td><b>Categories </b></td>
+      <td>
+       <ul *ngFor="let category of competition.categories">
+        <li>{{category.name}}</li>
+        </ul>
+       </td></li>
+    </tr>
     </ul>
   </tbody>
 </table>
-
-  <h5 class="card-title">Description: </h5>
+<div class="card">
+  <h5 class="card-title"><b>Description: </b></h5>
   <h6 class="card-link">
     <a href="https://www.race-timing.pl/media/uploads/wyniki/2019/reg_pumptrack_krakow.pdf"> Regulations</a>
   </h6>
   <p class="card-text">{{competition.description}}</p>
+</div>
   <form (ngSubmit)="signIn()">
     <button [disabled]="old || login==null || signedIn" type="submit" class="btn btn-info" >SignIn</button>
   </form>
@@ -40,6 +49,7 @@
     <tr>
       <th scope="col">Name</th>
       <th scope="col">Surname</th>
+      <th scope="col">Category</th>
       <th scope="col">Team</th>
       <th scope="col">City</th>
       <th scope="col">Country</th>
@@ -47,10 +57,11 @@
 
     </tr>
   </thead>
-  <tbody *ngFor="let player of competition.Players">
+  <tbody *ngFor="let player of competition.players">
     <tr>
       <td>{{player.name}}</td>
       <td>{{player.surname}}</td>
+      <td>{{player.category}}</td>
       <td>{{player.team}}</td>
       <td>{{player.city}}</td>
       <td>{{player.country}}</td>
