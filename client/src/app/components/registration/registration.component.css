@@ -1,0 +1,22 @@
+.alert-danger {
+    display: inline-block;
+    width: 40%;
+    margin: 0px;
+}
+
+.form-control {
+    display: inline-block;
+    width: 35%;
+}
+
+label {
+    display: block;
+}
+
+.form-check-input {
+    position: relative;
+}
+
+#female {
+    margin-left: 5%;
+}
