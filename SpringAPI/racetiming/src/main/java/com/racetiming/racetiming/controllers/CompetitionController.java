@@ -119,6 +119,14 @@ public class CompetitionController {
         PlayerCategory pc= new PlayerCategory(player,competition, categoryRepository.findByName(player.getCategory()));
         playercatRepository.save(pc);
     }
+    @PostMapping("/signout")
+    public void singOutOfCompetitions(@RequestBody Competition competition){
+        Player player=competition.getPlayers().get(competition.getPlayers().size()-1);
+        competition.getPlayers().remove(player);
+        competitionRepostiory.save(competition);
+        List<PlayerCategory> pc= playercatRepository.findByPlayerAndCompetitions(player, competition);
+        playercatRepository.deleteAll(pc);
+    }
     @PostMapping("/player")
     public void savePlayer(@RequestBody Player player){
         playerRepository.save(player);

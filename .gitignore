@@ -116,3 +116,4 @@ AngularC
 /.angulardoc.json
 /AngularCode
 /.gitignore
+/client/src/app/components/cos.sql

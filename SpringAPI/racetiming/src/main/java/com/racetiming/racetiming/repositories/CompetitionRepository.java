@@ -1,7 +1,6 @@
 package com.racetiming.racetiming.repositories;
 
 import java.sql.Date;
-import java.util.List;
 
 import com.racetiming.racetiming.models.Competition;
 

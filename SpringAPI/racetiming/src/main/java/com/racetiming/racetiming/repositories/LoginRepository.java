@@ -1,7 +1,6 @@
 package com.racetiming.racetiming.repositories;
 
 import com.racetiming.racetiming.models.Login;
-import com.racetiming.racetiming.models.Player;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;

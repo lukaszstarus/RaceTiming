@@ -17,6 +17,7 @@ export class CompetitionService {
   oldcompetitionUrl: string;
   competitionDetailsUrl: string;
   playerCompetitionsUrl: string;
+  signOutUrl: string;
   competitionId: number;
   data: number;
   constructor(
@@ -27,6 +28,7 @@ export class CompetitionService {
     this.oldcompetitionUrl = 'http://localhost:8080/oldcompetitions/';
     this.competitionDetailsUrl = 'http://localhost:8080/competitiondetails';
     this.playerCompetitionsUrl = 'http://localhost:8080/playercompetitions';
+    this.signOutUrl = 'http://localhost:8080/signout';
   }
   /**
    * findAll
@@ -46,6 +48,10 @@ export class CompetitionService {
   public singToCompetitions(competition: Competition): Observable<any> {
     console.log("service", competition);
     return this.http.post<any>(this.competitionDetailsUrl, competition);
+  }
+  public singOutOfCompetitions(competition: Competition): Observable<any> {
+    console.log("service", competition);
+    return this.http.post<any>(this.signOutUrl, competition);
   }
   public findPlayersCompetitions(id: number, page: number) {
     return this.http.get(this.playerCompetitionsUrl + '/' + id + '/' + page);

@@ -1,10 +1,9 @@
-import { Category } from './../../models/category/category';
 import { Competition } from './../../models/competition/competition';
 import { Component, OnInit, Inject } from '@angular/core';
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
-import { Player } from 'src/app/models/player/player';
 import { LoginData } from 'src/app/models/login/login-data';
 import { CompetitionService } from 'src/app/services/competition-service/competition.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-choose-category',
@@ -15,7 +14,8 @@ export class ChooseCategoryComponent implements OnInit {
   selected: string;
   competition: Competition;
   login: LoginData;
-  constructor(@Inject(LOCAL_STORAGE) private storage: WebStorageService, private competitionService: CompetitionService) {
+  constructor(@Inject(LOCAL_STORAGE) private storage: WebStorageService,
+              private router: Router, private competitionService: CompetitionService) {
     this.competition = this.storage.get('competition');
   }
 
@@ -24,10 +24,11 @@ export class ChooseCategoryComponent implements OnInit {
   Submit() {
     this.login = this.storage.get('login');
     this.login.player.category = this.selected;
-    console.log(this.login.player);
     this.competition.players.push(this.login.player);
-    console.log(this.competition);
-    this.competitionService.singToCompetitions(this.competition).subscribe();
+    this.competitionService.singToCompetitions(this.competition).subscribe(
+      () => this.router.navigateByUrl('/competitiondetails')
+    );
+
   }
 
 }

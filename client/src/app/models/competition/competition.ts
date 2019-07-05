@@ -2,7 +2,7 @@ import { Player } from '../player/player';
 import { Category } from '../category/category';
 
 export class Competition {
-    id: string;
+    id: number;
     name: string;
     place: string;
     dyscipline: string;

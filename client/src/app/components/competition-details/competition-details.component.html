@@ -39,9 +39,11 @@
   </h6>
   <p class="card-text">{{competition.description}}</p>
 </div>
-  <form (ngSubmit)="signIn()">
+  <form (ngSubmit)="signIn()" *ngIf="!signedIn">
     <button [disabled]="old || login==null || signedIn" type="submit" class="btn btn-info" >SignIn</button>
   </form>
+  <a *ngIf="signedIn" (click)="singOut(competition.id)" class="btn btn-danger">SingOut</a>
+
   <div *ngIf="signedIn" class="alert alert-danger">You are already signed in.</div>
   <div *ngIf="login==null" class="alert alert-danger">Please log in</div>
   <table class="table table-sm">
