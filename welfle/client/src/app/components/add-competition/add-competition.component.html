@@ -17,7 +17,7 @@
       </div>
       <div class="form-group">
         <label for="dyscipline">Dyscipline</label>
-        <input type="text" [(ngModel)]="competition.place"
+        <input type="text" [(ngModel)]="competition.dyscipline"
           class="form-control" id="dyscipline" name="dyscipline" placeholder="Enter dyscipline"
           required #dyscipline="ngModel">
         <div [hidden]="!dyscipline.pristine" class="alert alert-danger">Dyscipline is required</div>
@@ -63,13 +63,6 @@
           class="form-control" id="playerslimit" name="playerslimit" placeholder="Enter PlayersLimit"
           required #playerslimit="ngModel">
         <div [hidden]="!playerslimit.pristine" class="alert alert-danger">PlayersLimit is required</div>
-      </div>
-      <div class="form-group">
-        <label for="resultsurl">ResultsUrl</label>
-        <input type="text" [(ngModel)]="competition.resultsurl"
-          class="form-control" id="resultsurl" name="resultsurl" placeholder="Enter ResultsUrl"
-          required #resultsurl="ngModel">
-        <div [hidden]="!resultsurl.pristine" class="alert alert-danger">ResultsUrl is required</div>
       </div>
       <div class="form-group">
         <label for="resultsurl">ResultsUrl</label>
