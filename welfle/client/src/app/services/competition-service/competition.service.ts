@@ -16,6 +16,7 @@ export class CompetitionService {
   competitionUrl: string;
   competitionDetailsUrl: string;
   playerCompetitionsUrl: string;
+  competitionPlayersUrl: string;
   competitionId: number;
   data: number;
 
@@ -26,6 +27,7 @@ export class CompetitionService {
     this.competitionUrl = 'http://localhost:50644/api/competitions';
     this.competitionDetailsUrl = 'http://localhost:50644/api/competitions';
     this.playerCompetitionsUrl = 'http://localhost:50644/api/playerCompetitions';
+    this.competitionPlayersUrl = 'http://localhost:50644/api/competitionPlayers';
   }
   /**
    * findAll
@@ -45,12 +47,33 @@ export class CompetitionService {
   public singToCompetitions(competition: Competition): Observable<any> {
     return this.http.post<any>(this.competitionDetailsUrl, competition);
   }
+  public singOutOfCompetitions(competition: Competition): Observable<any> {
+    console.log("service", competition);
+    return this.http.post<any>(this.competitionDetailsUrl, competition);
+  }
   public findPlayersCompetitions(id: number) {
     return this.http.get(this.playerCompetitionsUrl + '/' + id);
   }
+  public findCompetitionPlayers(id: number) {
+    return this.http.get(this.competitionPlayersUrl + '/' + this.storage.get('compId'));
+  }
   public add(competition: Competition) {
-
     return this.http.post(this.competitionUrl, competition);
+  }
+  public delete(id:number){
+    return this.http.delete(this.competitionUrl+'/'+id);
+  }
+  public findField(search: string) {
+    return this.http.get(this.competitionUrl + '?search=' + search);
+  }
+  public findBefore(date2: Date){
+    return this.http.get(this.competitionUrl + '?date1=&date2=' + date2);
+  }
+  public findAfter(date1: Date){
+    return this.http.get(this.competitionUrl + '?date1=' + date1 + '&date2=');
+  }
+  public findBetween(date1: Date, date2: Date){
+    return this.http.get(this.competitionUrl + '?date1=' + date1 + '&date2=' + date2);
   }
 
   saveInLocal(key: any, val: any): void {
