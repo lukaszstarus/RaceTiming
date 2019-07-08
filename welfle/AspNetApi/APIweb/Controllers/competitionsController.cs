@@ -38,6 +38,34 @@ namespace APIweb.Controllers
             return Ok(competition);
         }
 
+        // GET: api/competitions/search
+        public IEnumerable<competition> Getcompetition(string search)
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+            search = '%' +search + '%';
+            IEnumerable<competition> c = db.competitions.SqlQuery("select * from Competition c where (name like @p0 or place like @p1 or organizer like @p2 or dyscipline like @p3)", search, search, search, search).ToList<competition>();
+            return c;
+        }
+
+        // GET: api/competitions/date
+        public IEnumerable<competition> Getcompetition(string date1, string date2)
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+            if (date1 == null && date2 == null)
+            {
+                return null;
+            }
+            if (date1 == null || date1=="")
+            {
+                return db.competitions.SqlQuery("select * from competition where competition.date<@p0 ", date2).ToList<competition>();
+            }
+            if (date2 == null || date2 == "")
+            {
+                return db.competitions.SqlQuery("select * from competition where competition.date>@p0 ",date1).ToList<competition>();
+            }
+            return db.competitions.SqlQuery("select * from competition where competition.date>@p0 and competition.date<@p1", date1, date2).ToList<competition>();
+        }
+
         // PUT: api/competitions/5
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> Putcompetition(long id, competition competition)
@@ -110,14 +138,16 @@ namespace APIweb.Controllers
         public async Task<IHttpActionResult> Deletecompetition(long id)
         {
             db.Configuration.ProxyCreationEnabled = false;
-            competition competition = await db.competitions.FindAsync(id);
+            db.Database.ExecuteSqlCommand("exec deleteCompetition @p0;", id);
+            db.SaveChangesAsync();
+            competition competition =  db.competitions.Find(id);
             if (competition == null)
             {
                 return NotFound();
             }
 
             db.competitions.Remove(competition);
-            await db.SaveChangesAsync();
+            db.SaveChangesAsync();
 
             return Ok(competition);
         }
