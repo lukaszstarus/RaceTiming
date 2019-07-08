@@ -18,10 +18,25 @@ namespace APIweb.Controllers
         private RaceTimingEntities db = new RaceTimingEntities();
 
         // GET: api/competitions
-        public IQueryable<competition> Getcompetitions()
+        public IEnumerable<competition> Getcompetitions()
         {
             db.Configuration.ProxyCreationEnabled = false;
-            return db.competitions;
+            DateTime now = new DateTime();
+            now = DateTime.Now.Date;
+            return db.competitions.SqlQuery("select * from competition where date>@p0",now).ToList<competition>();
+        }
+
+        // GET: api/competitions?old={old}
+        public IEnumerable<competition> Getcompetitions(bool old)
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+            DateTime now = new DateTime();
+            now = DateTime.Now.Date;
+            if (old)
+            {
+                return db.competitions.SqlQuery("select * from competition where date<@p0", now).ToList<competition>();
+            }
+            return db.competitions.SqlQuery("select * from competition where date>@p0", now).ToList<competition>();
         }
 
         // GET: api/competitions/5

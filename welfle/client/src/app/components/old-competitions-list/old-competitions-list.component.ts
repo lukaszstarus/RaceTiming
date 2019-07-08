@@ -22,11 +22,9 @@ export class OldCompetitionsListComponent implements OnInit {
 
   ngOnInit() {
     this.currentPage = 1;
-    this.competitionService.findOld(1).subscribe(
-      (data: any) => {console.log(data.totalPages);
-                      this.competitions = data.content;
-                      this.totalPages = data.totalPages;
-                      this.pagination(data.totalPages);
+    this.competitionService.findOld().subscribe(
+      (data: any) => {
+       this.competitions = data;
     });
   }
   pagination(allPages: number) {
@@ -35,7 +33,7 @@ export class OldCompetitionsListComponent implements OnInit {
   }
   setPage(page: number) {
     this.currentPage = page;
-    this.competitionService.findOld(page).subscribe(
+    this.competitionService.findOld().subscribe(
       (data: any) => {
         this.competitions = data.content;
         this.totalPages = data.totalPages;

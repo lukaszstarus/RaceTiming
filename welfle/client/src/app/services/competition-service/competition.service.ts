@@ -38,8 +38,8 @@ export class CompetitionService {
   public findPaged(page: number) {
     return this.http.get(this.competitionUrl + page);
   }
-  public findOld(page: number) {
-    return this.http.get(this.competitionUrl + page);
+  public findOld() {
+    return this.http.get(this.competitionUrl + '?old=true');
   }
   public findById() {
     return this.http.get(this.competitionDetailsUrl + '/' + this.storage.get('compId'));

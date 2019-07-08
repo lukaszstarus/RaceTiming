@@ -15,7 +15,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let competition of competitions">
-          <td>{{ competition.date }}</td>
+          <td>{{ competition.date | slice:0:10}}</td>
           <td>{{ competition.name }}</td>
           <td>{{ competition.place }}</td>
           <td>{{ competition.organizer }} Organization</td>
