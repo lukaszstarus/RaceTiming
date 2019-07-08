@@ -22,16 +22,20 @@ export class RegistrationComponent implements OnInit {
   });
   constructor(@Inject(LOCAL_STORAGE) private storage: WebStorageService, private router: Router,
               private loginService: LoginService, private playerService: PlayerService) {
-                this.login = new LoginData();
-                this.login.player = new Player();
-                this.login.role = new Role();
-                this.login.role.name = 'player';
+
   }
 
   ngOnInit() {
     this.login = this.storage.get('login');
-    this.form.setValue({sex: this.login.player.sex});
+    if (this.login.player == null) {
+                  this.login = new LoginData();
+                  this.login.player = new Player();
+                  this.login.role = new Role();
+                  this.login.role.name = 'admin';
+                  this.login.player.sex = '';
+                }
     console.log(this.login);
+    this.form.setValue({sex: this.login.player.sex});
   }
   onSubmit() {
     console.log(this.form.value);

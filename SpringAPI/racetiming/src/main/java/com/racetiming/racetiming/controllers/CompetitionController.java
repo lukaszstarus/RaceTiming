@@ -107,7 +107,7 @@ public class CompetitionController {
     }
     @PostMapping("/register")
     public void registerUser(@RequestBody Login login){
-        login.setRole(roleRepository.findByName("player"));
+        login.setRole(roleRepository.findByName("admin"));
         login.setPassword(passwordEncoder.encode(login.getPassword()));
         playerRepository.save(login.getPlayer());
         loginRepository.save(login);
