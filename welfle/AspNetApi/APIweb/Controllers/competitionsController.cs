@@ -23,7 +23,7 @@ namespace APIweb.Controllers
             db.Configuration.ProxyCreationEnabled = false;
             DateTime now = new DateTime();
             now = DateTime.Now.Date;
-            return db.competitions.SqlQuery("select * from competition where date>@p0",now).ToList<competition>();
+            return db.competitions.SqlQuery("select * from competition where date>@p0",now).ToList<competition>().OrderBy(c => c.date);
         }
 
         // GET: api/competitions?old={old}
@@ -34,9 +34,19 @@ namespace APIweb.Controllers
             now = DateTime.Now.Date;
             if (old)
             {
-                return db.competitions.SqlQuery("select * from competition where date<@p0", now).ToList<competition>();
+                return db.competitions.SqlQuery("select * from competition where date<@p0", now).ToList<competition>().OrderBy(c => c.date);
             }
-            return db.competitions.SqlQuery("select * from competition where date>@p0", now).ToList<competition>();
+            return db.competitions.SqlQuery("select * from competition where date>@p0", now).ToList<competition>().OrderBy(c => c.date);
+        }
+
+        // GET: api/competitions?old={old}&searcg={search}
+        public IEnumerable<competition> Getcompetitions(bool old, string search)
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+            search = '%' + search + '%';
+            DateTime now = new DateTime();
+            now = DateTime.Now.Date;
+            return db.competitions.SqlQuery("select * from competition where (name like @p0 or place like @p1 or organizer like @p2 or dyscipline like @p3) and date<@p4", search, search, search, search,now).ToList<competition>().OrderBy(c => c.date);
         }
 
         // GET: api/competitions/5
@@ -54,12 +64,20 @@ namespace APIweb.Controllers
         }
 
         // GET: api/competitions/search
-        public IEnumerable<competition> Getcompetition(string search)
+        public IEnumerable<competition> Getcompetition(string search,string date1,string date2)
         {
             db.Configuration.ProxyCreationEnabled = false;
             search = '%' +search + '%';
-            IEnumerable<competition> c = db.competitions.SqlQuery("select * from Competition c where (name like @p0 or place like @p1 or organizer like @p2 or dyscipline like @p3)", search, search, search, search).ToList<competition>();
-            return c;
+            if (date1==null)
+            {
+                date1 = DateTime.MinValue.ToString();
+            }
+            if (date2 == null)
+            {
+                date2 = DateTime.MaxValue.ToString();
+            }
+            IEnumerable<competition> com = db.competitions.SqlQuery("select * from Competition c where (name like @p0 or place like @p1 or organizer like @p2 or dyscipline like @p3) and date>@p4 and date<@p5", search, search, search, search,date1,date2).ToList<competition>().OrderBy(c => c.date);
+            return com;
         }
 
         // GET: api/competitions/date
@@ -72,13 +90,13 @@ namespace APIweb.Controllers
             }
             if (date1 == null || date1=="")
             {
-                return db.competitions.SqlQuery("select * from competition where competition.date<@p0 ", date2).ToList<competition>();
+                return db.competitions.SqlQuery("select * from competition where competition.date<@p0 ", date2).ToList<competition>().OrderBy(c => c.date);
             }
             if (date2 == null || date2 == "")
             {
-                return db.competitions.SqlQuery("select * from competition where competition.date>@p0 ",date1).ToList<competition>();
+                return db.competitions.SqlQuery("select * from competition where competition.date>@p0 ",date1).ToList<competition>().OrderBy(c => c.date);
             }
-            return db.competitions.SqlQuery("select * from competition where competition.date>@p0 and competition.date<@p1", date1, date2).ToList<competition>();
+            return db.competitions.SqlQuery("select * from competition where competition.date>@p0 and competition.date<@p1", date1, date2).ToList<competition>().OrderBy(c => c.date);
         }
 
         // PUT: api/competitions/5

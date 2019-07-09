@@ -87,7 +87,7 @@ namespace APIweb.Controllers
             {
            
                 newlogin.role = db.roles.Find(newlogin.role_id.Value);
-                newlogin.players = db.players.Find(newlogin.id);
+                newlogin.player = db.players.Find(newlogin.id);
                 return newlogin;
             }
 
