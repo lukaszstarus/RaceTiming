@@ -39,7 +39,7 @@ export class CompetitionsListComponent implements OnInit {
         this.competitions = data;
     });
     this.queryField.valueChanges.subscribe(queryField => {
-      this.competitionService.findField(queryField).subscribe((data: any) => {
+      this.competitionService.findField(queryField,this.date1,this.date2).subscribe((data: any) => {
         this.competitions = data;
       });
     });
@@ -75,7 +75,12 @@ export class CompetitionsListComponent implements OnInit {
       });
     }
   }
-    gotoDetails(id: number) {
+  clearDate(){
+    this.date1=null;
+    this.date2=null;
+    this.ngOnInit();
+  }
+  gotoDetails(id: number) {
     this.competitionService.competitionId = id;
     this.competitionService.saveInLocal('compId', id);
     this.router.navigateByUrl('/competitiondetails');

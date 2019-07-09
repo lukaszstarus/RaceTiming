@@ -10,8 +10,8 @@
     placeholder="yyyy-MM-dd" min="2013-01-01" max="2021-12-31"  />
     <button type="submit" class="btn btn-info">Filter</button>
 </form>
-<form (ngSubmit)="ngOnInit()" >
-  <button class="btn btn-danger" type="submit" onclick="document.getElementById('date1').value = ''; document.getElementById('date2').value = ''">Clear filter</button>
+<form (ngSubmit)="clearDate()" >
+  <button class="btn btn-danger" type="submit">Clear filter</button>
 </form>
 
 
@@ -51,9 +51,3 @@
     </nav>
   </div>
 </div>
-
-<script>
-  clear(){
-    document.getElementById('myInput').value = '';
-  }
-</script>
