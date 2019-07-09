@@ -2,6 +2,7 @@
 <button class="btn btn-info" routerLink="/oldcompetitions">Past events</button>
 <div class="card my-5">
   <div class="card-body">
+      <input [formControl]= "queryField" type="text" id="keyword" placeholder="Search for competitions.." autofocus/>
     <table class="table table-bordered table-striped">
       <thead class="thead-dark">
         <tr>

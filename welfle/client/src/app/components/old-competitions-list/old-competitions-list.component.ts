@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Competition } from 'src/app/models/competition/competition';
 import { CompetitionService } from 'src/app/services/competition-service/competition.service';
 import { Router } from '@angular/router';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-old-competitions-list',
@@ -16,6 +17,7 @@ export class OldCompetitionsListComponent implements OnInit {
   totalPages: number;
   data: any[];
   competitionId: string;
+  queryField: FormControl = new FormControl();
   constructor(private competitionService: CompetitionService, private router: Router) {
       }
 
@@ -25,6 +27,11 @@ export class OldCompetitionsListComponent implements OnInit {
     this.competitionService.findOld().subscribe(
       (data: any) => {
        this.competitions = data;
+    });
+    this.queryField.valueChanges.subscribe(queryField => {
+      this.competitionService.findOldField(queryField).subscribe((data: any) => {
+        this.competitions = data;
+      });
     });
   }
   pagination(allPages: number) {

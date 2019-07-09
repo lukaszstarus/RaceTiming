@@ -41,6 +41,9 @@ export class CompetitionService {
   public findOld() {
     return this.http.get(this.competitionUrl + '?old=true');
   }
+  public findOldField(search: string){
+    return this.http.get(this.competitionUrl + '?old=true&search='+search);
+  }
   public findById() {
     return this.http.get(this.competitionDetailsUrl + '/' + this.storage.get('compId'));
   }
@@ -63,8 +66,17 @@ export class CompetitionService {
   public delete(id:number){
     return this.http.delete(this.competitionUrl+'/'+id);
   }
-  public findField(search: string) {
-    return this.http.get(this.competitionUrl + '?search=' + search);
+  public findField(search: string, date1:Date, date2:Date) {
+    if (date1==null && date2==null){
+      return this.http.get(this.competitionUrl + '?search=' + search+'&date1='+'&date2=');
+    }
+    if (date1==null) {
+      return this.http.get(this.competitionUrl + '?search=' + search+'&date1='+'&date2='+date2);
+    }
+    if (date2==null) {
+      return this.http.get(this.competitionUrl + '?search=' + search+'&date1='+date1+'&date2=');
+    }
+    return this.http.get(this.competitionUrl + '?search=' + search+'&date1='+date1+'&date2='+date2);
   }
   public findBefore(date2: Date){
     return this.http.get(this.competitionUrl + '?date1=&date2=' + date2);
