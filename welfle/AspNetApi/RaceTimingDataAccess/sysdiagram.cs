@@ -12,14 +12,12 @@ namespace RaceTimingDataAccess
     using System;
     using System.Collections.Generic;
     
-    public partial class login
+    public partial class sysdiagram
     {
-        public long id { get; set; }
-        public string email { get; set; }
-        public string password { get; set; }
-        public Nullable<long> role_id { get; set; }
-    
-        public virtual role role { get; set; }
-        public virtual player player { get; set; }
+        public string name { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }

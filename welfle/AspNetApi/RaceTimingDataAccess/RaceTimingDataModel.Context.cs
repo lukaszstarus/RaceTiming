@@ -12,6 +12,8 @@ namespace RaceTimingDataAccess
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class RaceTimingEntities : DbContext
     {
@@ -31,5 +33,68 @@ namespace RaceTimingDataAccess
         public virtual DbSet<player> players { get; set; }
         public virtual DbSet<player_category> player_category { get; set; }
         public virtual DbSet<role> roles { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
+    
+        public virtual int deleteCompetition(Nullable<int> p0)
+        {
+            var p0Parameter = p0.HasValue ?
+                new ObjectParameter("p0", p0) :
+                new ObjectParameter("p0", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("deleteCompetition", p0Parameter);
+        }
+    
+        public virtual int registrationPlater(string email, string password, Nullable<int> role_id, string name, string surname, Nullable<System.DateTime> birth_date, string city, string country, string license, string team, string sex, string phone)
+        {
+            var emailParameter = email != null ?
+                new ObjectParameter("email", email) :
+                new ObjectParameter("email", typeof(string));
+    
+            var passwordParameter = password != null ?
+                new ObjectParameter("password", password) :
+                new ObjectParameter("password", typeof(string));
+    
+            var role_idParameter = role_id.HasValue ?
+                new ObjectParameter("role_id", role_id) :
+                new ObjectParameter("role_id", typeof(int));
+    
+            var nameParameter = name != null ?
+                new ObjectParameter("name", name) :
+                new ObjectParameter("name", typeof(string));
+    
+            var surnameParameter = surname != null ?
+                new ObjectParameter("surname", surname) :
+                new ObjectParameter("surname", typeof(string));
+    
+            var birth_dateParameter = birth_date.HasValue ?
+                new ObjectParameter("birth_date", birth_date) :
+                new ObjectParameter("birth_date", typeof(System.DateTime));
+    
+            var cityParameter = city != null ?
+                new ObjectParameter("city", city) :
+                new ObjectParameter("city", typeof(string));
+    
+            var countryParameter = country != null ?
+                new ObjectParameter("country", country) :
+                new ObjectParameter("country", typeof(string));
+    
+            var licenseParameter = license != null ?
+                new ObjectParameter("license", license) :
+                new ObjectParameter("license", typeof(string));
+    
+            var teamParameter = team != null ?
+                new ObjectParameter("team", team) :
+                new ObjectParameter("team", typeof(string));
+    
+            var sexParameter = sex != null ?
+                new ObjectParameter("sex", sex) :
+                new ObjectParameter("sex", typeof(string));
+    
+            var phoneParameter = phone != null ?
+                new ObjectParameter("phone", phone) :
+                new ObjectParameter("phone", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("registrationPlater", emailParameter, passwordParameter, role_idParameter, nameParameter, surnameParameter, birth_dateParameter, cityParameter, countryParameter, licenseParameter, teamParameter, sexParameter, phoneParameter);
+        }
     }
 }

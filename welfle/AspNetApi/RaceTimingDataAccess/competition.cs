@@ -21,6 +21,7 @@ namespace RaceTimingDataAccess
             this.player_category1 = new HashSet<player_category>();
             this.categories = new HashSet<category>();
             this.players = new HashSet<player>();
+            this.players1 = new HashSet<player>();
         }
     
         public long id { get; set; }
@@ -43,5 +44,7 @@ namespace RaceTimingDataAccess
         public virtual ICollection<category> categories { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<player> players { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<player> players1 { get; set; }
     }
 }

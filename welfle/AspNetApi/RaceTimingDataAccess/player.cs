@@ -19,6 +19,7 @@ namespace RaceTimingDataAccess
         {
             this.player_category = new HashSet<player_category>();
             this.competitions = new HashSet<competition>();
+            this.competitions1 = new HashSet<competition>();
         }
     
         public long id { get; set; }
@@ -31,12 +32,13 @@ namespace RaceTimingDataAccess
         public string sex { get; set; }
         public string surname { get; set; }
         public string team { get; set; }
-        public Nullable<long> login_id { get; set; }
     
-        public virtual login login { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<player_category> player_category { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<competition> competitions { get; set; }
+        public virtual login login { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<competition> competitions1 { get; set; }
     }
 }

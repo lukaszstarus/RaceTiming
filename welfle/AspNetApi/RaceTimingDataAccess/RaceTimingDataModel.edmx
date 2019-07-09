@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="RaceTimingModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="RaceTimingModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="category">
           <Key>
             <PropertyRef Name="id" />
@@ -38,6 +38,16 @@ warning 6002: The table/view 'RaceTiming.dbo.category_competitions' does not hav
           <Property Name="reg_url" Type="varchar" MaxLength="255" />
           <Property Name="results_url" Type="varchar" MaxLength="255" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'RaceTiming.dbo.competition_players' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="competition_players">
+          <Key>
+            <PropertyRef Name="competition_id" />
+            <PropertyRef Name="players_id" />
+          </Key>
+          <Property Name="competition_id" Type="bigint" Nullable="false" />
+          <Property Name="players_id" Type="bigint" Nullable="false" />
+        </EntityType>
         <EntityType Name="login">
           <Key>
             <PropertyRef Name="id" />
@@ -61,7 +71,6 @@ warning 6002: The table/view 'RaceTiming.dbo.category_competitions' does not hav
           <Property Name="sex" Type="varchar" MaxLength="255" />
           <Property Name="surname" Type="varchar" MaxLength="255" />
           <Property Name="team" Type="varchar" MaxLength="255" />
-          <Property Name="login_id" Type="bigint" />
         </EntityType>
         <EntityType Name="player_category">
           <Key>
@@ -90,6 +99,28 @@ warning 6002: The table/view 'RaceTiming.dbo.player_competitions' does not have 
           <Property Name="id" Type="bigint" Nullable="false" />
           <Property Name="name" Type="varchar" MaxLength="255" />
         </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK_player_login">
+          <End Role="login" Type="Self.login" Multiplicity="1" />
+          <End Role="player" Type="Self.player" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="login">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="player">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK1wxdrpcxami2tuwpdnqx1g6ai">
           <End Role="player" Type="Self.player" Multiplicity="1" />
           <End Role="player_competitions" Type="Self.player_competitions" Multiplicity="*" />
@@ -99,6 +130,30 @@ warning 6002: The table/view 'RaceTiming.dbo.player_competitions' does not have 
             </Principal>
             <Dependent Role="player_competitions">
               <PropertyRef Name="player_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK29lt9kkricm8y18cteov51of">
+          <End Role="competition" Type="Self.competition" Multiplicity="1" />
+          <End Role="competition_players" Type="Self.competition_players" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="competition">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="competition_players">
+              <PropertyRef Name="competition_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK7stg8rlyucavl9fgdmgvg2bt9">
+          <End Role="player" Type="Self.player" Multiplicity="1" />
+          <End Role="competition_players" Type="Self.competition_players" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="player">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="competition_players">
+              <PropertyRef Name="players_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -186,18 +241,6 @@ warning 6002: The table/view 'RaceTiming.dbo.player_competitions' does not have 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FKk5cd9h6p9089icipgp2gfcrnv">
-          <End Role="login" Type="Self.login" Multiplicity="0..1" />
-          <End Role="player" Type="Self.player" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="login">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="player">
-              <PropertyRef Name="login_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FKq68frcu39nd6qyjct8wbay7xo">
           <End Role="competition" Type="Self.competition" Multiplicity="0..1" />
           <End Role="player_category" Type="Self.player_category" Multiplicity="*" />
@@ -210,6 +253,23 @@ warning 6002: The table/view 'RaceTiming.dbo.player_competitions' does not have 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="deleteCompetition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p0" Type="int" Mode="In" />
+        </Function>
+        <Function Name="registrationPlater" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="email" Type="varchar" Mode="In" />
+          <Parameter Name="password" Type="varchar" Mode="In" />
+          <Parameter Name="role_id" Type="int" Mode="In" />
+          <Parameter Name="name" Type="varchar" Mode="In" />
+          <Parameter Name="surname" Type="varchar" Mode="In" />
+          <Parameter Name="birth_date" Type="date" Mode="In" />
+          <Parameter Name="city" Type="varchar" Mode="In" />
+          <Parameter Name="country" Type="varchar" Mode="In" />
+          <Parameter Name="license" Type="varchar" Mode="In" />
+          <Parameter Name="team" Type="varchar" Mode="In" />
+          <Parameter Name="sex" Type="varchar" Mode="In" />
+          <Parameter Name="phone" Type="varchar" Mode="In" />
+        </Function>
         <EntityContainer Name="RaceTimingModelStoreContainer">
           <EntitySet Name="category" EntityType="Self.category" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="competition" EntityType="Self.competition" Schema="dbo" store:Type="Tables" />
@@ -217,11 +277,18 @@ warning 6002: The table/view 'RaceTiming.dbo.player_competitions' does not have 
           <EntitySet Name="player" EntityType="Self.player" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="player_category" EntityType="Self.player_category" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="role" EntityType="Self.role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="category_competitions" EntityType="Self.category_competitions" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [category_competitions].[category_id] AS [category_id], 
     [category_competitions].[competitions_id] AS [competitions_id]
     FROM [dbo].[category_competitions] AS [category_competitions]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="competition_players" EntityType="Self.competition_players" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [competition_players].[competition_id] AS [competition_id], 
+    [competition_players].[players_id] AS [players_id]
+    FROM [dbo].[competition_players] AS [competition_players]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="player_competitions" EntityType="Self.player_competitions" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -229,9 +296,21 @@ warning 6002: The table/view 'RaceTiming.dbo.player_competitions' does not have 
     [player_competitions].[competitions_id] AS [competitions_id]
     FROM [dbo].[player_competitions] AS [player_competitions]</DefiningQuery>
           </EntitySet>
+          <AssociationSet Name="FK_player_login" Association="Self.FK_player_login">
+            <End Role="login" EntitySet="login" />
+            <End Role="player" EntitySet="player" />
+          </AssociationSet>
           <AssociationSet Name="FK1wxdrpcxami2tuwpdnqx1g6ai" Association="Self.FK1wxdrpcxami2tuwpdnqx1g6ai">
             <End Role="player" EntitySet="player" />
             <End Role="player_competitions" EntitySet="player_competitions" />
+          </AssociationSet>
+          <AssociationSet Name="FK29lt9kkricm8y18cteov51of" Association="Self.FK29lt9kkricm8y18cteov51of">
+            <End Role="competition" EntitySet="competition" />
+            <End Role="competition_players" EntitySet="competition_players" />
+          </AssociationSet>
+          <AssociationSet Name="FK7stg8rlyucavl9fgdmgvg2bt9" Association="Self.FK7stg8rlyucavl9fgdmgvg2bt9">
+            <End Role="player" EntitySet="player" />
+            <End Role="competition_players" EntitySet="competition_players" />
           </AssociationSet>
           <AssociationSet Name="FK9u62rfgi3dhrqprfkjuhc50o6" Association="Self.FK9u62rfgi3dhrqprfkjuhc50o6">
             <End Role="competition" EntitySet="competition" />
@@ -261,17 +340,12 @@ warning 6002: The table/view 'RaceTiming.dbo.player_competitions' does not have 
             <End Role="category" EntitySet="category" />
             <End Role="category_competitions" EntitySet="category_competitions" />
           </AssociationSet>
-          <AssociationSet Name="FKk5cd9h6p9089icipgp2gfcrnv" Association="Self.FKk5cd9h6p9089icipgp2gfcrnv">
-            <End Role="login" EntitySet="login" />
-            <End Role="player" EntitySet="player" />
-          </AssociationSet>
           <AssociationSet Name="FKq68frcu39nd6qyjct8wbay7xo" Association="Self.FKq68frcu39nd6qyjct8wbay7xo">
             <End Role="competition" EntitySet="competition" />
             <End Role="player_category" EntitySet="player_category" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="RaceTimingModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -303,6 +377,7 @@ warning 6002: The table/view 'RaceTiming.dbo.player_competitions' does not have 
           <NavigationProperty Name="player_category1" Relationship="Self.FKq68frcu39nd6qyjct8wbay7xo" FromRole="competition" ToRole="player_category" />
           <NavigationProperty Name="categories" Relationship="Self.category_competitions" FromRole="competition" ToRole="category" />
           <NavigationProperty Name="players" Relationship="Self.player_competitions" FromRole="competition" ToRole="player" />
+          <NavigationProperty Name="players1" Relationship="RaceTimingModel.competition_players" FromRole="competition" ToRole="player" />
         </EntityType>
         <EntityType Name="login">
           <Key>
@@ -313,7 +388,7 @@ warning 6002: The table/view 'RaceTiming.dbo.player_competitions' does not have 
           <Property Name="password" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="role_id" Type="Int64" />
           <NavigationProperty Name="role" Relationship="Self.FKb5k3dk3163hw6o0tti30xt8lx" FromRole="login" ToRole="role" />
-          <NavigationProperty Name="players" Relationship="Self.FKk5cd9h6p9089icipgp2gfcrnv" FromRole="login" ToRole="player" />
+          <NavigationProperty Name="player" Relationship="RaceTimingModel.FK_player_login" FromRole="login" ToRole="player" />
         </EntityType>
         <EntityType Name="player">
           <Key>
@@ -329,10 +404,10 @@ warning 6002: The table/view 'RaceTiming.dbo.player_competitions' does not have 
           <Property Name="sex" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="surname" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="team" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="login_id" Type="Int64" />
-          <NavigationProperty Name="login" Relationship="Self.FKk5cd9h6p9089icipgp2gfcrnv" FromRole="player" ToRole="login" />
           <NavigationProperty Name="player_category" Relationship="Self.FKance4j3x98m886ojmwjpxxmfr" FromRole="player" ToRole="player_category" />
           <NavigationProperty Name="competitions" Relationship="Self.player_competitions" FromRole="player" ToRole="competition" />
+          <NavigationProperty Name="login" Relationship="RaceTimingModel.FK_player_login" FromRole="player" ToRole="login" />
+          <NavigationProperty Name="competitions1" Relationship="RaceTimingModel.competition_players" FromRole="player" ToRole="competition" />
         </EntityType>
         <EntityType Name="player_category">
           <Key>
@@ -404,18 +479,6 @@ warning 6002: The table/view 'RaceTiming.dbo.player_competitions' does not have 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FKk5cd9h6p9089icipgp2gfcrnv">
-          <End Role="login" Type="Self.login" Multiplicity="0..1" />
-          <End Role="player" Type="Self.player" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="login">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="player">
-              <PropertyRef Name="login_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FKance4j3x98m886ojmwjpxxmfr">
           <End Role="player" Type="Self.player" Multiplicity="0..1" />
           <End Role="player_category" Type="Self.player_category" Multiplicity="*" />
@@ -459,10 +522,6 @@ warning 6002: The table/view 'RaceTiming.dbo.player_competitions' does not have 
             <End Role="role" EntitySet="roles" />
             <End Role="login" EntitySet="logins" />
           </AssociationSet>
-          <AssociationSet Name="FKk5cd9h6p9089icipgp2gfcrnv" Association="Self.FKk5cd9h6p9089icipgp2gfcrnv">
-            <End Role="login" EntitySet="logins" />
-            <End Role="player" EntitySet="players" />
-          </AssociationSet>
           <AssociationSet Name="FKance4j3x98m886ojmwjpxxmfr" Association="Self.FKance4j3x98m886ojmwjpxxmfr">
             <End Role="player" EntitySet="players" />
             <End Role="player_category" EntitySet="player_category" />
@@ -475,7 +534,59 @@ warning 6002: The table/view 'RaceTiming.dbo.player_competitions' does not have 
             <End Role="player" EntitySet="players" />
             <End Role="competition" EntitySet="competitions" />
           </AssociationSet>
+          <EntitySet Name="sysdiagrams" EntityType="RaceTimingModel.sysdiagram" />
+          <AssociationSet Name="FK_player_login" Association="RaceTimingModel.FK_player_login">
+            <End Role="login" EntitySet="logins" />
+            <End Role="player" EntitySet="players" />
+          </AssociationSet>
+          <AssociationSet Name="competition_players" Association="RaceTimingModel.competition_players">
+            <End Role="competition" EntitySet="competitions" />
+            <End Role="player" EntitySet="players" />
+          </AssociationSet>
+          <FunctionImport Name="deleteCompetition">
+            <Parameter Name="p0" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="registrationPlater">
+            <Parameter Name="email" Mode="In" Type="String" />
+            <Parameter Name="password" Mode="In" Type="String" />
+            <Parameter Name="role_id" Mode="In" Type="Int32" />
+            <Parameter Name="name" Mode="In" Type="String" />
+            <Parameter Name="surname" Mode="In" Type="String" />
+            <Parameter Name="birth_date" Mode="In" Type="DateTime" />
+            <Parameter Name="city" Mode="In" Type="String" />
+            <Parameter Name="country" Mode="In" Type="String" />
+            <Parameter Name="license" Mode="In" Type="String" />
+            <Parameter Name="team" Mode="In" Type="String" />
+            <Parameter Name="sex" Mode="In" Type="String" />
+            <Parameter Name="phone" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK_player_login">
+          <End Type="RaceTimingModel.login" Role="login" Multiplicity="1" />
+          <End Type="RaceTimingModel.player" Role="player" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="login">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="player">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="competition_players">
+          <End Type="RaceTimingModel.competition" Role="competition" Multiplicity="*" />
+          <End Type="RaceTimingModel.player" Role="player" Multiplicity="*" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -530,7 +641,6 @@ warning 6002: The table/view 'RaceTiming.dbo.player_competitions' does not have 
                 <ScalarProperty Name="sex" ColumnName="sex" />
                 <ScalarProperty Name="surname" ColumnName="surname" />
                 <ScalarProperty Name="team" ColumnName="team" />
-                <ScalarProperty Name="login_id" ColumnName="login_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -569,6 +679,27 @@ warning 6002: The table/view 'RaceTiming.dbo.player_competitions' does not have 
               <ScalarProperty Name="id" ColumnName="competitions_id" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="RaceTimingModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="competition_players" TypeName="RaceTimingModel.competition_players" StoreEntitySet="competition_players">
+            <EndProperty Name="player">
+              <ScalarProperty Name="id" ColumnName="players_id" />
+            </EndProperty>
+            <EndProperty Name="competition">
+              <ScalarProperty Name="id" ColumnName="competition_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="deleteCompetition" FunctionName="RaceTimingModel.Store.deleteCompetition" />
+          <FunctionImportMapping FunctionImportName="registrationPlater" FunctionName="RaceTimingModel.Store.registrationPlater" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

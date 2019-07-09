@@ -15,10 +15,12 @@
         <AssociationConnector Association="RaceTimingModel.FK9u62rfgi3dhrqprfkjuhc50o6" ManuallyRouted="false" />
         <AssociationConnector Association="RaceTimingModel.FKq68frcu39nd6qyjct8wbay7xo" ManuallyRouted="false" />
         <AssociationConnector Association="RaceTimingModel.FKb5k3dk3163hw6o0tti30xt8lx" ManuallyRouted="false" />
-        <AssociationConnector Association="RaceTimingModel.FKk5cd9h6p9089icipgp2gfcrnv" ManuallyRouted="false" />
         <AssociationConnector Association="RaceTimingModel.FKance4j3x98m886ojmwjpxxmfr" ManuallyRouted="false" />
         <AssociationConnector Association="RaceTimingModel.category_competitions" ManuallyRouted="false" />
         <AssociationConnector Association="RaceTimingModel.player_competitions" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="RaceTimingModel.sysdiagram" Width="1.5" PointX="0.75" PointY="0.75" />
+        <AssociationConnector Association="RaceTimingModel.FK_player_login" />
+        <AssociationConnector Association="RaceTimingModel.competition_players" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
