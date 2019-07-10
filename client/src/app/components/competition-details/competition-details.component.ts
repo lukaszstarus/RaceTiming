@@ -30,6 +30,7 @@ export class CompetitionDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.login = this.storage.get('login');
+
     this.competitionService.findById().subscribe(
       (data: any) => {
         this.competition = data;

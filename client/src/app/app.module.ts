@@ -18,6 +18,7 @@ import { RegistrationComponent } from './components/registration/registration.co
 import { ChooseCategoryComponent } from './components/choose-category/choose-category.component';
 import { MatSelectModule} from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AddCompetitionComponent } from './components/add-competition/add-competition.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MyCompetitionsComponent,
     OldCompetitionsListComponent,
     RegistrationComponent,
-    ChooseCategoryComponent
+    ChooseCategoryComponent,
+    AddCompetitionComponent
   ],
   imports: [
     BrowserModule,

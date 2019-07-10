@@ -85,7 +85,12 @@ public class CompetitionController {
     @GetMapping("/competitiondetails/{id}")
     public Competition getCompetitionsDetails(@PathVariable("id") long id){
         List<PlayerCategory> playerCategory=playercatRepository.findByCompetitionsId(id);
-        Competition competitionDetails= playerCategory.get(0).getCompetitions();
+        Competition competitionDetails= new Competition();
+        if(playerCategory!=null){
+        competitionDetails= playerCategory.get(0).getCompetitions();
+        }else{
+        competitionDetails =competitionRepostiory.findById(id);
+        }
         int i=0;
         for(Player player: competitionDetails.getPlayers()){
             player.setCategory(playerCategory.get(i++).getCategories().getName());
@@ -107,10 +112,14 @@ public class CompetitionController {
     }
     @PostMapping("/register")
     public void registerUser(@RequestBody Login login){
-        login.setRole(roleRepository.findByName("admin"));
+        login.setRole(roleRepository.findByName("player"));
         login.setPassword(passwordEncoder.encode(login.getPassword()));
         playerRepository.save(login.getPlayer());
         loginRepository.save(login);
+    }
+    @PostMapping("/competitions")
+    public void registerUser(@RequestBody Competition competition){
+       competitionRepostiory.save(competition);
     }
     @PostMapping("/competitiondetails")
     public void singInToCompetitions(@RequestBody Competition competition){

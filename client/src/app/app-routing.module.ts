@@ -7,6 +7,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { CompetitionsListComponent } from './components/competitions-list/competitions-list.component';
 import { LoginFormComponent } from './components/login-form/login-form.component';
+import { AddCompetitionComponent } from './components/add-competition/add-competition.component';
 const routes: Routes = [
   {path: 'competitions', component: CompetitionsListComponent},
   {path: 'competitiondetails', component: CompetitionDetailsComponent},
@@ -16,6 +17,8 @@ const routes: Routes = [
   {path: 'chooseCategory', component: ChooseCategoryComponent},
   {path: 'oldcompetitions', component: OldCompetitionsListComponent},
   {path: 'registration', component: RegistrationComponent},
+  {path: 'add-competition', component: AddCompetitionComponent},
+
   {path: '', pathMatch: 'full', redirectTo: 'competitions' }
 ];
 

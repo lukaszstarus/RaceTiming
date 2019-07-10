@@ -46,17 +46,22 @@ export class CompetitionService {
     return this.http.get(this.competitionDetailsUrl + '/' + this.storage.get('compId'));
   }
   public singToCompetitions(competition: Competition): Observable<any> {
-    console.log("service", competition);
+    console.log('service', competition);
     return this.http.post<any>(this.competitionDetailsUrl, competition);
   }
   public singOutOfCompetitions(competition: Competition): Observable<any> {
-    console.log("service", competition);
+    console.log('service', competition);
     return this.http.post<any>(this.signOutUrl, competition);
   }
   public findPlayersCompetitions(id: number, page: number) {
     return this.http.get(this.playerCompetitionsUrl + '/' + id + '/' + page);
   }
-
+  public add(competition: Competition) {
+    return this.http.post(this.competitionUrl, competition);
+  }
+  public delete(id: number) {
+    return this.http.delete(this.competitionUrl + '/' + id);
+  }
   saveInLocal(key: any, val: any): void {
     this.storage.set(key, val);
     this.data = this.storage.get(key);
