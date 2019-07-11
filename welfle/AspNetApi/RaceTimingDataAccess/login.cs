@@ -20,6 +20,7 @@ namespace RaceTimingDataAccess
         public Nullable<long> role_id { get; set; }
     
         public virtual role role { get; set; }
+        public virtual player players { get; set; }
         public virtual player player { get; set; }
     }
 }

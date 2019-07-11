@@ -4,6 +4,7 @@ import { Player } from 'src/app/models/player/player';
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { CompetitionService } from 'src/app/services/competition-service/competition.service';
 import { Router } from '@angular/router';
+import { LoginData } from 'src/app/models/login/login-data';
 
 @Component({
   selector: 'app-my-competitions',
@@ -12,7 +13,7 @@ import { Router } from '@angular/router';
 })
 export class MyCompetitionsComponent implements OnInit {
 
-  player: Player;
+  login: LoginData;
   currentPage: number;
   pages: number[];
   totalPages: number;
@@ -22,26 +23,13 @@ export class MyCompetitionsComponent implements OnInit {
 
   ngOnInit() {
     this.currentPage = 1;
-    this.player = this.storage.get('player');
-    this.competitionService.findPlayersCompetitions(this.player.id)
+    this.login = this.storage.get('login');
+    this.competitionService.findPlayersCompetitions(this.login.players.id)
         .subscribe((competitions: any) => {
-          this.player.competitions = competitions.content;
-          this.totalPages = competitions.totalPages;
-          this.pagination(competitions.totalPages);
+          this.login.players.competitions = competitions;
         });
   }
 
-  pagination(allPages: number) {
-    this.pages = Array.from(Array(allPages).keys()).map(i => 1 + i);
-    console.log(this.pages);
-  }
-  setPage(page: number) {
-    this.currentPage = page;
-    this.competitionService.findPlayersCompetitions(this.player.id).subscribe(
-      (data: any) => {
-        this.player.competitions = data.content;
-});
-  }
     gotoDetails(id: number) {
     this.competitionService.competitionId = id;
     this.competitionService.saveInLocal('compId', id);

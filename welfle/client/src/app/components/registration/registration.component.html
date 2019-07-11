@@ -1,0 +1,89 @@
+<div *ngIf="registered" class="alert alert-success" role="alert">
+    Success!!!
+</div>
+<div class="card" ng-if="!competition==undefined">
+  <div class="card-body">
+    <form (ngSubmit)="onSubmit()" #registrationForm="ngForm">
+      <table class="table table-borderless">
+        <tbody>
+          <ul class="list-group list-group-flush">
+          <tr>
+              <label for="name">Email</label>
+                <input type="text" [(ngModel)]="login.email"
+                  class="form-control" id="email" name="email" placeholder="Enter your email"
+                  required #name="ngModel">
+                <div [hidden]="!login.pristine" class="alert alert-danger">Email is required</div>
+            </tr>
+            <tr>
+              <label for="name">Password</label>
+                <input type="password" [(ngModel)]="login.password"
+                  class="form-control" id="password" name="password" placeholder="Enter your password"
+                  required #name="ngModel">
+                <div [hidden]="!login.pristine" class="alert alert-danger">Password is required</div>
+            </tr>
+            <tr>
+              <label for="name">Name</label>
+                <input type="text" [(ngModel)]="login.players.name"
+                  class="form-control" id="name" name="name" placeholder="Enter your name"
+                  required #name="ngModel">
+                <div [hidden]="!login.players.pristine" class="alert alert-danger">Name is required</div>
+            </tr>
+            <tr>
+              <label for="surname">Surname</label>
+              <input type="text" [(ngModel)]="login.players.surname"
+                class="form-control" id="surname" name="surname" placeholder="Enter your surname"
+                required #surname="ngModel">
+              <div [hidden]="!login.players.pristine" class="alert alert-danger">Surname is required</div>
+            </tr>
+            <tr>
+              <label for="city">City</label>
+              <input type="text" [(ngModel)]="login.players.city"
+                class="form-control" id="city" name="city" placeholder="Enter your city"
+                required #city="ngModel">
+              <div [hidden]="!login.players.pristine" class="alert alert-danger">City is required</div>
+            </tr>
+            <tr>
+              <label for="birthDate">Birth date</label>
+              <input type="date" [(ngModel)]="login.players.birthDate"
+                class="form-control" id="birthDate" name="birthDate" placeholder="Enter your birthDate"
+                required #birthDate="ngModel">
+              <div [hidden]="!login.players.pristine" class="alert alert-danger">Birth date is required</div>
+            </tr>
+            <tr>
+              <label for="country">Country</label>
+              <input type="text" [(ngModel)]="login.players.country"
+                class="form-control" id="country" name="country" placeholder="Enter your country"
+                required #country="ngModel">
+              <div [hidden]="!login.players.pristine" class="alert alert-danger">Country is required</div>
+            </tr>
+            <tr>
+              <label for="sex">Sex</label>
+              <div  [formGroup]="form">
+                <input id="male" type="radio" formControlName="sex" value="male" > Male
+                <input id="female" type="radio" formControlName="sex" value="female"> Female
+              </div>
+            </tr>
+            <tr>
+              <label for="phone">Phone number</label>
+              <input type="text" [(ngModel)]="login.players.phone"
+                class="form-control" id="phone" name="phone" placeholder="Enter your phone"
+                required #phone="ngModel">
+              <div [hidden]="!login.players.pristine" class="alert alert-danger">phone is required</div>
+            </tr>
+            <tr>
+            <label for="team">Team</label>
+              <input type="text" [(ngModel)]="login.players.team"
+                class="form-control" id="team" name="team" placeholder="Enter your team">
+            </tr>
+            <tr>
+              <label for="license">License</label>
+              <input type="text" [(ngModel)]="login.players.license"
+                class="form-control" id="license" name="license" placeholder="Enter your license">
+            </tr>
+            </ul>
+          <button type="submit" [disabled]="!registrationForm.form.valid" class="btn btn-info">Submit</button>
+        </tbody>
+      </table>
+    </form>
+  </div>
+</div>

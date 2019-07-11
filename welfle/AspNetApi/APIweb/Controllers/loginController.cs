@@ -35,7 +35,7 @@ namespace APIweb.Controllers
 
             
             {
-                login.player = db.players.Find(ile);
+                login.players = db.players.Find(ile);
                 return login;
             }
 

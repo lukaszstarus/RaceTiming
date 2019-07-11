@@ -25,6 +25,7 @@ export class LoginFormComponent implements OnInit {
     this.loginService.login(this.login).subscribe((data: any) => {
       if (data) {
         this.login = data;
+        this.login.players= data.player;
         this.login.password = '';
         this.storage.set('login', this.login);
         this.app.ngOnInit();

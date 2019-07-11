@@ -12,7 +12,7 @@ export class LoginService {
   registerUrl: string;
   constructor(private http: HttpClient) {
     this.loginUrl = 'http://localhost:50644/api/logins';
-    this.registerUrl = 'http://localhost:8080/register';
+    this.registerUrl = 'http://localhost:50644/api/logins';
    }
 
    login(login: LoginData): Observable<Player> {

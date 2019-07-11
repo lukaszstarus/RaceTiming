@@ -24,14 +24,7 @@
     <tr>
       <li class="list-group-item"> <td><b>Signing deadline: </b></td><td>  {{competition.deadline_date | slice:0:10}}</td></li>
     </tr>
-    <tr>
-      <li class="list-group-item"> <td><b>Categories </b></td>
-      <td>
-       <ul *ngFor="let category of competition.categories">
-        <li>{{category.name}}</li>
-        </ul>
-       </td></li>
-    </tr>
+
     </ul>
   </tbody>
 </table>
@@ -42,7 +35,7 @@
   </h6>
   <p class="card-text">{{competition.description}}</p>
 </div>
-  <form (ngSubmit)="signIn()"   *ngIf="login.role.name=='player'">
+  <form (ngSubmit)="signIn()"   *ngIf="login.role.name=='player' && !signedIn">
     <button [disabled]="old || login==null || signedIn" type="submit" class="btn btn-info" >SignIn</button>
   </form>
   <a *ngIf="signedIn" (click)="singOut(competition.id)" class="btn btn-danger">SingOut</a>
@@ -54,7 +47,6 @@
     <tr>
       <th scope="col">Name</th>
       <th scope="col">Surname</th>
-      <th scope="col">Category</th>
       <th scope="col">Team</th>
       <th scope="col">City</th>
       <th scope="col">Country</th>
@@ -66,7 +58,6 @@
     <tr>
       <td>{{player.name}}</td>
       <td>{{player.surname}}</td>
-      <td>{{player.category}}</td>
       <td>{{player.team}}</td>
       <td>{{player.city}}</td>
       <td>{{player.country}}</td>

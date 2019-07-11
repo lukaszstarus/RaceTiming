@@ -15,7 +15,7 @@ import { MyCompetitionsComponent } from './components/my-competitions/my-competi
 import { PlayerService } from './services/player-service/player.service';
 import { OldCompetitionsListComponent } from './components/old-competitions-list/old-competitions-list.component';
 import { AddCompetitionComponent } from './components/add-competition/add-competition.component';
-
+import { RegistrationComponent } from './components/registration/registration.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +25,8 @@ import { AddCompetitionComponent } from './components/add-competition/add-compet
     LoginFormComponent,
     MyCompetitionsComponent,
     OldCompetitionsListComponent,
-    AddCompetitionComponent
+    AddCompetitionComponent,
+    RegistrationComponent
   ],
   imports: [
     BrowserModule,

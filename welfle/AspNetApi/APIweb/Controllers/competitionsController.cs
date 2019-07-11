@@ -140,29 +140,41 @@ namespace APIweb.Controllers
         public async Task<IHttpActionResult> Postcompetition(competition competition)
         {
             db.Configuration.ProxyCreationEnabled = false;
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
 
-            db.competitions.Add(competition);
-
-            try
+            if (competition.players != null)
             {
-                await db.SaveChangesAsync();
+                db.Database.ExecuteSqlCommand("insert into competition_players values (@p0,@p1)", competition.id, competition.players.Last().id);
             }
-            catch (DbUpdateException)
+            else
             {
-                if (competitionExists(competition.id))
+
+
+                long id = db.competitions.SqlQuery("select * from competition").Max<competition>(c => c.id);
+
+                if (!ModelState.IsValid)
                 {
-                    return Conflict();
+                    return BadRequest(ModelState);
                 }
-                else
+                competition.id = id + 1;
+
+                db.competitions.Add(competition);
+
+                try
                 {
-                    throw;
+                    await db.SaveChangesAsync();
+                }
+                catch (DbUpdateException)
+                {
+                    if (competitionExists(competition.id))
+                    {
+                        return Conflict();
+                    }
+                    else
+                    {
+                        throw;
+                    }
                 }
             }
-
             return CreatedAtRoute("DefaultApi", new { id = competition.id }, competition);
         }
 
@@ -183,6 +195,13 @@ namespace APIweb.Controllers
             db.SaveChangesAsync();
 
             return Ok(competition);
+        }
+        // DELETE: api/competitions/5
+        [ResponseType(typeof(competition))]
+        public async Task<IHttpActionResult> Deletecompetition(competition com)
+        {
+            db.Database.ExecuteSqlCommand("delete from competition_players where competition_id=@p0 and players_id=@p1",com.id);
+            return Ok(com);
         }
 
         protected override void Dispose(bool disposing)

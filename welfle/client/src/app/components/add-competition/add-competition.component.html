@@ -38,7 +38,7 @@
       </div>
       <div class="form-group">
         <label for="deadlinedate">Deadline Date</label>
-        <input type="text" [(ngModel)]="competition.deadlinedate"
+        <input type="date" [(ngModel)]="competition.deadlinedate"
           class="form-control" id="deadlinedate" name="deadlinedate" placeholder="Enter deadline date"
           required #deadlinedate="ngModel">
         <div [hidden]="!deadlinedate.pristine" class="alert alert-danger">Deadlinedate is required</div>

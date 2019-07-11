@@ -24,6 +24,7 @@ export class AddCompetitionComponent implements OnInit {
       this.competitionService.add(this.competition).subscribe((data: any) => {
 
       });
+
     }
     saveInLocal(key, val): void {
       console.log('recieved= key:' + key + 'value:' + val);

@@ -6,6 +6,8 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
@@ -80,17 +82,57 @@ namespace APIweb.Controllers
         public login Postlogin(login login)
         {
             db.Configuration.ProxyCreationEnabled = false;
+            string hash = @"foxle@rn";
 
-            login newlogin = db.logins.SqlQuery("Select * from login where email=@p0 and password=@p1",login.email,login.password).FirstOrDefault();
-
-            if (newlogin != null)
+            if (login.players == null)
             {
-           
-                newlogin.role = db.roles.Find(newlogin.role_id.Value);
-                newlogin.player = db.players.Find(newlogin.id);
-                return newlogin;
-            }
 
+                
+
+
+                login newlogin = db.logins.SqlQuery("Select * from login where email=@p0", login.email).FirstOrDefault();
+
+                byte[] data = Convert.FromBase64String(newlogin.password);
+                using (MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider())
+                {
+                    byte[] keys = md5.ComputeHash(UTF8Encoding.UTF8.GetBytes(hash));
+                    using (TripleDESCryptoServiceProvider tripleDes = new TripleDESCryptoServiceProvider() { Key = keys, Mode = CipherMode.ECB, Padding = PaddingMode.PKCS7 })
+                    {
+                        ICryptoTransform transform = tripleDes.CreateDecryptor();
+                        byte[] results = transform.TransformFinalBlock(data, 0, data.Length);
+                        newlogin.password = UTF8Encoding.UTF8.GetString(results);
+                    }
+                }
+
+                if (newlogin.password == login.password)
+                {
+
+                    newlogin.role = db.roles.Find(newlogin.role_id.Value);
+                    newlogin.players = db.players.Find(newlogin.id);
+                    return newlogin;
+                }
+            }
+            else
+            {
+
+
+
+                byte[] data = UTF8Encoding.UTF8.GetBytes(login.password);
+                using (MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider())
+                {
+                    byte[] keys = md5.ComputeHash(UTF8Encoding.UTF8.GetBytes(hash));
+                    using (TripleDESCryptoServiceProvider tripleDes = new TripleDESCryptoServiceProvider() { Key = keys, Mode = CipherMode.ECB, Padding = PaddingMode.PKCS7 })
+                    {
+                        ICryptoTransform transform = tripleDes.CreateEncryptor();
+                        byte[] results = transform.TransformFinalBlock(data, 0, data.Length);
+                        login.password = Convert.ToBase64String(results);
+                    }
+                }
+                login.role_id = 1;
+                db.Database.ExecuteSqlCommand("exec [registrationPlater] @p0,@p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10,  @p11", login.email, login.password, login.role_id, login.players.name, login.players.surname, login.players.birth_date, login.players.city, login.players.country, login.players.license, login.players.team, login.players.sex, login.players.phone);
+
+                db.SaveChanges();
+            }
             return null;
         }
 

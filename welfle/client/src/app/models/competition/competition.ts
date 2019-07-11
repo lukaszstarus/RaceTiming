@@ -8,7 +8,7 @@ export class Competition {
     dyscipline: string;
     date: Date;
     organizer: string;
-    deadlineDate: string;
+    deadline_date: Date;
     description: string;
     regUrl: string;
     playersLimit: string;

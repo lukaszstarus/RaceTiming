@@ -6,6 +6,7 @@ import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { Component, OnInit, Inject } from '@angular/core';
 import { Competition } from 'src/app/models/competition/competition';
 import { CompetitionService } from 'src/app/services/competition-service/competition.service';
+import { CompetitionPlayer } from 'src/app/models/competitonPlayer/competitionPlayer';
 
 @Component({
   selector: 'app-competition-details',
@@ -20,12 +21,14 @@ export class CompetitionDetailsComponent implements OnInit {
   old = false;
   signedIn = false;
   index: number;
+  cP : CompetitionPlayer;
   constructor(private competitionService: CompetitionService, @Inject(LOCAL_STORAGE) private storage: WebStorageService,
               private router: Router) {
                 this.competition = new Competition();
                 this.competition.players = new Array<Player>();
                 this.competition.date = new Date();
                 this.competition.categories = new Array<Category>();
+                this.cP = new CompetitionPlayer();
   }
 
   ngOnInit() {
@@ -54,14 +57,20 @@ export class CompetitionDetailsComponent implements OnInit {
     }
     signIn() {
       this.storage.set('competition', this.competition);
-      this.router.navigateByUrl('/chooseCategory');
+      //this.router.navigateByUrl('/chooseCategory');
+      this.competition.players.push(this.login.players);
+      this.competitionService.singToCompetitions(this.competition).subscribe(s => {
+        this.ngOnInit();
+      })
     }
   singOut(id: number) {
     if (confirm('Are you sure to sing out from ' + this.competition.name)) {
       this.index = this.competition.players.indexOf(this.competition.players.find(p => p.id === this.login.players.id));
       this.competition.players.splice(this.index, 1);
       this.competition.players.push(this.login.players);
-      this.competitionService.singOutOfCompetitions(this.competition).subscribe(s => {
+      this.cP.comId=this.competition.id;
+      this.cP.playerId=this.login.players.id;
+      this.competitionService.singOutOfCompetitions(this.cP).subscribe(s => {
           this.signedIn = false;
           this.ngOnInit();
         });

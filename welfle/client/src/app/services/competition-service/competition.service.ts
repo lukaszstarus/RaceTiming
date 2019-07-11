@@ -8,6 +8,7 @@ import { Competition } from '../../models/competition/competition';
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { inject } from '@angular/core/testing';
 import { Player } from 'src/app/models/player/player';
+import { CompetitionPlayer } from 'src/app/models/competitonPlayer/competitionPlayer';
 
 @Injectable({
   providedIn: 'root'
@@ -50,9 +51,8 @@ export class CompetitionService {
   public singToCompetitions(competition: Competition): Observable<any> {
     return this.http.post<any>(this.competitionDetailsUrl, competition);
   }
-  public singOutOfCompetitions(competition: Competition): Observable<any> {
-    console.log("service", competition);
-    return this.http.post<any>(this.competitionDetailsUrl, competition);
+  public singOutOfCompetitions(cP: CompetitionPlayer): Observable<any> {
+    return this.http.post<any>(this.competitionPlayersUrl, cP);
   }
   public findPlayersCompetitions(id: number) {
     return this.http.get(this.playerCompetitionsUrl + '/' + id);

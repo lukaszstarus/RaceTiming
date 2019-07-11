@@ -10,7 +10,7 @@ namespace APIweb.Models
     {
         public string email { get; set; }
         public string password { get; set; }
-        public player player { get; set; }
+        public player players { get; set; }
         public role role { get; set; }
     }
 }

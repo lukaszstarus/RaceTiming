@@ -22,7 +22,8 @@ namespace APIweb.Controllers
         public IEnumerable<competition> Get(int id)
         {
             db.Configuration.ProxyCreationEnabled = false;
-            return db.competitions.SqlQuery("select * from competition c where c.id in (select competitions_id from player_competitions where player_id=@p0)",id).ToList<competition>();
+            IEnumerable<competition> comps = db.competitions.SqlQuery("select * from competition c where c.id in (select competition_id from competition_players where players_id=@p0)", id).ToList<competition>();
+            return comps;
         }
 
         // POST: api/playerCompetitions
@@ -30,14 +31,5 @@ namespace APIweb.Controllers
         {
         }
 
-        // PUT: api/playerCompetitions/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE: api/playerCompetitions/5
-        public void Delete(int id)
-        {
-        }
     }
 }

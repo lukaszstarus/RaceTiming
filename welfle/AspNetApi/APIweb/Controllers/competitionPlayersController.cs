@@ -25,8 +25,11 @@ namespace APIweb.Controllers
         }
 
         // POST: api/competitionPlayers
-        public void Post([FromBody]string value)
+        public void Post(Models.competitionPlayer cP)
         {
+            db.Configuration.ProxyCreationEnabled = false;
+            db.Database.ExecuteSqlCommand("delete from competition_players where competition_id=@p0 and players_id=@p1",cP.comId,cP.playerId);
+            return;
         }
 
         // PUT: api/competitionPlayers/5
