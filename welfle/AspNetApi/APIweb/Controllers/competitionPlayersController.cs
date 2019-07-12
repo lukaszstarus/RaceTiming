@@ -1,9 +1,7 @@
-﻿using RaceTimingDataAccess;
-using System;
+﻿using APIweb.Models;
+using RaceTimingDataAccess;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 
 namespace APIweb.Controllers
@@ -11,17 +9,16 @@ namespace APIweb.Controllers
     public class competitionPlayersController : ApiController
     {
         private RaceTimingEntities db = new RaceTimingEntities();
-        // GET: api/competitionPlayers
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
 
         // GET: api/competitionPlayers/5
-        public IEnumerable<player> Get(int id)
+        public IEnumerable<playerSigned> Get(int id)
         {
             db.Configuration.ProxyCreationEnabled = false;
-            return db.players.SqlQuery("select * from player p where p.id in (select players_id from competition_players where competition_id=@p0)", id).ToList<player>();
+            IEnumerable<playerSigned> players =
+                db.
+                Database.
+                SqlQuery<playerSigned>("select p.*,c.name as category from player p inner join player_category pc on pc.player_id=p.id inner join category c on  c.id=pc.categories_id where p.id in (select players_id from competition_players where competition_id=@p0) and pc.competitions_id=@p1", id, id).ToList<playerSigned>();
+           return players;
         }
 
         // POST: api/competitionPlayers
@@ -32,14 +29,5 @@ namespace APIweb.Controllers
             return;
         }
 
-        // PUT: api/competitionPlayers/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE: api/competitionPlayers/5
-        public void Delete(int id)
-        {
-        }
     }
 }

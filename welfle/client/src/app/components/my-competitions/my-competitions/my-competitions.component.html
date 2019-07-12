@@ -22,14 +22,6 @@
       </tbody>
     </table>
 
-      <nav aria-label="Page navigation example">
-      <ul class="pagination">
-        <li class="page-item" [ngClass]="{disabled:currentPage===1}"><a class="page-link" (click)="setPage(currentPage-1)">Previous</a></li>
-        <div *ngFor="let page of pages" class="page-item">
-        <li class="page-item"[ngClass]="{disabled:currentPage===page}"><a class="page-link page" (click)="setPage(page)">{{page}}</a></li>
-        </div>
-        <li class="page-item" [ngClass]="{disabled:currentPage===totalPages}"><a class="page-link" (click)="setPage(currentPage+1)">Next</a></li>
-      </ul>
-    </nav>
+
   </div>
 </div>

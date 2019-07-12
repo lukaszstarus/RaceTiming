@@ -13,4 +13,5 @@ phone: string;
 team: string;
 license: string;
 competitions: Array<Competition>;
+category: string;
 }

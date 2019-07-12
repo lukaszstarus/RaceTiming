@@ -24,7 +24,14 @@
     <tr>
       <li class="list-group-item"> <td><b>Signing deadline: </b></td><td>  {{competition.deadline_date | slice:0:10}}</td></li>
     </tr>
-
+    <tr>
+      <li class="list-group-item"> <td><b>Categories </b></td>
+      <td>
+       <ul *ngFor="let category of competition.categories">
+        <li>{{category.name}}</li>
+        </ul>
+       </td></li>
+    </tr>
     </ul>
   </tbody>
 </table>
@@ -51,6 +58,7 @@
       <th scope="col">City</th>
       <th scope="col">Country</th>
       <th scope="col">Sex</th>
+      <th scope="col">Category</th>
 
     </tr>
   </thead>
@@ -62,6 +70,7 @@
       <td>{{player.city}}</td>
       <td>{{player.country}}</td>
       <td>{{player.sex}}</td>
+      <td>{{player.category}}</td>
     </tr>
   </tbody>
 </table>

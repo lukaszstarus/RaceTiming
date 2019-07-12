@@ -7,12 +7,14 @@ import { CompetitionsListComponent } from './components/competitions-list/compet
 import { LoginFormComponent } from './components/login-form/login-form.component';
 import { AddCompetitionComponent } from './components/add-competition/add-competition.component';
 import { RegistrationComponent } from './components/registration/registration.component';
+import { ChooseCategoryComponent } from './components/choose-category/choose-category.component';
 const routes: Routes = [
   {path: 'competitions', component: CompetitionsListComponent},
   {path: 'add-competition', component: AddCompetitionComponent},
   {path: 'competitiondetails', component: CompetitionDetailsComponent},
   {path: 'login', component: LoginFormComponent},
   {path: 'my-competitions', component: MyCompetitionsComponent},
+  {path: 'chooseCategory', component: ChooseCategoryComponent},
   {path: 'registration', component: RegistrationComponent},
   {path: 'my-data', component: RegistrationComponent},
   {path: 'oldcompetitions', component: OldCompetitionsListComponent},

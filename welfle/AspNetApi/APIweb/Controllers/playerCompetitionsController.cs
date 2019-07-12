@@ -11,12 +11,6 @@ namespace APIweb.Controllers
     public class playerCompetitionsController : ApiController
     {
         private RaceTimingEntities db = new RaceTimingEntities();
-        // GET: api/playerCompetitions
-        public IEnumerable<string> Get()
-        {
-            db.Configuration.ProxyCreationEnabled = false;
-            return new string[] { "value1", "value2" };
-        }
 
         // GET: api/playerCompetitions/5
         public IEnumerable<competition> Get(int id)
@@ -26,10 +20,6 @@ namespace APIweb.Controllers
             return comps;
         }
 
-        // POST: api/playerCompetitions
-        public void Post([FromBody]string value)
-        {
-        }
 
     }
 }

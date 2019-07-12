@@ -181,12 +181,12 @@
     <Compile Include="Controllers\loginsController.cs" />
     <Compile Include="Controllers\playerCompetitionsController.cs" />
     <Compile Include="Controllers\playersController.cs" />
-    <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\competitionPlayer.cs" />
     <Compile Include="Models\login.cs" />
+    <Compile Include="Models\playerSigned.cs" />
     <Compile Include="Models\role.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

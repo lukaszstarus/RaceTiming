@@ -14,15 +14,11 @@ import { LoginData } from 'src/app/models/login/login-data';
 export class MyCompetitionsComponent implements OnInit {
 
   login: LoginData;
-  currentPage: number;
-  pages: number[];
-  totalPages: number;
 
   constructor(@Inject(LOCAL_STORAGE) private storage: WebStorageService, private router: Router,
               private competitionService: CompetitionService) { }
 
   ngOnInit() {
-    this.currentPage = 1;
     this.login = this.storage.get('login');
     this.competitionService.findPlayersCompetitions(this.login.players.id)
         .subscribe((competitions: any) => {

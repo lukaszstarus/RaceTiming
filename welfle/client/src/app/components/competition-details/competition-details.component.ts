@@ -46,22 +46,15 @@ export class CompetitionDetailsComponent implements OnInit {
     this.competitionService.findCompetitionPlayers(this.competition.id).subscribe(
       (data: any) =>{
         this.competition.players=data;
-        //console.log(this.competition.players);
         if (this.competition.players.some(player => player.id === this.login.players.id)) {
           this.signedIn = true;
-          //this.login.players = this.competition.players.find(player => player.id === this.login.players.id);
-
         }
       }
     )
     }
     signIn() {
       this.storage.set('competition', this.competition);
-      //this.router.navigateByUrl('/chooseCategory');
-      this.competition.players.push(this.login.players);
-      this.competitionService.singToCompetitions(this.competition).subscribe(s => {
-        this.ngOnInit();
-      })
+      this.router.navigateByUrl('/chooseCategory');
     }
   singOut(id: number) {
     if (confirm('Are you sure to sing out from ' + this.competition.name)) {

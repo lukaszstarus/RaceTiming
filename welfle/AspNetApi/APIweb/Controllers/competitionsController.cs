@@ -59,6 +59,7 @@ namespace APIweb.Controllers
             {
                 return NotFound();
             }
+            competition.categories = db.categories.SqlQuery("select * from category where id in (select category_id from [category_competitions] where [competitions_id]=@p0)",competition.id).ToList<category>().OrderBy(cat=>cat.name);
 
             return Ok(competition);
         }
@@ -143,11 +144,16 @@ namespace APIweb.Controllers
 
             if (competition.players != null)
             {
-                db.Database.ExecuteSqlCommand("insert into competition_players values (@p0,@p1)", competition.id, competition.players.Last().id);
+                var a = db.
+                    Database.
+                    ExecuteSqlCommand("exec SignIn @p0,@p1,@p2",
+                    competition.id,
+                    competition.players.Last().id, 
+                    competition.players.Last().category);
+                db.SaveChanges();
             }
             else
             {
-
 
                 long id = db.competitions.SqlQuery("select * from competition").Max<competition>(c => c.id);
 

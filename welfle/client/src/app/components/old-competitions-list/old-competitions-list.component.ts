@@ -12,9 +12,6 @@ import { FormControl } from '@angular/forms';
 export class OldCompetitionsListComponent implements OnInit {
 
   competitions: Competition[];
-  currentPage: number;
-  pages: number[];
-  totalPages: number;
   data: any[];
   competitionId: string;
   queryField: FormControl = new FormControl();
@@ -23,7 +20,6 @@ export class OldCompetitionsListComponent implements OnInit {
 
 
   ngOnInit() {
-    this.currentPage = 1;
     this.competitionService.findOld().subscribe(
       (data: any) => {
        this.competitions = data;
@@ -33,19 +29,6 @@ export class OldCompetitionsListComponent implements OnInit {
         this.competitions = data;
       });
     });
-  }
-  pagination(allPages: number) {
-    this.pages = Array.from(Array(allPages).keys()).map(i => 1 + i);
-    console.log(this.pages);
-  }
-  setPage(page: number) {
-    this.currentPage = page;
-    this.competitionService.findOld().subscribe(
-      (data: any) => {
-        this.competitions = data.content;
-        this.totalPages = data.totalPages;
-        this.pagination(data.totalPages);
-});
   }
     gotoDetails(id: number) {
     this.competitionService.competitionId = id;

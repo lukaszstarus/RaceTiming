@@ -86,10 +86,7 @@ namespace APIweb.Controllers
 
             if (login.players == null)
             {
-
                 
-
-
                 login newlogin = db.logins.SqlQuery("Select * from login where email=@p0", login.email).FirstOrDefault();
 
                 byte[] data = Convert.FromBase64String(newlogin.password);
@@ -114,8 +111,6 @@ namespace APIweb.Controllers
             }
             else
             {
-
-
 
                 byte[] data = UTF8Encoding.UTF8.GetBytes(login.password);
                 using (MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider())

@@ -32,6 +32,7 @@ namespace RaceTimingDataAccess
         public string sex { get; set; }
         public string surname { get; set; }
         public string team { get; set; }
+        public long category { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<player_category> player_category { get; set; }
